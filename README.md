@@ -1,4 +1,4 @@
-# Tarot tiếng Việt — Giai đoạn 3c-1
+# Tarot tiếng Việt
 Yêu cầu Node.js 20.19+ hoặc 22.12+ và npm.
 `npm ci` để cài thư viện.
 `npm run dev` để mở máy chủ phát triển (địa chỉ hiện trong terminal).
