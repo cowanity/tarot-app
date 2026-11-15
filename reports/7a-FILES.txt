@@ -1,0 +1,14 @@
+package.json
+server/app.ts
+server/app.test.ts
+server/cardImagery.ts
+server/data/cardImagery.json
+server/prompts/system.ts
+server/prompts/user.ts
+server/prompts/goldenExamples.ts
+server/prompts/goldenExamples.test.ts
+server/eval/quality.ts
+server/eval/run.ts
+reports/EVAL_VOICE.md
+reports/readings/RUN_STATUS.md
+reports/7a-eval.log

@@ -1,0 +1,365 @@
+From 1eafd2c177562feb8e72b5c3599fb338da3fb4fb Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 18 Oct 2026 21:39:25 +0700
+Subject: [PATCH 6/6] Prompt 8: verify regression gates, bounded offline images
+ and dynamic FX build
+
+---
+ NOTES-8.md                     | 27 ++++++++++++++++++++++++---
+ ops/README.md                  |  8 ++++++--
+ ops/com.tarot.server.plist     |  2 +-
+ ops/com.tarot.tunnel.plist     |  2 +-
+ scripts/pwa_check.mjs          |  4 ++--
+ server/app.test.ts             |  2 +-
+ server/app.ts                  |  4 ++--
+ server/gemini.test.ts          |  2 +-
+ server/production.test.ts      |  1 +
+ src/components/BottomSheet.tsx |  2 +-
+ src/components/PwaControls.tsx |  7 +++++++
+ src/components/SpreadBoard.tsx |  2 +-
+ src/fx/ParticleCanvas.tsx      |  2 +-
+ src/lib/aiClient.test.ts       |  2 +-
+ src/lib/pwaConfig.test.ts      |  4 +++-
+ src/lib/pwaConfig.ts           |  3 ++-
+ src/lib/spreadLayout.ts        |  4 ++--
+ src/screens/SettingsScreen.tsx |  4 ++--
+ src/theme.css                  |  4 ++++
+ vite.config.ts                 |  2 +-
+ 20 files changed, 64 insertions(+), 24 deletions(-)
+
+diff --git a/NOTES-8.md b/NOTES-8.md
+index 1217cf7..da52e61 100644
+--- a/NOTES-8.md
++++ b/NOTES-8.md
+@@ -9,7 +9,7 @@ Không thay prompt/schema/guardrails/care/cards.json. Kết quả luận giải
+ - Typecheck PASS. CHƯA kiểm layout/touch/focus/gesture thực tế vì không có Chromium/iPhone. Kiểm toán học không thay kiểm Safari.
+ 
+ ## 8B
+-- vite-plugin-pwa generateSW/prompt; precache 78 webp, shell, lazy JS, CSS/fonts. API GET/POST NetworkOnly và bị loại khỏi fallback; audit/API no-store. Không precache câu hỏi/kết quả; lịch sử vẫn localStorage.
++- vite-plugin-pwa generateSW/prompt; precache shell, lazy JS, CSS/fonts. 78webp gần20MB dùng CacheFirst tối đa78mục/365ngày, purge khi hết quota; Cài đặt có nút tải đủ bộ trước khi offline. API GET/POST NetworkOnly và bị loại khỏi fallback; audit/API no-store. Không precache câu hỏi/kết quả; lịch sử vẫn localStorage.
+ - Manifest/shortcuts, icon tự vẽ và OG1200×630 sinh bằng sharp; iOS meta/safe-area. Không tạo splash riêng để tránh thêm nhiều ảnh; dùng splash từ manifest của hệ điều hành.
+ - Toast chỉ reload khi bấm; cài app bằng thao tác người dùng, hướng dẫn iOS dismiss được. Offline có liên kết thư viện/lịch sử; cần vào online và chờ SW cài xong trước lần offline đầu tiên.
+ - Build cần VITE_SITE_URL=https://<tên miền của bạn> (không bí mật), VITE_ALLOW_INDEX=true để mở index; mặc định noindex + Disallow. noindex không thay xác thực, không bảo đảm crawler preview của mọi nền tảng.
+@@ -35,7 +35,7 @@ Không thay prompt/schema/guardrails/care/cards.json. Kết quả luận giải
+ ## 8E
+ - IP10/giờ trượt, AI_DAILY_CAP150lượt/ngày UTC mặc định (cấu hình env); global tính1lần/lượt, repair/retry chung tối đa3calls như cũ. 429/rate_limited hoặc daily_budget; API no-store/log metadata.
+ - CF-Connecting-IP chỉ tin khi socket loopback; remote/malformed bị bỏ qua. Giữ backend bind127.0.0.1. Bộ đếm RAM reset khi restart; chưa có giới hạn bền vững/multi-worker.
+-- SIGTERM/SIGINT ngừng nhận request mới, chờ request và socket đóng, grace120s rồi forceclose/exit1. Plist ExitTimeOut130s, KeepAlive, caffeinate; README có .env, log, update, backup và purgeCloudflare. Không cài/chạy launchd hay đổi DNS/tunnel tự động.
++- SIGTERM/SIGINT ngừng nhận request mới, chờ request và socket đóng, grace120s rồi forceclose/exit1. Plist ExitTimeOut130s, KeepAlive; caffeinate chạy riêng/thiết lập ngăn ngủ để Node nhận signal trực tiếp; README có .env, log, update, backup và purgeCloudflare. Không cài/chạy launchd hay đổi DNS/tunnel tự động.
+ - PASS10test production/ops: IP giả, cửa sổ qua nửa đêm, global UTC, 429/header, shutdown chờ/force/idempotent, template. CHƯA kiểm launchd/caffeinate/tunnel/Cloudflare trên Mac thật.
+ 
+ ## Bạn cần kiểm trên iPhone
+@@ -43,4 +43,25 @@ Không thay prompt/schema/guardrails/care/cards.json. Kết quả luận giải
+ 2. Cài PWA → mở standalone; safe-area/statusbar, dismiss hướng dẫn, bản mới chỉ tải lại sau khi bấm.
+ 3. `#/?fps=1` → cấp full: ghi FPS khi xáo/lật/cuộn; thử medium/minimal và Bật lại. Chưa có số đo thật từ môi trường này.
+ 4. Chia sẻ link trên Zalo/Messenger để kiểm OG; robots/Cloudflare có thể ảnh hưởng crawler.
+-5. Mở online/chờ SW cài xong, tắt mạng → thư viện78lá/lịch sử vẫn mở; rút bài mới báo cần mạng. Ảnh chia sẻ xem trước/giữ câu hỏi tắt sẵn.
++5. Mở online/chờ SW cài xong, tắt mạng → thư viện78lá/lịch sử vẫn mở; để đủ hình, trước đó bấm Cài đặt → Tải đủ ảnh ngoại tuyến; rút bài mới báo cần mạng. Ảnh chia sẻ xem trước/giữ câu hỏi tắt sẵn.
++
++## Kiểm cuối và giới hạn
++- Ảnh OG đã mở xem trực tiếp: đúng1200×630, chữ Việt và icon hiện đủ. Đây không phải kiểm preview Zalo/Messenger.
++- Suite đầu:723/726PASS; 3test cũ còn gắn6lượt/phút, cap500 và câu lỗi mạng cũ. Đã cập nhật kỳ vọng10lượt/giờ, cap150 và câu offline mới; không bỏ test.
++- Dọn compiler cache khỏi Git, không đóng gói .env/node_modules/dist. Có bản patch từng commit để chuyển lịch sử thay đổi sang repo của bạn.
++
++### Kết quả xác nhận cuối
++- Typecheck PASS; build PASS với VITE_SITE_URL=https://tarotvp.id.vn và PWA_UNMINIFIED=1 trong sandbox.
++- Suite đầy đủ:726/726PASS (`tests-verified.json`). Sau thay đổi cuối về cache ảnh/ranh giới nhãn và binding rAF:128/128test liên quan PASS (`targeted-final.json`), gồm thêm1test cache ảnh; production/cache HTTP đã kiểm riêng7testPASS. Không chạy Gemini/A/B.
++- pwa_check và fx_check PASS. 49mục precache, khoảng1,4MB shell/fonts/JS; ảnh20MB dùng runtime cache/tải chủ động. Không có FX trong modulepreload: chỉExplicitManualChunks tránh Rollup kéo FX vào entry do shared dependency.
++- Gói entry43,62KB gzip so35,89KB trước; cộng cả FX động và helper đăng ký SW, chênh8,83KB gzip (<15KB). Đây là số build, **không phải** FPS/CPU/mạng thực tế; worker SW không nén trong sandbox được thống kê riêng, không phải entry UI.
++- 13tệp prompt/schema/guardrails/cards/safety đối chiếu SHA256 giữ nguyên (`protected-files.json`). Payload hồ sơ/số/id và nội dung luận giải giữ nguyên; chỉ thêm kiểm offline trước gửi.
++- Sửa cuối: nhãn desktop dành chỗ theo viewport dù cột hẹp; nút chạm có vùng44px riêng không kéo méo ảnh nhỏ; kéo sheet bắt pointer; dock không thu khi có thông báo; tệp asset mất trả404/no-store, không trả index.html/immutable.
++
++| Mục | Đã triển khai | Đã kiểm | Chưa kiểm thực tế |
++|---|---|---|---|
++| 8A | Bàn px chung, Celtic4×4, sheet, dock |121test hình học, typecheck|Safari440×850, focus/touch/safe-area|
++| 8B | PWA/prompt update, offline text/image cache, icon/OG/meta |Manifest/cache tests, build/SWcheck, xem PNG OG|Install/update/offline thật, Lighthouse, social preview|
++| 8C | Engine chung, pool40, sao/rune/glow/holo, FPS/sensor |Clock/pool/settings tests, CSS static, gzip budget|FPS55/JS6ms/GPU layers, cảm biến và hiệu ứng trên iPhone|
++| 8D | Onboard/daily/share/history/quick text/error |6test dữ liệu/riêng tư/contrast token|Canvas share, tab/screenreader, tương phản DOM tổng thể|
++| 8E | Limits/trusted IP/shutdown/ops Mac |10test production/ops; plist XML parse|launchd/tunnel/caffeinate/Cloudflare thật|
+diff --git a/ops/README.md b/ops/README.md
+index 8e3183c..705e3b1 100644
+--- a/ops/README.md
++++ b/ops/README.md
+@@ -29,7 +29,7 @@ ingress:
+ Tên miền ở VinaHost có thể tiếp tục giữ đăng ký ở đó; DNS/tunnel phải đã được cấu hình theo zone Cloudflare của bạn. Không thay DNS trong lượt code này.
+ 
+ ## Không ngủ và tự chạy
+-Cắm nguồn, vào Cài đặt hệ thống → Pin/Năng lượng → ngăn ngủ khi tắt màn hình (tên tùy phiên bản macOS). `caffeinate -is` trong plist giữ máy thức khi tiến trình chạy; không bảo đảm hoạt động khi đóng nắp MacBook. Để máy mở nắp/thông thoáng.
++Cắm nguồn, vào Cài đặt hệ thống → Pin/Năng lượng → ngăn ngủ khi tắt màn hình (tên tùy phiên bản macOS). `caffeinate -is` trong một terminal riêng giữ máy thức khi lệnh còn chạy (Ctrl+C để dừng); không bảo đảm hoạt động khi đóng nắp MacBook. Plist server chạy Node trực tiếp để SIGTERM đến đúng tiến trình, không bọc bằng caffeinate. Muốn qua reboot không phụ thuộc terminal, dùng cài đặt ngăn ngủ ở trên. Để máy mở nắp/thông thoáng.
+ 
+ Sửa **mọi** `YOUR_USER`, thư mục dự án, đường dẫn Node/cloudflared trong hai plist. Apple Silicon Homebrew thường `/opt/homebrew/bin`; Intel thường `/usr/local/bin`; nếu dùng nvm, lấy đường dẫn Node tuyệt đối, launchd không đọc `.zshrc`. `.env` được Node đọc từ WorkingDirectory, không ghi khóa vào plist.
+ 
+@@ -78,9 +78,13 @@ Log server chỉ metadata/mã lỗi, không nội dung. Log file launchd không
+ - Không thay payload luận giải/hồ sơ; tên/ngày sinh giữ trên máy như trước. Câu hỏi/bối cảnh theo hợp đồng cũ vẫn gửi khi yêu cầu luận giải; không phát sinh gửi dữ liệu cho lá hôm nay/chia sẻ ảnh/lịch sử.
+ 
+ ## Cache và kiểm sau deploy
+-Cloudflare → Caching → Purge Everything sau phát hành nếu thấy bản cũ; Development Mode chỉ dùng tạm khi kiểm. Đặt bypass `/api/*`, `/sw.js`, `/index.html`, `/manifest.webmanifest` (không Cache Everything/EdgeTTL dài). Hono gửi no-cache cho shell/SW/manifest và immutable cho assets có hash. Xóa cache Cloudflare không xóa service worker trên điện thoại; mở app online, chọn toast Tải lại. Chỉ xóa dữ liệu site khi đã sao lưu lịch sử vì thao tác đó xóa localStorage.
++Cloudflare → Caching → Purge Everything sau phát hành nếu thấy bản cũ; Development Mode chỉ dùng tạm khi kiểm. Đặt bypass `/api/*`, `/sw.js`, `/index.html`, `/manifest.webmanifest` (không Cache Everything/EdgeTTL dài). Hono gửi no-cache cho shell/SW/manifest và immutable cho assets có hash. Xóa cache Cloudflare không xóa service worker trên điện thoại; mở app online, chọn toast Tải lại. Trong Cài đặt có nút tải trước78ảnh (~20MB) để đủ hình offline; chưa tải thì văn bản thư viện vẫn có và ảnh chưa cache dùng hình dự phòng. Chỉ xóa dữ liệu site khi đã sao lưu lịch sử vì thao tác đó xóa localStorage.
+ 
+ `VITE_ALLOW_INDEX=true` rồi build lại để cho index; mặc định robots Disallow và noindex. Đây không phải khóa truy cập: preview/social có thể vẫn đọc trang; cần thử Zalo/Messenger thật. Không hứa preview khi crawler tuân thủ robots/Access chặn.
+ 
+ ## Sao lưu
+ Sao lưu `.env` và credential tunnel vào nơi mã hóa ngoài Git; repo nguồn riêng tư cho code. Lịch sử nằm trên từng thiết bị, không ở server; nhắc bạn bè không xóa dữ liệu site nếu chưa giữ lại bài cần thiết. Không đưa dữ liệu riêng tư vào ảnh chia sẻ trừ khi chủ động bật Kèm câu hỏi.
++
++Tài liệu chính thức để đối chiếu khi cài:
++- Apple launchd: https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
++- Cloudflare cấu hình tunnel: https://developers.cloudflare.com/tunnel/features/locally-managed-tunnels/configuration-file/
+diff --git a/ops/com.tarot.server.plist b/ops/com.tarot.server.plist
+index 25de5dc..ab1c524 100644
+--- a/ops/com.tarot.server.plist
++++ b/ops/com.tarot.server.plist
+@@ -3,7 +3,7 @@
+ <plist version="1.0"><dict>
+ <key>Label</key><string>com.tarot.server</string>
+ <key>WorkingDirectory</key><string>/Users/YOUR_USER/tarot-app</string>
+-<key>ProgramArguments</key><array><string>/usr/bin/caffeinate</string><string>-is</string><string>/opt/homebrew/bin/node</string><string>--import</string><string>tsx</string><string>server/index.ts</string></array>
++<key>ProgramArguments</key><array><string>/opt/homebrew/bin/node</string><string>--import</string><string>tsx</string><string>server/index.ts</string></array>
+ <key>EnvironmentVariables</key><dict><key>NODE_ENV</key><string>production</string></dict>
+ <key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+ <key>ThrottleInterval</key><integer>10</integer><key>ExitTimeOut</key><integer>130</integer>
+diff --git a/ops/com.tarot.tunnel.plist b/ops/com.tarot.tunnel.plist
+index a48a113..41e6e40 100644
+--- a/ops/com.tarot.tunnel.plist
++++ b/ops/com.tarot.tunnel.plist
+@@ -2,7 +2,7 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0"><dict>
+ <key>Label</key><string>com.tarot.tunnel</string>
+-<key>ProgramArguments</key><array><string>/opt/homebrew/bin/cloudflared</string><string>--config</string><string>/Users/YOUR_USER/.cloudflared/config.yml</string><string>tunnel</string><string>run</string></array>
++<key>ProgramArguments</key><array><string>/opt/homebrew/bin/cloudflared</string><string>tunnel</string><string>--config</string><string>/Users/YOUR_USER/.cloudflared/config.yml</string><string>run</string></array>
+ <key>RunAtLoad</key><true/><key>KeepAlive</key><true/><key>ThrottleInterval</key><integer>10</integer>
+ <key>StandardOutPath</key><string>/Users/YOUR_USER/Library/Logs/tarot/tunnel.log</string>
+ <key>StandardErrorPath</key><string>/Users/YOUR_USER/Library/Logs/tarot/tunnel-error.log</string>
+diff --git a/scripts/pwa_check.mjs b/scripts/pwa_check.mjs
+index b3ec507..68f7e5d 100644
+--- a/scripts/pwa_check.mjs
++++ b/scripts/pwa_check.mjs
+@@ -4,7 +4,7 @@ const html=await readFile('dist/index.html','utf8'),manifest=JSON.parse(await re
+ for(const key of ['name','short_name','description','lang','start_url','scope','display','theme_color','background_color'])assert.ok(manifest[key],key);
+ assert.ok(manifest.short_name.length<=12);for(const icon of manifest.icons)await access(`dist${icon.src}`);
+ for(const key of ['description','robots','canonical','og:type','og:title','og:description','og:url','og:site_name','og:locale','og:image','og:image:width','og:image:height','og:image:alt','twitter:card','apple-mobile-web-app-capable','viewport-fit=cover'])assert.ok(html.includes(key),key);
+-assert.ok(!html.includes('__SITE_URL__'));assert.match(html,/rel="canonical" href="https?:\/\//);
++assert.ok(!html.includes('__SITE_URL__'));assert.ok(!/rel="modulepreload"[^>]*\/fx-/.test(html),'FX must remain a dynamic chunk');assert.match(html,/rel="canonical" href="https?:\/\//);
+ await access('dist/sw.js');await access('dist/og.png');await access('dist/icons/apple-touch-icon.png');
+-const sw=await readFile('dist/sw.js','utf8');assert.ok(sw.includes('NetworkOnly'));assert.ok(!/url:"\/?api\//.test(sw));
++const sw=await readFile('dist/sw.js','utf8');assert.ok(sw.includes('NetworkOnly'));assert.ok(sw.includes('CacheFirst'));assert.ok(sw.includes('tarot-card-images-v1'));assert.ok(!/url:\s*["']cards\//.test(sw));assert.ok(!/url:"\/?api\//.test(sw));
+ console.log('PASS: manifest, SW, API NetworkOnly, metadata, icons. Not a browser/offline/Lighthouse test.');
+diff --git a/server/app.test.ts b/server/app.test.ts
+index b072067..272f458 100644
+--- a/server/app.test.ts
++++ b/server/app.test.ts
+@@ -101,7 +101,7 @@ describe('API validation, safety and privacy', () => {
+     expect(allowed.headers.get('Access-Control-Allow-Origin')).toBe('http://localhost:5173');
+     const preflight = await app.request('/api/interpret', {method: 'OPTIONS', headers: {Origin: 'http://localhost:5173', 'Access-Control-Request-Method': 'POST'}});
+     expect(preflight.status).toBe(204);
+-    for (let i = 0; i < 6; i++) expect((await post(input, {'X-Forwarded-For': `fake-${i}`})).status).toBe(200);
++    for (let i = 0; i < 10; i++) expect((await post(input, {'X-Forwarded-For': `fake-${i}`})).status).toBe(200);
+     const limited = await post(); expect(limited.status).toBe(429); expect(Number(limited.headers.get('Retry-After'))).toBeGreaterThan(0);
+   });
+ });
+diff --git a/server/app.ts b/server/app.ts
+index ec1827c..6fcaf4d 100644
+--- a/server/app.ts
++++ b/server/app.ts
+@@ -200,7 +200,7 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+   });
+   if (options.serveStatic ?? ((options.environment ?? process.env.NODE_ENV) === 'production' || process.env.SERVE_STATIC === 'true')) {
+     const root = options.staticRoot ?? fileURLToPath(new URL('../dist/', import.meta.url));
+-    app.use('*',async(c,next)=>{c.header('Cache-Control',staticCacheHeader(c.req.path));await next();});
++    app.use('*',async(c,next)=>{c.header('Cache-Control',staticCacheHeader(c.req.path));await next();if(c.res.status>=400)c.header('Cache-Control','no-store');});
+     const assets = serveStatic({root});
+     const index = serveStatic({path: `${root}/index.html`});
+     // Vite copies public/audio into dist/audio. Preserve native MIME/byte-range streaming; missing audio must never receive SPA HTML.
+@@ -210,7 +210,7 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+       return assets(c,async()=>{c.res=c.newResponse(null,404);});
+     });
+     app.get('*', (c, next) => c.req.path.startsWith('/api') ? next() : assets(c, next));
+-    app.get('*', (c, next) => c.req.path.startsWith('/api') ? next() : index(c, next));
++    app.get('*', (c, next) => c.req.path.startsWith('/api')||/\.[a-z0-9]{1,8}$/i.test(c.req.path) ? next() : index(c, next));
+   }
+   return app;
+ }
+diff --git a/server/gemini.test.ts b/server/gemini.test.ts
+index 099d461..10f1100 100644
+--- a/server/gemini.test.ts
++++ b/server/gemini.test.ts
+@@ -91,7 +91,7 @@ describe('Gemini fetch provider', () => {
+ describe('configuration and factory', () => {
+   test('default Anthropic, selected Gemini and provider-specific defaults/keys', () => {
+     const anthropic = config({ANTHROPIC_API_KEY: key});
+-    expect(anthropic).toMatchObject({provider: 'anthropic', model: 'claude-sonnet-5-5', cap: 500, apiKey: key});
++    expect(anthropic).toMatchObject({provider: 'anthropic', model: 'claude-sonnet-5-5', cap: 150, apiKey: key});
+     expect(createProvider(anthropic)).toBeInstanceOf(AnthropicProvider);
+     const gemini = config({AI_PROVIDER: 'gemini', GEMINI_API_KEY: key, ANTHROPIC_API_KEY: 'unused'});
+     expect(gemini).toMatchObject({provider: 'gemini', model: 'gemini-3.5-flash-lite', apiKey: key});
+diff --git a/server/production.test.ts b/server/production.test.ts
+index 329c5bb..4c695f7 100644
+--- a/server/production.test.ts
++++ b/server/production.test.ts
+@@ -14,6 +14,7 @@ test('production serves built assets, SPA fallback, and never falls back for API
+     for(const path of ['/','/library','/deep/route']) {const r=await app.request(path); expect(r.status).toBe(200);expect(await r.text()).toContain('SPA_TEST');}
+     expect(await (await app.request('/assets/app.js')).text()).toContain('staticAsset');
+     expect((await app.request('/api/health')).status).toBe(200);
++    const absent=await app.request('/assets/missing-abcd1234.js');expect(absent.status).toBe(404);expect(absent.headers.get('Cache-Control')).toBe('no-store');expect(await absent.text()).not.toContain('SPA_TEST');
+     for(const path of ['/api/no-route','/api','/apiary']) {const r=await app.request(path);expect(r.status).toBe(404);expect(await r.text()).not.toContain('SPA_TEST');}
+     const blocked=await app.request('/api/info?question=PRIVATE',{headers:{Origin:'https://blocked.test'}});
+     expect(await blocked.json()).toEqual({error:'origin_blocked'});
+diff --git a/src/components/BottomSheet.tsx b/src/components/BottomSheet.tsx
+index 8bedebe..6ed8ac9 100644
+--- a/src/components/BottomSheet.tsx
++++ b/src/components/BottomSheet.tsx
+@@ -5,5 +5,5 @@ export function BottomSheet({title,children,onClose}:{title:string;children:Reac
+  const ref=useRef<HTMLDialogElement>(null),start=useRef<number|null>(null),close=useRef(onClose);close.current=onClose;
+  useEffect(()=>{const previous=document.activeElement as HTMLElement|null;const dialog=ref.current;dialog?.showModal();return()=>{dialog?.close();previous?.focus({preventScroll:true});};},[]);
+  return createPortal(<dialog ref={ref} className="bottom-sheet" aria-label={title} onCancel={e=>{e.preventDefault();close.current();}} onClick={e=>{if(e.target===e.currentTarget)close.current();}}><div className="sheet-content">
+- <header onPointerDown={e=>{start.current=e.clientY;}} onPointerUp={e=>{if(start.current!==null&&e.clientY-start.current>70)close.current();start.current=null;}}><span className="sheet-handle" aria-hidden="true"/><h2>{title}</h2><button onClick={onClose} aria-label="Đóng chi tiết lá bài">Đóng</button></header>{children}</div></dialog>,document.body);
++ <header onPointerDown={e=>{start.current=e.clientY;e.currentTarget.setPointerCapture(e.pointerId);}} onPointerUp={e=>{if(start.current!==null&&e.clientY-start.current>70)close.current();start.current=null;}}><span className="sheet-handle" aria-hidden="true"/><h2>{title}</h2><button onClick={onClose} aria-label="Đóng chi tiết lá bài">Đóng</button></header>{children}</div></dialog>,document.body);
+ }
+diff --git a/src/components/PwaControls.tsx b/src/components/PwaControls.tsx
+index 023caa7..435d724 100644
+--- a/src/components/PwaControls.tsx
++++ b/src/components/PwaControls.tsx
+@@ -1,3 +1,4 @@
++import {cards} from '../data';
+ import {useEffect,useState} from 'react';
+ import {registerSW} from 'virtual:pwa-register';
+ import {browserStorage} from '../lib/browserStorage';
+@@ -15,3 +16,9 @@ export function InstallSettings(){const [available,setAvailable]=useState(Boolea
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  return <section><h2>Cài app</h2>{available?<button onClick={async()=>{await installEvent?.prompt();await installEvent?.userChoice;installEvent=null;setAvailable(false);}}>Cài app</button>:ios&&!dismissed?<div><p>Nhấn Chia sẻ → Thêm vào MH chính</p><button onClick={()=>{setDismissed(true);try{browserStorage()?.setItem('tarot.install-help','seen');}catch{/* memory only */}}}>Đã hiểu</button></div>:<p>Bạn có thể cài ứng dụng từ menu trình duyệt khi được hỗ trợ.</p>}</section>;
+ }
++
++export function OfflineCardsSettings(){
++ const [count,setCount]=useState(0),[busy,setBusy]=useState(false),[message,setMessage]=useState('');
++ useEffect(()=>{if(!('caches' in window))return;void caches.open('tarot-card-images-v1').then(c=>c.keys()).then(keys=>setCount(keys.filter(k=>new URL(k.url).pathname.startsWith('/cards/')).length)).catch(()=>{});},[]);
++ return <section><h2>Ảnh lá ngoại tuyến</h2><p>Văn bản thư viện và lịch sử không cần mạng. Tải trước 78 ảnh (khoảng 20 MB) để xem đủ hình khi ngoại tuyến.</p><p>{count}/78 ảnh trên thiết bị</p><button disabled={busy} onClick={async()=>{if(!navigator.onLine){setMessage('Cần mạng để tải ảnh lần đầu.');return;}setBusy(true);try{if(!('caches' in window))throw Error();const cache=await caches.open('tarot-card-images-v1');let n=0;for(const card of cards){const url=`/cards/${card.id}.webp`;if(!await cache.match(url)){const response=await fetch(url);if(!response.ok||!response.headers.get('Content-Type')?.startsWith('image/'))throw Error();await cache.put(url,response);}setCount(++n);}setMessage('Đã lưu đủ 78 ảnh. Bạn có thể thử tắt mạng.');}catch{setMessage('Chưa tải đủ ảnh. Kiểm tra mạng hoặc dung lượng rồi thử lại.');}finally{setBusy(false);}}}>{busy?'Đang tải ảnh…':'Tải đủ ảnh để dùng ngoại tuyến'}</button><p role="status">{message}</p></section>;
++}
+diff --git a/src/components/SpreadBoard.tsx b/src/components/SpreadBoard.tsx
+index bda5603..786eac7 100644
+--- a/src/components/SpreadBoard.tsx
++++ b/src/components/SpreadBoard.tsx
+@@ -39,7 +39,7 @@ export function SpreadBoard({ origins, spread, reading, pickedIndices, revealed,
+ }) {
+   const host=useRef<HTMLDivElement>(null);const [box,setBox]=useState({w:320,h:420});const [selected,setSelected]=useState<number|null>(null);
+   useLayoutEffect(()=>{const node=host.current;if(!node)return;const update=()=>{const r=node.getBoundingClientRect();const h=Math.max(80,Math.min(720,(window.visualViewport?.height??innerHeight)-r.top-70));node.style.height=`${h}px`;setBox({w:r.width,h});};update();const observer=new ResizeObserver(update);observer.observe(node);window.addEventListener('resize',update);window.visualViewport?.addEventListener('resize',update);return()=>{observer.disconnect();window.removeEventListener('resize',update);window.visualViewport?.removeEventListener('resize',update);};},[]);
+-  const layout=computeSpreadLayout(spread.id,box.w,box.h),next=reading.findIndex((_,i)=>!revealed.includes(i));
++  const layout=computeSpreadLayout(spread.id,box.w,box.h,{labels:window.innerWidth>=600}),next=reading.findIndex((_,i)=>!revealed.includes(i));
+   const item=selected===null?null:reading[selected],position=selected===null?null:spread.positions[selected];
+   return <div className="spread-fit" ref={host} role="region" aria-label="Bàn trải bài">
+     <RuneRing lit={revealed.length>0}/><div className="spread-board" style={{width:layout.board.w,height:layout.board.h}}>
+diff --git a/src/fx/ParticleCanvas.tsx b/src/fx/ParticleCanvas.tsx
+index ecbaa90..f002d62 100644
+--- a/src/fx/ParticleCanvas.tsx
++++ b/src/fx/ParticleCanvas.tsx
+@@ -21,7 +21,7 @@ export default function ParticleCanvas(){
+    for(const p of pool.slots)if(p.active){ctx.globalAlpha=1-p.age/p.life;ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,2,2);}ctx.globalAlpha=1;
+    frames++;jsMs+=performance.now()-begin;if(!metricAt)metricAt=now;if(now-metricAt>=1000){publishFxMetrics({fps:Math.round(frames*1000/(now-metricAt)),level:engine.level,particles:pool.live,jsMs:Math.round(jsMs/frames*100)/100});frames=0;jsMs=0;metricAt=now;}
+   };
+-  const engine=new FxEngine({request:requestAnimationFrame,cancel:cancelAnimationFrame},draw,next=>{publishFxMetrics({level:next,downgrades:getFxMetrics().downgrades+1});updateSettings({effects:next});});
++  const engine=new FxEngine({request:cb=>requestAnimationFrame(cb),cancel:id=>cancelAnimationFrame(id)},draw,next=>{publishFxMetrics({level:next,downgrades:getFxMetrics().downgrades+1});updateSettings({effects:next});});
+   engine.configure(level,reduced);engine.setHidden(document.hidden);publishFxMetrics({level,particles:0,...(reduced||level==='minimal'?{fps:0,jsMs:0}:{})});
+   const visibility=()=>{engine.setHidden(document.hidden);metricAt=0;frames=0;if(document.hidden){pool.clear();ctx.clearRect(0,0,width,height);}};
+   const observer=new IntersectionObserver(entries=>{engine.setVisible(entries[0]?.isIntersecting??false);});observer.observe(canvas);
+diff --git a/src/lib/aiClient.test.ts b/src/lib/aiClient.test.ts
+index b0b7e2a..47f65c1 100644
+--- a/src/lib/aiClient.test.ts
++++ b/src/lib/aiClient.test.ts
+@@ -186,7 +186,7 @@ test('V2 client normalizes per-card copy order to spread positions', async () =>
+  });
+  test('friendly messages and error layout: message before retry, offline below', async () => {
+    const {aiErrorMessage}=await import('./aiErrorMessage');
+-   expect(aiErrorMessage('network')).toBe('Chưa kết nối được. Bạn kiểm tra mạng rồi thử lại.');
++   expect(aiErrorMessage('network')).toBe('Cần kết nối mạng để luận giải. Bạn kiểm tra mạng rồi thử lại.');
+    expect(aiErrorMessage('blocked')).toContain('Địa chỉ truy cập này chưa được cho phép.');
+    expect(aiErrorMessage('rate_limit')).toBe('Bạn thử lại sau ít phút nhé.');
+    expect(aiErrorMessage('busy')).toBe('Hệ thống đang bận, thử lại sau ít phút.');
+diff --git a/src/lib/pwaConfig.test.ts b/src/lib/pwaConfig.test.ts
+index 4c98045..3962837 100644
+--- a/src/lib/pwaConfig.test.ts
++++ b/src/lib/pwaConfig.test.ts
+@@ -2,4 +2,6 @@ import {test,expect} from 'vitest';
+ import {existsSync} from 'node:fs';
+ import {manifest,pwaOptions,isApiPath,staticCacheHeader} from './pwaConfig';
+ test('manifest is Vietnamese, standalone and has generated icons',()=>{expect(manifest&&manifest.lang).toBe('vi');if(!manifest)throw Error();expect(manifest.short_name!.length).toBeLessThanOrEqual(12);expect(manifest.display).toBe('standalone');for(const icon of manifest.icons!)expect(existsSync(`public${icon.src}`)).toBe(true);expect(manifest.shortcuts).toHaveLength(3);});
+-test('API never uses cache or navigation fallback; static immutable only hashed files',()=>{for(const path of ['/api','/api/interpret','/api/health']){expect(isApiPath(path)).toBe(true);expect(staticCacheHeader(path)).toBe('no-store');expect(pwaOptions.workbox!.navigateFallbackDenylist!.some(re=>re.test(path))).toBe(true);for(const rule of pwaOptions.workbox!.runtimeCaching!)expect(rule.handler).toBe('NetworkOnly');}expect(staticCacheHeader('/assets/index-abCD123.js')).toContain('immutable');for(const path of ['/','/index.html','/sw.js','/manifest.webmanifest'])expect(staticCacheHeader(path)).toBe('no-cache');});
++test('API never uses cache or navigation fallback; static immutable only hashed files',()=>{for(const path of ['/api','/api/interpret','/api/health']){expect(isApiPath(path)).toBe(true);expect(staticCacheHeader(path)).toBe('no-store');expect(pwaOptions.workbox!.navigateFallbackDenylist!.some(re=>re.test(path))).toBe(true);for(const rule of pwaOptions.workbox!.runtimeCaching!.slice(0,2))expect(rule.handler).toBe('NetworkOnly');}expect(staticCacheHeader('/assets/index-abCD123.js')).toContain('immutable');for(const path of ['/','/index.html','/sw.js','/manifest.webmanifest'])expect(staticCacheHeader(path)).toBe('no-cache');});
++
++test('heavy images use bounded expiring CacheFirst, not install precache',()=>{const rule=pwaOptions.workbox!.runtimeCaching![2];expect(rule.handler).toBe('CacheFirst');expect(rule.options?.expiration?.maxEntries).toBe(78);expect(rule.options?.expiration?.maxAgeSeconds).toBeGreaterThan(0);expect(pwaOptions.workbox!.globIgnores).toContain('cards/**');});
+diff --git a/src/lib/pwaConfig.ts b/src/lib/pwaConfig.ts
+index ee35cad..be002a5 100644
+--- a/src/lib/pwaConfig.ts
++++ b/src/lib/pwaConfig.ts
+@@ -1,5 +1,6 @@
+ import type {VitePWAOptions} from 'vite-plugin-pwa';
+ export const manifest:NonNullable<VitePWAOptions['manifest']>={name:'Tarot · Góc nhìn của bạn',short_name:'Tarot Việt',description:'Rút bài và tìm một góc nhìn cho câu hỏi của bạn.',lang:'vi',start_url:'/#/',scope:'/',display:'standalone',orientation:'portrait',theme_color:'#1a1033',background_color:'#07050f',categories:['lifestyle','entertainment'],icons:[{src:'/icons/icon-192.png',sizes:'192x192',type:'image/png'},{src:'/icons/icon-512.png',sizes:'512x512',type:'image/png'},{src:'/icons/maskable-512.png',sizes:'512x512',type:'image/png',purpose:'maskable'}],shortcuts:[{name:'Rút bài',url:'/#/'},{name:'Thư viện',url:'/#/library'},{name:'Lịch sử',url:'/#/history'}]};
+ export const isApiPath=(path:string)=>/^\/api(?:\/|$)/.test(path);
+-export const pwaOptions:Partial<VitePWAOptions>={registerType:'prompt',strategies:'generateSW',manifest,includeAssets:['icons/*','cards/*.webp','offline.html','robots.txt'],workbox:{mode:process.env.PWA_UNMINIFIED==='1'?'development':'production',disableDevLogs:true,globPatterns:['**/*.{js,css,html,woff,woff2,png,svg,webp,webmanifest}'],globIgnores:['**/api/**','**/reports/**'],maximumFileSizeToCacheInBytes:3*1024*1024,navigateFallback:'/index.html',navigateFallbackDenylist:[/^\/api(?:\/|$)/],cleanupOutdatedCaches:true,runtimeCaching:[{urlPattern:/\/api(?:\/|$)/,handler:'NetworkOnly',method:'GET'},{urlPattern:/\/api(?:\/|$)/,handler:'NetworkOnly',method:'POST'}]}};
++export const CARD_IMAGE_CACHE='tarot-card-images-v1';
++export const pwaOptions:Partial<VitePWAOptions>={registerType:'prompt',strategies:'generateSW',manifest,includeAssets:['icons/*','offline.html','robots.txt'],workbox:{mode:process.env.PWA_UNMINIFIED==='1'?'development':'production',disableDevLogs:true,globPatterns:['**/*.{js,css,html,woff,woff2,png,svg,webp,webmanifest}'],globIgnores:['**/api/**','**/reports/**','cards/**'],maximumFileSizeToCacheInBytes:3*1024*1024,navigateFallback:'/index.html',navigateFallbackDenylist:[/^\/api(?:\/|$)/],cleanupOutdatedCaches:true,runtimeCaching:[{urlPattern:/\/api(?:\/|$)/,handler:'NetworkOnly',method:'GET'},{urlPattern:/\/api(?:\/|$)/,handler:'NetworkOnly',method:'POST'},{urlPattern:/\/cards\/[^/]+\.webp$/,handler:'CacheFirst',options:{cacheName:CARD_IMAGE_CACHE,cacheableResponse:{statuses:[200]},expiration:{maxEntries:78,maxAgeSeconds:365*24*3600,purgeOnQuotaError:true}}}]}};
+ export function staticCacheHeader(path:string){if(isApiPath(path))return 'no-store';if(/^\/assets\/[^/]+-[\w-]+\.[a-z0-9]+$/i.test(path))return 'public, max-age=31536000, immutable';if(path.startsWith('/icons/')||path==='/og.png'||path.startsWith('/cards/'))return 'public, max-age=86400';return 'no-cache';}
+diff --git a/src/lib/spreadLayout.ts b/src/lib/spreadLayout.ts
+index 06be949..7534f61 100644
+--- a/src/lib/spreadLayout.ts
++++ b/src/lib/spreadLayout.ts
+@@ -3,11 +3,11 @@ export const CARD_RATIO=.585;
+ export interface LayoutCard {id:number;x:number;y:number;w:number;h:number;rotate:number;z:number}
+ const finite=(n:number)=>Number.isFinite(n)?Math.max(0,n):0;
+ /** Coordinates describe unrotated boxes; rotation is around their centres. */
+-export function computeSpreadLayout(spreadId:string,boxW:number,boxH:number,opts:{gap?:number;maxCardW?:number}={}){
++export function computeSpreadLayout(spreadId:string,boxW:number,boxH:number,opts:{gap?:number;maxCardW?:number;labels?:boolean}={}){
+  const W=finite(boxW),H=finite(boxH),spread=spreads.find(s=>s.id===spreadId)??spreads[0];
+  const cross=spread.id==='celtic-cross',cols=cross?4:spread.card_count,rows=cross?4:1;
+  const gap=Math.min(finite(opts.gap??10),W/(cols*4),H/(rows*4));
+- const label=W>=600?Math.min(26,H/(rows*8)):0;
++ const label=(opts.labels??W>=600)?Math.min(26,H/(rows*8)):0;
+  const w=Math.max(0,Math.min(opts.maxCardW??180,(W-gap*(cols+1))/cols,((H-gap*(rows+1))/rows-label)*CARD_RATIO));
+  const h=w/CARD_RATIO,stepX=w+gap,stepY=h+label+gap;
+  const left=(W-(cols*w+(cols-1)*gap))/2,top=(H-(rows*(h+label)+(rows-1)*gap))/2;
+diff --git a/src/screens/SettingsScreen.tsx b/src/screens/SettingsScreen.tsx
+index cbb51f4..8ec371e 100644
+--- a/src/screens/SettingsScreen.tsx
++++ b/src/screens/SettingsScreen.tsx
+@@ -1,5 +1,5 @@
+ import {requestSensorTilt} from '../lib/sensorTilt';
+-import {InstallSettings} from '../components/PwaControls';
++import {InstallSettings,OfflineCardsSettings} from '../components/PwaControls';
+ import {AmbientSettings} from '../components/AmbientControls';
+ import type {AmbientController} from '../hooks/useAmbientMusic';
+ import {feedbackText} from '../lib/feedback';
+@@ -34,7 +34,7 @@ export default function SettingsScreen({music, aiInfo, profileController, onClea
+   const close = () => { setConfirm(false); requestAnimationFrame(() => clearButton.current?.focus({ preventScroll: true })); };
+   return <section className="screen-panel settings-screen">
+     <p className="eyebrow">Theo cách của bạn</p><h1>Cài đặt</h1>
+-    <InstallSettings/><AmbientSettings music={music}/>
++    <InstallSettings/><OfflineCardsSettings/><AmbientSettings music={music}/>
+     <ProfileSettings controller={profileController} onClear={onClearProfile} />
+     <fieldset className="settings-options"><legend>Hiệu ứng</legend>
+       {([['full', 'Đầy đủ'], ['medium', 'Vừa'], ['minimal', 'Tối giản']] as const).map(([value, label]) => <label key={value}><input type="radio" name="effects" checked={settings.effects === value} onChange={() => updateSettings({effects: value})} />{label}</label>)}
+diff --git a/src/theme.css b/src/theme.css
+index e272cb9..86cedd6 100644
+--- a/src/theme.css
++++ b/src/theme.css
+@@ -448,3 +448,7 @@ input,select,textarea{font-size:max(16px,1em);}
+ .share-reading>img{display:block;margin:18px auto;max-width:100%;height:auto;}
+ .onboarding p,.daily-card p,.share-reading p{font-size:18px;line-height:1.7;}
+ a.button-link,button{min-height:44px;min-width:44px;}
++/* Separate visual card size from the invisible minimum touch area. */
++.fit-slot .flip-button{min-width:0;min-height:0;}
++.fit-slot .flip-button:before{content:'';position:absolute;left:50%;top:50%;width:max(100%,44px);height:max(100%,44px);transform:translate(-50%,-50%);}
++.ambient-dock:has(.effects-message),.ambient-dock:has(.ambient-invite){transform:none!important;opacity:1!important;}
+diff --git a/vite.config.ts b/vite.config.ts
+index 3ee21e2..61d902d 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -12,7 +12,7 @@ export default defineConfig(({ mode, command }) => {
+  const indexable=env.VITE_ALLOW_INDEX==='true';
+  return ({
+   plugins: mode === 'test' ? [] : [react(), tailwindcss(), VitePWA(pwaOptions), {name:'tarot-metadata',transformIndexHtml(html){return html.replaceAll('__SITE_URL__',base).replace('__ROBOTS__',indexable?'index, follow':'noindex, nofollow');},generateBundle(){this.emitFile({type:'asset',fileName:'robots.txt',source:indexable?'User-agent: *\nAllow: /\n':'User-agent: *\nDisallow: /\n'});}}],
+-  build: {rollupOptions: {output: {manualChunks(id) {
++  build: {rollupOptions: {output: {onlyExplicitManualChunks:true,manualChunks(id) {
+     if(id.includes('/node_modules/')) {
+       if(/\/(framer-motion|motion-dom|motion-utils)\//.test(id)) return 'motion';
+       if(/\/(react|react-dom|scheduler)\//.test(id)) return 'react';
+-- 
+2.51.1
+

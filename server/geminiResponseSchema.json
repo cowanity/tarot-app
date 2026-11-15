@@ -1,0 +1,112 @@
+{
+  "type": "object",
+  "properties": {
+    "verdict": {
+      "type": "STRING"
+    },
+    "answer": {
+      "type": "string",
+      "description": "2–3 câu, tối đa 60 từ và 520 ký tự. Lý do mạnh nhất từ lá và vị trí, rồi điều kiện đáng lưu ý; không lặp verdict."
+    },
+    "headline": {
+      "type": "string"
+    },
+    "opening": {
+      "type": "string"
+    },
+    "tension": {
+      "type": "string"
+    },
+    "per_card": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "position": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "notice": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "position",
+          "title",
+          "notice"
+        ]
+      }
+    },
+    "weave": {
+      "type": "string"
+    },
+    "unsaid": {
+      "type": "string"
+    },
+    "outlook": {
+      "type": "string"
+    },
+    "paths": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "body": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "label",
+          "body"
+        ]
+      }
+    },
+    "closing": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "experiment": {
+      "type": "string"
+    },
+    "personal": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "text"
+      ]
+    }
+  },
+  "required": [
+    "verdict",
+    "answer",
+    "headline",
+    "opening",
+    "tension",
+    "per_card",
+    "weave",
+    "unsaid",
+    "outlook",
+    "paths",
+    "closing",
+    "question",
+    "experiment"
+  ]
+}

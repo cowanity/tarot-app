@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": { "types": ["node"], "lib": ["ES2022", "DOM"], "noEmit": true },
+  "include": ["./**/*.ts", "../src/lib/readingContext.ts", "../src/lib/detectSensitive.ts", "../src/data/index.ts", "../src/types.ts"]
+}

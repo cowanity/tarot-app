@@ -1,0 +1,12 @@
+# Sao chép các giá trị phù hợp vào .env tại gốc dự án. Không commit .env.
+AI_PROVIDER=gemini
+GEMINI_API_KEY=DIEN_KHOA_TREN_MAY_CUA_BAN
+AI_MODEL=gemini-3.5-flash-lite
+AI_FALLBACK_MODELS=gemini-3.5-flash
+AI_DAILY_CAP=150
+AI_HOURLY_IP_LIMIT=20
+SHUTDOWN_TIMEOUT_MS=120000
+ALLOWED_ORIGIN=https://tarotvp.id.vn,http://localhost:5173
+VITE_SITE_URL=https://tarotvp.id.vn
+VITE_ALLOW_INDEX=false
+NODE_ENV=production

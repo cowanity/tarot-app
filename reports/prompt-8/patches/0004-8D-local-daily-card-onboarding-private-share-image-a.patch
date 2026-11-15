@@ -1,0 +1,365 @@
+From 34b1049608d2e001b7e86eabebf29931fe2d58e4 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 18 Oct 2026 21:22:36 +0700
+Subject: [PATCH 4/6] 8D: local daily card, onboarding, private share image and
+ history names
+
+---
+ NOTES-8.md                       |  7 +++++++
+ src/App.tsx                      |  1 +
+ src/components/CardKnowledge.tsx |  7 ++++---
+ src/components/DailyCard.tsx     |  7 +++++++
+ src/components/Onboarding.tsx    |  4 ++++
+ src/components/ShareReading.tsx  |  4 ++++
+ src/hooks/useHashRoute.ts        |  4 ++--
+ src/hooks/useHistory.ts          |  5 +++--
+ src/lib/aiClient.ts              |  1 +
+ src/lib/aiErrorMessage.ts        |  2 +-
+ src/lib/cardQuick.ts             |  6 ++++++
+ src/lib/dailyCard.ts             |  4 ++++
+ src/lib/historyNames.ts          |  4 ++++
+ src/lib/shareImage.ts            | 17 +++++++++++++++++
+ src/lib/ux8.test.ts              | 15 +++++++++++++++
+ src/screens/HistoryScreen.tsx    | 10 +++++++---
+ src/screens/LibraryScreen.tsx    |  2 +-
+ src/screens/ResultScreen.tsx     |  2 ++
+ src/screens/WelcomeScreen.tsx    |  6 ++++--
+ src/theme.css                    |  5 +++++
+ 20 files changed, 99 insertions(+), 14 deletions(-)
+ create mode 100644 src/components/DailyCard.tsx
+ create mode 100644 src/components/Onboarding.tsx
+ create mode 100644 src/components/ShareReading.tsx
+ create mode 100644 src/lib/cardQuick.ts
+ create mode 100644 src/lib/dailyCard.ts
+ create mode 100644 src/lib/historyNames.ts
+ create mode 100644 src/lib/shareImage.ts
+ create mode 100644 src/lib/ux8.test.ts
+
+diff --git a/NOTES-8.md b/NOTES-8.md
+index 2301cb4..880a335 100644
+--- a/NOTES-8.md
++++ b/NOTES-8.md
+@@ -24,3 +24,10 @@ Không thay prompt/schema/guardrails/care/cards.json. Kết quả luận giải
+ - `#/?fps=1` hoặc Cài đặt → Hiển thị khung hình/giây: FPS render, cấp, hạt sống, số hạ cấp, JSms/frame. 0/minimal nghĩa canvas tắt, không phải đo FPS của trang tĩnh.
+ - PASS 10 test engine/settings: đồng hồ giả, hidden/offscreen/reduced/minimal, hạ cấp và pool tái sử dụng10.000chu kỳ. Script fx_check kiểm các keyframes không animate layout/filter/shadow. Chỉ3 lớp nebula khai báo will-change bằng CSS; số layer do Framer/browser cấp phải kiểm bằng máy thật.
+ - CHƯA có số FPS thật, trace, JS<=6ms hay số GPU layer đo được. Sensor iOS, holo/spark/glow và thao tác touch chưa được kiểm trên thiết bị. Bảng FPS là công cụ đo, không phải bằng chứng đã đạt55fps.
++
++## 8D
++- Làm quen3thẻ, bỏ qua/nhớ; Lá hôm nay dùng ngày địa phương + ID cục bộ, không server; link đến đúng lá thư viện và Hỏi sâu hơn mở nhập câu hỏi.
++- Ảnh1080×1350 dùng canvas/font đã đóng gói, mặc định không câu hỏi, xem trước rồi WebShare/download. Không ghi ảnh/câu hỏi vào SW cache.
++- Lịch sử đổi tên riêng trên thiết bị (không sửa schema bài đọc), xóa từng/tất cả đã có xác nhận; tên được dọn khi xóa. cardQuick.json tùy chọn đọc lúc build, thiếu chiều/id dùng summary gốc; tối đa5chip trước Xem thêm.
++- Lỗi mạng có câu tiếng Việt/Thử lại, giữ state câu hỏi; 404 và tìm kiếm rỗng có liên kết tiếp. Native dialog giữ focus trap/Esc và trả focus; không khóa pinch zoom của người đọc (chỉ touch-action manipulation ở nút, input>=16px để tránh autozoom).
++- Test thuần: daily determinism/range, fallback quick, chia sẻ không câu hỏi và wrap chữ, lưu/đổi tên, tương phản các token trên nền. Tương phản thực tế khi nền/glow/layer chồng nhau, screen reader/tab/sheet và ảnh canvas/font/WebShare CHƯA kiểm trên browser/iPhone.
+diff --git a/src/App.tsx b/src/App.tsx
+index 23a9f4b..c3f86d2 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -84,6 +84,7 @@ export default function App() {
+             onRestart={() => dispatch({ type: 'RESET', allowReversed: settings.allowReversedDefault })} />}
+         </motion.div>
+       </AnimatePresence> : <Suspense key={route} fallback={<p role="status">Đang mở trang…</p>}>
++        {route === '#/not-found' && <section className="screen-panel"><h1>Chưa tìm thấy trang này</h1><p>Bạn có thể tiếp tục từ thư viện hoặc trải bài mới.</p><a className="button-link" href="#/">Về trang trải bài</a> <a className="button-link" href="#/library">Mở thư viện</a></section>}
+         {route === '#/library' && <LibraryScreen />}
+         {route === '#/history' && <HistoryScreen />}
+         {route === '#/settings' && <SettingsScreen music={music} aiInfo={aiInfo} profileController={profileController} onClearProfile={() => { profileController.clear(); dispatch({type: 'CLEAR_PROFILE'}); ai.cancel(); }} />}
+diff --git a/src/components/CardKnowledge.tsx b/src/components/CardKnowledge.tsx
+index 2f97400..24953a9 100644
+--- a/src/components/CardKnowledge.tsx
++++ b/src/components/CardKnowledge.tsx
+@@ -1,3 +1,4 @@
++import {quickMeaning} from '../lib/cardQuick';
+ import {useEffect,useRef,useState} from 'react';
+ import {createPortal} from 'react-dom';
+ import {CardFace} from './CardFace';
+@@ -8,14 +9,14 @@ import type {Card} from '../types';
+ import '../screens/cardLibrary.css';
+ function Prose({text}:{text:string}){return <>{text.split(/\r?\n\s*\r?\n/).filter(p=>p.trim()).map((p,i)=><p key={i}>{p.replace(/\s*\r?\n\s*/g,' ')}</p>)}</>;}
+ export function CardKnowledge({card}:{card:Card}){
+- const [reversed,setReversed]=useState(false);const summary=getCardText(card,reversed);const depth=getCardText(card,summary.rev_missing?false:reversed,'depth');
++ const [reversed,setReversed]=useState(false),[allKeywords,setAllKeywords]=useState(false);const summary=getCardText(card,reversed);const depth=getCardText(card,summary.rev_missing?false:reversed,'depth');
+  const refs=formatRefs([...summary.refs,...depth.refs]);
+  return <article className="card-knowledge">
+   <div className="knowledge-art"><CardFace card={card}/><p>{card.arcana==='major'?'Ẩn Chính':({wands:'Bộ Gậy',cups:'Bộ Cốc',swords:'Bộ Kiếm',pentacles:'Bộ Tiền'} as const)[card.suit!]}</p></div>
+   <div className="knowledge-copy"><p className="eyebrow">Tìm hiểu lá bài</p><h2>{card.name_vi}</h2><p className="knowledge-en" lang="en">{titleCase(card.name_en)}</p>
+-   <ul className="library-keywords">{card.keywords.map((word,i)=><li key={i}>{word}</li>)}</ul>
++   <ul className="library-keywords">{(allKeywords?card.keywords:card.keywords.slice(0,5)).map((word,i)=><li key={i}>{word}</li>)}</ul>{card.keywords.length>5&&<button onClick={()=>setAllKeywords(!allKeywords)}>{allKeywords?'Thu gọn từ khóa':'Xem thêm từ khóa'}</button>}
+    <div className="knowledge-directions" role="group" aria-label="Chiều lá bài"><button aria-pressed={!reversed} onClick={()=>setReversed(false)}>Nghĩa xuôi</button><button aria-pressed={reversed} onClick={()=>setReversed(true)}>Nghĩa ngược</button></div>
+-   <section aria-label={reversed?'Nghĩa ngược':'Nghĩa xuôi'}><h3>Ý nghĩa của lá</h3><Prose text={summary.text}/></section>
++   <section aria-label={reversed?'Nghĩa ngược':'Nghĩa xuôi'}><h3>Hiểu nhanh</h3><Prose text={quickMeaning(card,reversed)}/><details><summary>Đọc thêm</summary><Prose text={summary.text}/></details></section>
+    <details className="knowledge-deep"><summary>Đọc sâu hơn</summary><Prose text={depth.text}/></details>
+    {card.symbols.length>0&&<section><h3>Nhìn vào biểu tượng</h3><p className="knowledge-note">Chọn một chi tiết để tìm hiểu.</p>{card.symbols.map((symbol,i)=><details key={i}><summary>{symbol.name}</summary><Prose text={symbol.meaning}/><small>{formatRefs(symbol.source_refs).join(' · ')}</small></details>)}</section>}
+    <details className="knowledge-sources"><summary>Nguồn tham khảo</summary><p>{refs.join(' · ')||'Chưa có số trang trong dữ liệu của lá này.'}</p>{refs.some(ref=>ref.startsWith('Huggens'))&&<small>* Số trang Huggens là ước lượng trong dữ liệu hiện có.</small>}</details>
+diff --git a/src/components/DailyCard.tsx b/src/components/DailyCard.tsx
+new file mode 100644
+index 0000000..857eb6b
+--- /dev/null
++++ b/src/components/DailyCard.tsx
+@@ -0,0 +1,7 @@
++import {useEffect,useState} from 'react';
++import {cards} from '../data';
++import {deviceId,localDay,dailyCardIndex} from '../lib/dailyCard';
++import {quickMeaning} from '../lib/cardQuick';
++import {browserStorage} from '../lib/browserStorage';
++import {CardFace} from './CardFace';
++export function DailyCard({onAsk}:{onAsk:()=>void}){const [day,setDay]=useState(localDay),[id]=useState(()=>deviceId(browserStorage()));useEffect(()=>{const sync=()=>setDay(localDay());const timer=setInterval(sync,60000);document.addEventListener('visibilitychange',sync);return()=>{clearInterval(timer);document.removeEventListener('visibilitychange',sync);};},[]);const card=cards[dailyCardIndex(day,id,cards.length)];return <section className="daily-card"><h2>Lá hôm nay</h2><div className="daily-art"><CardFace card={card}/></div><h3>{card.name_vi}</h3><p>{quickMeaning(card)}</p><ul className="library-keywords">{card.keywords.slice(0,5).map(k=><li key={k}>{k}</li>)}</ul><div className="actions"><a className="button-link" href={`#/library?card=${encodeURIComponent(card.id)}`}>Xem trong thư viện</a><button onClick={onAsk}>Hỏi sâu hơn</button></div><small>Một lá cho ngày hôm nay trên thiết bị này, không cần mạng.</small></section>;}
+diff --git a/src/components/Onboarding.tsx b/src/components/Onboarding.tsx
+new file mode 100644
+index 0000000..586d139
+--- /dev/null
++++ b/src/components/Onboarding.tsx
+@@ -0,0 +1,4 @@
++import {useState} from 'react';
++import {browserStorage} from '../lib/browserStorage';
++const cards=[['Một góc nhìn để tự lắng nghe','Rút bài theo câu hỏi của bạn, hoặc khám phá ý nghĩa 78 lá trong thư viện.'],['Bắt đầu từ điều đang bận lòng','Bạn có thể hỏi mở hoặc có/không. Thêm một chút hoàn cảnh sẽ giúp câu hỏi rõ hơn.'],['Bạn giữ quyền quyết định','Bài đọc mang tính tham khảo, không thay thế tư vấn chuyên môn.']];
++export function Onboarding(){const [seen,setSeen]=useState(()=>{try{return browserStorage()?.getItem('tarot.welcome')==='seen';}catch{return false;}}),[step,setStep]=useState(0);const finish=()=>{setSeen(true);try{browserStorage()?.setItem('tarot.welcome','seen');}catch{/* keep session choice */}};if(seen)return null;return <section className="onboarding" aria-label="Làm quen với Tarot"><p className="eyebrow">{step+1}/3 · Chào bạn</p><h2>{cards[step][0]}</h2><p>{cards[step][1]}</p><div className="actions"><button onClick={finish}>Bỏ qua</button><button className="button-primary" onClick={()=>step===2?finish():setStep(step+1)}>{step===2?'Sẵn sàng':'Tiếp theo'}</button></div></section>;}
+diff --git a/src/components/ShareReading.tsx b/src/components/ShareReading.tsx
+new file mode 100644
+index 0000000..4f4588c
+--- /dev/null
++++ b/src/components/ShareReading.tsx
+@@ -0,0 +1,4 @@
++import {useEffect,useState} from 'react';
++import type {Card} from '../types';
++import {makeShareImage} from '../lib/shareImage';
++export function ShareReading({card,verdict,answer,question}:{card:Card;verdict:string;answer:string;question:string}){const [include,setInclude]=useState(false),[file,setFile]=useState<File|null>(null),[preview,setPreview]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState('');useEffect(()=>{if(!file){setPreview('');return;}const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);},[file]);return <section className="share-reading"><h2>Mang theo một lời nhắn</h2><label className="switch-row"><input type="checkbox" checked={include} onChange={e=>{setInclude(e.target.checked);setFile(null);}}/><span>Kèm câu hỏi</span></label><button disabled={busy} onClick={async()=>{setBusy(true);setFile(null);try{setFile(await makeShareImage(card,verdict,answer,question,include));setMessage('Ảnh đã sẵn sàng. Bạn có thể xem trước rồi chia sẻ.');}catch{setMessage('Chưa tạo được ảnh. Bạn thử lại khi ảnh lá đã tải xong nhé.');}finally{setBusy(false);}}}>{busy?'Đang tạo ảnh…':'Tạo ảnh chia sẻ'}</button>{file&&preview&&<><img src={preview} width="216" height="270" alt="Xem trước ảnh chia sẻ"/><div className="actions"><button onClick={async()=>{if(navigator.canShare?.({files:[file]})){try{await navigator.share({files:[file],title:'Tarot Việt'});}catch{setMessage('Bạn có thể tải ảnh bằng nút bên cạnh.');}}else{const a=document.createElement('a');a.href=preview;a.download=file.name;a.click();}}}>Chia sẻ ảnh</button><a className="button-link" href={preview} download={file.name}>Tải ảnh</a></div></>}<p role="status">{message}</p></section>;}
+diff --git a/src/hooks/useHashRoute.ts b/src/hooks/useHashRoute.ts
+index 6b4be31..7f576cd 100644
+--- a/src/hooks/useHashRoute.ts
++++ b/src/hooks/useHashRoute.ts
+@@ -1,8 +1,8 @@
+ import { useSyncExternalStore } from 'react';
+-export type Route = '#/' | '#/library' | '#/history' | '#/settings';
++export type Route = '#/' | '#/library' | '#/history' | '#/settings' | '#/not-found';
+ const routes: Route[] = ['#/', '#/library', '#/history', '#/settings'];
+ function currentRoute(): Route {
+-  return routes.includes(window.location.hash.split('?')[0] as Route) ? window.location.hash.split('?')[0] as Route : '#/';
++  return routes.includes(window.location.hash.split('?')[0] as Route) ? window.location.hash.split('?')[0] as Route : (window.location.hash===''?'#/':'#/not-found');
+ }
+ function subscribe(callback: () => void) {
+   window.addEventListener('hashchange', callback);
+diff --git a/src/hooks/useHistory.ts b/src/hooks/useHistory.ts
+index 26b2b20..121a7f7 100644
+--- a/src/hooks/useHistory.ts
++++ b/src/hooks/useHistory.ts
+@@ -1,3 +1,4 @@
++import {renameHistory,clearHistoryNames} from '../lib/historyNames';
+ import type {ReadingFeedback} from '../lib/feedback';
+ import { useCallback, useEffect, useState } from 'react';
+ import { browserStorage } from '../lib/browserStorage';
+@@ -22,8 +23,8 @@ export function useHistory() {
+     };
+   }, []);
+   const save = useCallback((reading: SavedReading) => announceChange(saveReading(browserStorage(), reading).ok), []);
+-  const remove = useCallback((id: string) => announceChange(deleteReading(browserStorage(), id).ok), []);
+-  const clear = useCallback(() => announceChange(clearAll(browserStorage()).ok), []);
++  const remove = useCallback((id: string) => {const ok=deleteReading(browserStorage(),id).ok;if(ok)renameHistory(browserStorage(),id,'');return announceChange(ok);}, []);
++  const clear = useCallback(() => {const ok=clearAll(browserStorage()).ok;if(ok)clearHistoryNames(browserStorage());return announceChange(ok);}, []);
+   const rate = useCallback((reading:SavedReading, vote:ReadingFeedback)=>announceChange(saveFeedback(browserStorage(),reading,vote).ok),[]);
+   return { readings, save, remove, clear, rate };
+ }
+diff --git a/src/lib/aiClient.ts b/src/lib/aiClient.ts
+index bd8137c..a1520f4 100644
+--- a/src/lib/aiClient.ts
++++ b/src/lib/aiClient.ts
+@@ -58,6 +58,7 @@ async function withTimeout<T>(signal: AbortSignal | undefined, ms: number, work:
+   }
+ }
+ async function interpretOnce(payload: AiPayload, {signal, fetchImpl = fetch}: ClientOptions = {}): Promise<AiResult> {
++  if(typeof navigator!=='undefined'&&navigator.onLine===false)return {kind:'network'};
+   let timedOut = false;
+   try {
+     return await withTimeout(signal, 50_000, async (internal) => {
+diff --git a/src/lib/aiErrorMessage.ts b/src/lib/aiErrorMessage.ts
+index cea96c8..efbef14 100644
+--- a/src/lib/aiErrorMessage.ts
++++ b/src/lib/aiErrorMessage.ts
+@@ -1,6 +1,6 @@
+ /** App-authored messages only: never display a provider response or raw code. */
+ export function aiErrorMessage(status: string): string {
+-  if (status === 'network') return 'Chưa kết nối được. Bạn kiểm tra mạng rồi thử lại.';
++  if (status === 'network') return 'Cần kết nối mạng để luận giải. Bạn kiểm tra mạng rồi thử lại.';
+   if (status === 'blocked') return 'Địa chỉ truy cập này chưa được cho phép. Bạn thử địa chỉ chính thức hoặc báo người quản trị.';
+   if (status === 'rate_limit') return 'Bạn thử lại sau ít phút nhé.';
+   if (status === 'busy') return 'Hệ thống đang bận, thử lại sau ít phút.';
+diff --git a/src/lib/cardQuick.ts b/src/lib/cardQuick.ts
+new file mode 100644
+index 0000000..43c1b81
+--- /dev/null
++++ b/src/lib/cardQuick.ts
+@@ -0,0 +1,6 @@
++/// <reference types="vite/client" />
++import type {Card} from '../types';
++export type QuickMap=Record<string,{up?:string;rev?:string}>;
++const modules=import.meta.glob('../data/cardQuick.json',{eager:true,import:'default'});
++const optional=(Object.values(modules)[0]??{}) as QuickMap;
++export function quickMeaning(card:Pick<Card,'id'|'summary_up'|'summary_rev'>,reversed=false,overrides:QuickMap=optional){const value=overrides?.[card.id]?.[reversed?'rev':'up'];return typeof value==='string'&&value.trim()?value:reversed?(card.summary_rev||card.summary_up):card.summary_up;}
+diff --git a/src/lib/dailyCard.ts b/src/lib/dailyCard.ts
+new file mode 100644
+index 0000000..7b58826
+--- /dev/null
++++ b/src/lib/dailyCard.ts
+@@ -0,0 +1,4 @@
++let memoryId='';
++export function localDay(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
++export function dailyCardIndex(day:string,deviceId:string,count:number){let hash=2166136261;for(const char of `${day}|${deviceId}`)hash=Math.imul(hash^char.charCodeAt(0),16777619);return count>0?(hash>>>0)%count:0;}
++export function deviceId(storage:Storage|null,random:()=>string=()=>crypto.randomUUID()){try{const id=storage?.getItem('tarot.daily-device');if(id)return id;const next=memoryId||random();memoryId=next;storage?.setItem('tarot.daily-device',next);return next;}catch{return memoryId||(memoryId=random());}}
+diff --git a/src/lib/historyNames.ts b/src/lib/historyNames.ts
+new file mode 100644
+index 0000000..b1e4fe3
+--- /dev/null
++++ b/src/lib/historyNames.ts
+@@ -0,0 +1,4 @@
++const KEY='tarot.history.names';
++export function readHistoryNames(storage:Storage|null):Record<string,string>{try{const raw=JSON.parse(storage?.getItem(KEY)??'{}');if(!raw||typeof raw!=='object'||Array.isArray(raw))return {};return Object.fromEntries(Object.entries(raw).filter(([k,v])=>k.length<200&&typeof v==='string'&&v.length<=80).slice(-100)) as Record<string,string>;}catch{return {};}}
++export function renameHistory(storage:Storage|null,id:string,name:string){try{if(!storage)return false;const all=readHistoryNames(storage);if(name.trim())all[id]=name.trim().slice(0,80);else delete all[id];storage.setItem(KEY,JSON.stringify(Object.fromEntries(Object.entries(all).slice(-100))));return true;}catch{return false;}}
++export function clearHistoryNames(storage:Storage|null){try{storage?.removeItem(KEY);}catch{/* best effort */}}
+diff --git a/src/lib/shareImage.ts b/src/lib/shareImage.ts
+new file mode 100644
+index 0000000..e912dfd
+--- /dev/null
++++ b/src/lib/shareImage.ts
+@@ -0,0 +1,17 @@
++import type {Card} from '../types';
++export function shareText(verdict:string,answer:string,question:string,includeQuestion=false){return {verdict,sentence:answer.match(/^[\s\S]*?[.!?](?:\s|$)/u)?.[0]?.trim()||answer,...(includeQuestion&&question.trim()?{question:question.trim()}:{})};}
++export function wrapText(text:string,maxWidth:number,measure:(s:string)=>number){const lines:string[]=[];let line='';for(const word of text.split(/\s+/u)){const next=line?`${line} ${word}`:word;if(measure(next)<=maxWidth)line=next;else{if(line)lines.push(line);line='';// Long unbroken words are split, never silently clipped.
++for(const char of word){if(measure(line+char)>maxWidth&&line){lines.push(line);line='';}line+=char;}}}if(line)lines.push(line);return lines;}
++export async function makeShareImage(card:Card,verdict:string,answer:string,question:string,includeQuestion=false){
++ await document.fonts.load('400 36px "Be Vietnam Pro"');await document.fonts.ready;
++ const canvas=document.createElement('canvas');canvas.width=1080;canvas.height=1350;const ctx=canvas.getContext('2d');if(!ctx)throw Error('canvas');
++ ctx.fillStyle='#100b20';ctx.fillRect(0,0,1080,1350);const g=ctx.createRadialGradient(540,450,20,540,600,800);g.addColorStop(0,'#34204d');g.addColorStop(1,'#100b20');ctx.fillStyle=g;ctx.fillRect(0,0,1080,1350);ctx.strokeStyle='#c9a45c';ctx.lineWidth=2;ctx.strokeRect(40,40,1000,1270);
++ for(let i=0;i<60;i++){ctx.globalAlpha=.3+(i%4)*.12;ctx.fillStyle='#dcc28a';ctx.fillRect(60+(i*173)%960,70+(i*227)%1190,2,2);}ctx.globalAlpha=1;
++ ctx.textAlign='center';ctx.fillStyle='#e4c582';ctx.font='400 42px "Be Vietnam Pro"';ctx.fillText('Tarot Việt',540,112);
++ const image=new Image();image.src=`/cards/${card.id}.webp`;await image.decode();ctx.drawImage(image,380,160,320,547);
++ const text=shareText(verdict,answer,question,includeQuestion);
++ function block(value:string,y:number,height:number,size:number,color:string){if(!ctx)return;let lines:string[]=[];do{ctx.font=`400 ${size}px "Be Vietnam Pro"`;lines=wrapText(value,880,s=>ctx.measureText(s).width);if(lines.length*size*1.45<=height)break;size--;}while(size>12);ctx.fillStyle=color;lines.forEach((line,i)=>ctx.fillText(line,540,y+i*size*1.45));}
++ block(text.verdict||card.name_vi,790,120,44,'#e4c582');block(text.sentence,930,text.question?170:270,34,'#ece6f7');if(text.question)block(text.question,1145,110,25,'#c4b4d8');
++ ctx.font='400 22px "Be Vietnam Pro"';ctx.fillStyle='#c4b4d8';ctx.fillText('Một góc nhìn để bạn tự suy ngẫm',540,1270);
++ const blob=await new Promise<Blob>((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('encode')),'image/png'));return new File([blob],'tarot-cua-ban.png',{type:'image/png'});
++}
+diff --git a/src/lib/ux8.test.ts b/src/lib/ux8.test.ts
+new file mode 100644
+index 0000000..4f76db1
+--- /dev/null
++++ b/src/lib/ux8.test.ts
+@@ -0,0 +1,15 @@
++import {readFileSync} from 'node:fs';
++import {expect,test,vi} from 'vitest';
++import {dailyCardIndex,localDay,deviceId} from './dailyCard';
++import {quickMeaning} from './cardQuick';
++import {shareText,wrapText} from './shareImage';
++import {readHistoryNames,renameHistory} from './historyNames';
++const memory=()=>{const m=new Map<string,string>();return {getItem:(k:string)=>m.get(k)??null,setItem:(k:string,v:string)=>m.set(k,v)} as unknown as Storage;};
++test('daily local date and device seed are stable, in range',()=>{const date=new Date(2026,9,18,23,59);expect(localDay(date)).toBe('2026-10-18');const s=memory();const id=deviceId(s,()=> 'device');expect(deviceId(s,()=> 'different')).toBe(id);const n=dailyCardIndex(localDay(date),id,78);expect(n).toBe(dailyCardIndex('2026-10-18',id,78));expect(n).toBeGreaterThanOrEqual(0);expect(n).toBeLessThan(78);expect(new Set(Array.from({length:30},(_,i)=>dailyCardIndex(`2026-10-${i}`,id,78))).size).toBeGreaterThan(10);});
++test('quick text optional by id/direction, fallback retains original',()=>{const card={id:'x',summary_up:'Xuôi gốc',summary_rev:'Ngược gốc'};expect(quickMeaning(card,false,{})).toBe('Xuôi gốc');expect(quickMeaning(card,true,{x:{up:'Ngắn'}})).toBe('Ngược gốc');expect(quickMeaning(card,false,{x:{up:'Ngắn'}})).toBe('Ngắn');});
++test('share excludes question by default, first sentence only; lines fit',()=>{expect(shareText('Nên đợi','Một câu. Câu hai.','Riêng tư')).toEqual({verdict:'Nên đợi',sentence:'Một câu.'});expect(shareText('','','Riêng tư',true)).toHaveProperty('question','Riêng tư');for(const line of wrapText('abc defghijklmnopqrstuvwxyz',5,s=>s.length))expect(line.length).toBeLessThanOrEqual(5);});
++test('history names local, bounded and storage errors handled',()=>{const s=memory();expect(renameHistory(s,'r',' Tên riêng ')).toBe(true);expect(readHistoryNames(s)).toEqual({r:'Tên riêng'});renameHistory(s,'r','');expect(readHistoryNames(s)).toEqual({});expect(renameHistory(null,'r','x')).toBe(false);const fail={getItem:vi.fn(()=>{throw Error();})} as unknown as Storage;expect(readHistoryNames(fail)).toEqual({});});
++function luminance(hex:string){const [r,g,b]=hex.match(/\w\w/g)!.map(v=>parseInt(v,16)/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4);return r*.2126+g*.7152+b*.0722;}
++test('new text token combinations have >=4.5 contrast',()=>{for(const bg of ['#1a1033','#07050f','#171021','#21152e'])for(const fg of ['#ece6f7','#c4b4d8','#e4c582'])expect((luminance(fg)+.05)/(luminance(bg)+.05)).toBeGreaterThanOrEqual(4.5);});
++
++test('actual theme reading tokens meet contrast on panel backgrounds',()=>{const css=readFileSync('src/theme.css','utf8');for(const token of ['--reading-text','--reading-muted']){const fg=css.match(new RegExp(`${token}:\\s*(#[a-f0-9]{6})`,'i'))?.[1];expect(fg).toBeTruthy();for(const bg of ['#1a1033','#171021','#21152e'])expect((luminance(fg!)+.05)/(luminance(bg)+.05)).toBeGreaterThanOrEqual(4.5);}});
+diff --git a/src/screens/HistoryScreen.tsx b/src/screens/HistoryScreen.tsx
+index 628d30e..619208e 100644
+--- a/src/screens/HistoryScreen.tsx
++++ b/src/screens/HistoryScreen.tsx
+@@ -1,3 +1,5 @@
++import {readHistoryNames,renameHistory,clearHistoryNames} from '../lib/historyNames';
++import {browserStorage} from '../lib/browserStorage';
+ import { LOCAL_HISTORY_NOTICE } from '../lib/historyNotice';
+ import { useEffect, useRef, useState } from 'react';
+ import { cards, spreads } from '../data';
+@@ -28,6 +30,7 @@ export default function HistoryScreen() {
+   const [deleteId, setDeleteId] = useState<string | null>(null);
+   const [confirmAll, setConfirmAll] = useState(false);
+   const [message, setMessage] = useState('');
++  const [names,setNames]=useState(()=>readHistoryNames(browserStorage())),[renaming,setRenaming]=useState<string|null>(null),[name,setName]=useState('');
+   const section = useRef<HTMLElement>(null);
+   const savedScroll = useRef(0);
+   const clearButton = useRef<HTMLButtonElement>(null);
+@@ -66,18 +69,19 @@ export default function HistoryScreen() {
+         onCancel={() => { setConfirmAll(false); requestAnimationFrame(() => clearButton.current?.focus({ preventScroll: true })); }}
+         onConfirm={() => {
+           const result = clear(); setMessage(result.ok ? 'Đã xóa tất cả bài đọc.' : 'Chưa xóa được. Bạn hãy thử lại.');
+-          if (result.ok) { setConfirmAll(false); restoreList(null, window.scrollY); }
++          if (result.ok) {clearHistoryNames(browserStorage());setNames({});setConfirmAll(false); restoreList(null, window.scrollY); }
+         }} />}
+       <ol className="history-list">{readings.map((reading, index) => <li id={`history-${reading.id}`} key={reading.id}>
+         <article aria-labelledby={`history-heading-${reading.id}`}>
+           <time dateTime={reading.createdAt}>{new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(reading.createdAt))}</time>
+           {reading.interpretation && <p>{[reading.interpretation.reading.verdict,reading.interpretation.reading.answer].filter(Boolean).join(' — ')}</p>}
+-          <h2 id={`history-heading-${reading.id}`}>{spreadMap.get(reading.spreadId)?.name_vi}</h2>
++          <h2 id={`history-heading-${reading.id}`}>{names[reading.id]||spreadMap.get(reading.spreadId)?.name_vi}</h2>
+           <p className="history-question">{shorten(reading.question) || 'Một góc nhìn tổng quan cho hiện tại.'}</p>
+           <div className="history-thumbnails" aria-label="Các lá đã rút">{reading.cards.map((card) => <Thumbnail key={card.cardId} card={card} />)}</div>
+-          <div className="actions"><button onClick={() => open(reading.id)}>Xem lại</button>
++          <div className="actions"><button onClick={() => open(reading.id)}>Xem lại</button><button onClick={()=>{setRenaming(reading.id);setName(names[reading.id]||'');}}>Đổi tên</button>
+             <button aria-label={`Xóa bài đọc ngày ${new Date(reading.createdAt).toLocaleDateString('vi-VN')}`}
+               onClick={() => { setDeleteId(reading.id); setConfirmAll(false); }}>Xóa</button></div>
++          {renaming===reading.id&&<form onSubmit={e=>{e.preventDefault();if(renameHistory(browserStorage(),reading.id,name)){setNames(readHistoryNames(browserStorage()));setRenaming(null);setMessage('Đã đổi tên trên thiết bị.');}else setMessage('Chưa lưu được tên mới.');}}><label>Tên bài đọc<input autoFocus maxLength={80} value={name} onChange={e=>setName(e.target.value)}/></label><button type="submit">Lưu tên</button><button type="button" onClick={()=>setRenaming(null)}>Hủy</button></form>}
+           {deleteId === reading.id && <ConfirmAction message="Xóa bài đọc này khỏi lịch sử?"
+             onCancel={() => { setDeleteId(null); restoreList(reading.id, window.scrollY); }}
+             onConfirm={() => {
+diff --git a/src/screens/LibraryScreen.tsx b/src/screens/LibraryScreen.tsx
+index 1d8e94b..e8bb749 100644
+--- a/src/screens/LibraryScreen.tsx
++++ b/src/screens/LibraryScreen.tsx
+@@ -9,7 +9,7 @@ const groups=[['all','Tất cả'],['major','Ẩn Chính'],['wands','Gậy'],['c
+ const ids=cards.map(c=>c.id);
+ export default function LibraryScreen(){
+  const [query,setQuery]=useState(''),[group,setGroup]=useState('all'),[onlyFavorites,setOnlyFavorites]=useState(false);
+- const [favorites,setFavorites]=useState(()=>readFavorites(browserStorage(),ids));const [selected,setSelected]=useState<string|null>(null);const [message,setMessage]=useState('');
++ const [favorites,setFavorites]=useState(()=>readFavorites(browserStorage(),ids));const [selected,setSelected]=useState<string|null>(()=>new URLSearchParams(location.hash.split('?')[1]??'').get('card'));const [message,setMessage]=useState('');
+  const savedScroll=useRef(0),heading=useRef<HTMLHeadingElement>(null);
+  const card=cards.find(c=>c.id===selected);const shown=filterLibrary(cards,query,group,favorites,onlyFavorites);
+  useEffect(()=>{if(card){window.scrollTo({top:0,behavior:'instant'});heading.current?.focus({preventScroll:true});}},[card]);
+diff --git a/src/screens/ResultScreen.tsx b/src/screens/ResultScreen.tsx
+index 6a75e9e..49ba269 100644
+--- a/src/screens/ResultScreen.tsx
++++ b/src/screens/ResultScreen.tsx
+@@ -1,3 +1,4 @@
++import {ShareReading} from '../components/ShareReading';
+ import {useSettings} from '../hooks/useSettings';
+ import {CardReader} from '../components/CardReader';
+ import {CARE_ANSWER} from '../lib/safetyText';
+@@ -95,6 +96,7 @@ export function ResultScreen({ autoInterpret=false, savedInterpretation, result,
+       <a className="reading-scroll-cue" href="#scene-first" onClick={e => {e.preventDefault(); const title = document.getElementById(`scene-title-${result[0]?.position.number}`); title?.setAttribute('tabindex', '-1'); title?.focus({preventScroll: true}); document.getElementById('reading-scenes')?.scrollIntoView({behavior: quiet ? 'auto' : 'smooth'});}}>Xem từng lá <span aria-hidden="true">↓</span></a>
+     </header>
+     <CardReader result={result} reading={reading} detailed={detailed} reflections={offline.reflections.map(r=>r.text)} feedbackFor={feedbackFor}/>
++    {reading&&result[0]&&<ShareReading card={result[0].card} verdict={reading.verdict??''} answer={reading.answer} question={question}/>}
+     <div id="reading-summary" tabIndex={-1} />
+     {reading?.personal && <PersonalScene personal={reading.personal} profile={aiPayload?.profile} reading={result} />}
+     {reading ? <ReadingFinale reading={reading} drawn={result} /> : <>
+diff --git a/src/screens/WelcomeScreen.tsx b/src/screens/WelcomeScreen.tsx
+index 57cbd37..4c19191 100644
+--- a/src/screens/WelcomeScreen.tsx
++++ b/src/screens/WelcomeScreen.tsx
+@@ -1,10 +1,12 @@
++import {Onboarding} from '../components/Onboarding';
++import {DailyCard} from '../components/DailyCard';
+ import { CardBack } from '../components/CardBack';
+ export function WelcomeScreen({ onStart }: { onStart: () => void }) {
+-  return <section className="welcome screen-panel">
++  return <><Onboarding/><section className="welcome screen-panel">
+     <div className="welcome-card" aria-hidden="true"><CardBack /></div>
+     <p className="eyebrow">Một khoảng lặng dành cho bạn</p>
+     <h1>Để những lá bài<br />mở một góc nhìn mới.</h1>
+     <p className="lede">Giữ trong lòng một câu hỏi. Chậm lại, lắng nghe và tìm điều đáng suy ngẫm trong câu chuyện của mình.</p>
+     <button className="button-primary" onClick={onStart}>Bắt đầu trải bài <span aria-hidden="true">↗</span></button>
+-  </section>;
++  </section><DailyCard onAsk={onStart}/></>;
+ }
+diff --git a/src/theme.css b/src/theme.css
+index cc08e55..e272cb9 100644
+--- a/src/theme.css
++++ b/src/theme.css
+@@ -443,3 +443,8 @@ input,select,textarea{font-size:max(16px,1em);}
+ :root[data-effects=minimal] .rune-ring{display:none;}
+ .card-perspective .charge-ring,.card-perspective .major-rays{border-color:var(--fx-accent,#e1be79);}
+ .card-perspective .major-rays{background:radial-gradient(circle,transparent 38%,var(--fx-accent,#e1be79) 40%,transparent 42%);}
++.onboarding,.daily-card,.share-reading{max-width:660px;margin:24px auto;padding:24px;border:1px solid #76618e;border-radius:18px;background:#171021;color:#ece6f7;}
++.daily-art{width:140px;aspect-ratio:.585;margin:16px auto;}.daily-art>*{width:100%;height:100%;}
++.share-reading>img{display:block;margin:18px auto;max-width:100%;height:auto;}
++.onboarding p,.daily-card p,.share-reading p{font-size:18px;line-height:1.7;}
++a.button-link,button{min-height:44px;min-width:44px;}
+-- 
+2.51.1
+

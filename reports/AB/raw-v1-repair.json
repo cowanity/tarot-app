@@ -1,0 +1,404 @@
+[
+  {
+    "id": 24,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 502,
+    "payload": {
+      "error": "guardrail",
+      "fallback": "offline"
+    },
+    "calls": 1,
+    "tokens": 4592,
+    "seconds": 7.107,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "guardrail:output_schema",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 7052,
+        "guardrailErrors": [
+          "output_schema"
+        ]
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "per_card.1.title",
+        "rule": "output_schema",
+        "fragment": "Sự nới lỏng hoặc do dự",
+        "severity": "hard"
+      },
+      {
+        "path": "per_card.2.title",
+        "rule": "output_schema",
+        "fragment": "Sự công bằng và hệ quả",
+        "severity": "hard"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 502,
+    "payload": {
+      "error": "guardrail",
+      "fallback": "offline"
+    },
+    "calls": 1,
+    "tokens": 4479,
+    "seconds": 11.189,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "guardrail:third_party",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 11168,
+        "guardrailErrors": [
+          "third_party"
+        ]
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "question",
+        "rule": "question_length",
+        "fragment": "Bạn có sẵn sàng chấp nhận rằng mỗi người đều có giai đoạn cần thu mình lại không?",
+        "severity": "soft"
+      },
+      {
+        "path": "outlook",
+        "rule": "third_party",
+        "fragment": "Nếu bạn chủ động nhắn tin hỏi thăm một cách tự nhiên, phản ứng của họ sẽ cho bạn biết liệu họ chỉ đang bận rộn hay thực sự cần không gian riêng.",
+        "severity": "hard"
+      },
+      {
+        "path": "question",
+        "rule": "third_party",
+        "fragment": "Bạn có sẵn sàng chấp nhận rằng mỗi người đều có giai đoạn cần thu mình lại không?",
+        "severity": "hard"
+      },
+      {
+        "path": "outlook",
+        "rule": "tp_action_fact",
+        "severity": "hard",
+        "fragment": "Nếu bạn chủ động nhắn tin hỏi thăm một cách tự nhiên, phản ứng của họ sẽ cho bạn biết liệu họ chỉ đang bận rộn hay thực sự cần không gian riêng"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 502,
+    "payload": {
+      "error": "guardrail",
+      "fallback": "offline"
+    },
+    "calls": 1,
+    "tokens": 4600,
+    "seconds": 10.664,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "guardrail:output_schema",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 10662,
+        "guardrailErrors": [
+          "output_schema"
+        ]
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "answer",
+        "rule": "output_schema",
+        "fragment": "Hai Gậy và Bảy Tiền phản ánh quá trình bạn đã tính toán và đầu tư thời gian cho công việc hiện tại, nên việc dừng lại cần bước chuẩn bị dài hơi hơn là sự thay đổi bộc phát. Pháp Sư",
+        "severity": "hard"
+      },
+      {
+        "path": "per_card.0.title",
+        "rule": "output_schema",
+        "fragment": "Quá khứ cân nhắc hướng đi",
+        "severity": "hard"
+      },
+      {
+        "path": "per_card.1.title",
+        "rule": "output_schema",
+        "fragment": "Hiện tại vun trồng chờ kết quả",
+        "severity": "hard"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 200,
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Cần cân bằng giữa quan sát và trao đi.",
+        "answer": "Mặt Trời và Tiểu đồng Kiếm cho thấy bạn đang rõ ràng hơn về hoàn cảnh và có thể sắp xếp ý tưởng thành kế hoạch. Trong khi đó, Sáu Tiền nhắc nhở về sự trao đổi nguồn lực và cách bạn cân đối với người khác.",
+        "headline": "Sự rõ ràng và cách chia sẻ",
+        "opening": "Bạn hỏi hôm nay nên chú ý điều gì, cho thấy bạn đang muốn nhìn nhận lại nhịp sống và cách mình tương tác với mọi thứ xung quanh.",
+        "tension": "Một bên là sự sáng rõ từ nhận thức cũ, bên kia là nhu cầu tổ chức ý tưởng và cách đối đãi thực tế với người khác.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Hiểu rõ hơn",
+            "notice": "Mặt Trời ở quá khury nhắc về sự sáng tỏ và nguồn năng lượng tích cực sau những ngày thiếu rõ ràng. Đứa trẻ và hoa hướng dương gợi sự chân thật và hướng thượng.",
+            "scene": "Đứa trẻ trần cưỡi ngựa trắng, cầm cờ đỏ, mặt trời lớn chiếu phía trên, hướng dương mọc sau bức tường thấp."
+          },
+          {
+            "position": 2,
+            "title": "Sắp xếp ý tưởng",
+            "notice": "Tiểu đồng Kiếm ở hiện tại giúp bạn gom nhặt suy nghĩ rời rạc thành kế hoạch cụ thể. Hình ảnh thanh kiếm giơ cao trong gió gợi sự tập trung quan sát.",
+            "scene": "Chàng trai trẻ đứng trên sườn đồi gió, hai tay nâng thanh kiếm lên cao, mây cuộn và chim bay."
+          },
+          {
+            "position": 3,
+            "title": "Cân bằng trao đổi",
+            "notice": "Sáu Tiền ở tương lai hướng sự chú ý đến việc hỗ trợ và quan hệ quyền lực trong cách trao tặng. Cây cân trên tay thương nhân gợi sự đo đếm nguồn lực.",
+            "scene": "Người thương nhân giàu có cầm cân, rải đồng xu cho hai người quỳ xin trước mặt."
+          }
+        ],
+        "weave": "Các lá bài đi từ việc nhận ra ánh sáng riêng, qua việc cầm nắm suy nghĩ bằng lý trí, đến cách dung hòa sự rộng lượng trong giao tiếp. Giống như việc bạn vừa soi rõ con đường, vừa chuẩn bị hành trang để trao đi những giá trị phù hợp.",
+        "unsaid": "",
+        "outlook": "Khi bạn giữ được sự quan sát điềm tĩnh và thái độ sòng phẳng, mọi việc sẽ vào đúng trật tự của nó.",
+        "paths": [
+          {
+            "label": "Tập trung quan sát",
+            "body": "Bạn giữ cho mình sự chủ động trong suy nghĩ nhưng có thể bỏ lỡ cơ hội kết nối thực tế."
+          },
+          {
+            "label": "Mở lòng chia sẻ",
+            "body": "Bạn tạo được sự gắn kết và hỗ trợ tốt hơn với mọi người, đổi lại cần chú ý đến ranh giới cá nhân."
+          }
+        ],
+        "closing": "Sự chú ý hôm nay nằm ở cách bạn dùng sự rõ ràng để đối đãi với chính mình và người khác.",
+        "question": "Bạn đang muốn dành sự quan tâm nhiều nhất cho ai trong hôm nay?",
+        "experiment": "Dành mười phút để viết ra các ý tưởng đang có sẵn trong đầu và sắp xếp chúng theo thứ tự ưu tiên."
+      },
+      "notes": [
+        "answer_verdict",
+        "cliche",
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "calls": 1,
+    "tokens": 4488,
+    "seconds": 10.684,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 10596
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "verdict",
+        "rule": "answer_verdict",
+        "fragment": "Cần cân bằng giữa quan sát và trao đi.",
+        "severity": "soft"
+      },
+      {
+        "path": "verdict",
+        "rule": "cliche",
+        "fragment": "Cần cân bằng giữa quan sát và trao đi.",
+        "severity": "soft"
+      },
+      {
+        "path": "answer",
+        "rule": "cliche",
+        "fragment": "Mặt Trời và Tiểu đồng Kiếm cho thấy bạn đang rõ ràng hơn về hoàn cảnh và có thể sắp xếp ý tưởng thành kế hoạch. Trong khi đó, Sáu Tiền nhắc nhở về sự trao đổi nguồn lực và cách bạn",
+        "severity": "soft"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 200,
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Bạn có quyền dừng lại và nghỉ ngơi.",
+        "answer": "Chín Kiếm cho thấy những lo âu từng khiến bạn mất ngủ, trong khi Hoàng hậu Cốc phản ánh nội tâm nhạy cảm và mệt mỏi hiện tại. Ngôi Sao mở ra hướng chữa lành nhẹ nhàng khi bạn cho phép mình chậm lại.",
+        "headline": "Khi lòng nặng trĩu chỗ dựa",
+        "opening": "Bạn chia sẻ rằng mình đang rất mệt và không biết nói cùng ai, bài Tarot ghi nhận sự trống trải đó ngay lúc này.",
+        "tension": "Bạn vừa mang nhiều suy nghĩ qua một thời gian dài, vừa rất cần một không gian toàn để trút bỏ áp lực.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Quá khứ",
+            "notice": "Chín Kiếm gợi lại những đêm thao thức với muôn vàn suy nghĩ căng thẳng. Nỗi lo ấy có thể đã hút đi rất nhiều năng lượng của bạn.",
+            "scene": "Người ngồi bật dậy trên giường ban đêm, hai tay ôm mặt, chín thanh kiếm treo trên tường đen, tấm chăn thêu hoa hồng."
+          },
+          {
+            "position": 2,
+            "title": "Hiện tại",
+            "notice": "Hoàng hậu Cốc phản ánh sự nhạy cảm và tấm lòng hay lo cho người khác, khiến bạn dễ cạn kiệt khi không có ai lắng nghe mình.",
+            "scene": "Nữ hoàng ngồi ngai khắc hình tiên cá trên bờ biển, cầm chiếc chén có nắp đậy, nhìn chăm chú vào đó."
+          },
+          {
+            "position": 3,
+            "title": "Tương lai",
+            "notice": "Ngôi Sao mang đến hi vọng về sự hồi phục tinh thần. Ánh sáng ấy bắt đầu từ việc bạn dịu dàng hơn với chính mình.",
+            "scene": "Người phụ nữ quỳ bên hồ, đổ nước từ hai bình xuống đất và xuống nước, trên đầu là ngôi sao lớn và bảy ngôi sao nhỏ."
+          }
+        ],
+        "weave": "Ba lá bài như một dòng chảy từ đêm tối trằn trọc đến buổi bình minh có sao chiếu rọi, nhắc rằng sự mệt mỏi này rồi sẽ được xoa dịu.",
+        "unsaid": "Có thể bạn đã quen gồng gánh một mình nên khi kiệt sức, việc mở lời trở nên vô cùng khó khăn.",
+        "outlook": "Nếu bạn ngừng tự ép mình phải mạnh mẽ, sự bình yên sẽ quay trở lại từng chút một qua những giấc ngủ sâu hơn.",
+        "paths": [
+          {
+            "label": "Giữ mọi thứ cho riêng mình",
+            "body": "Bạn tự chịu đựng nhưng tâm trí tiếp tục vòng lặp lo âu, cái giá là sự cô độc kéo dài."
+          },
+          {
+            "label": "Viết ra những điều nặng lòng",
+            "body": "Bạn trút hết bức bối lên trang giấy trắng, cái giá là phải đối diện trực tiếp với nỗi buồn bên trong."
+          }
+        ],
+        "closing": "Đêm nay, hãy cho phép bản thân được yếu đuối mà không cần giải thích với ai.",
+        "question": "Điều nhỏ nhặt nào có thể mang lại chút dễ chịu cho bạn ngay lúc này?",
+        "experiment": ""
+      },
+      "notes": [
+        "question_anchor",
+        "unsaid_opening",
+        "question_length",
+        "cliche",
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "calls": 1,
+    "tokens": 4403,
+    "seconds": 15.923,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 15873
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "question",
+        "rule": "question_anchor",
+        "fragment": "Điều nhỏ nhặt nào có thể mang lại chút dễ chịu cho bạn ngay lúc này?",
+        "severity": "soft"
+      },
+      {
+        "path": "unsaid",
+        "rule": "unsaid_opening",
+        "fragment": "Có thể bạn",
+        "severity": "soft"
+      },
+      {
+        "path": "question",
+        "rule": "question_length",
+        "fragment": "Điều nhỏ nhặt nào có thể mang lại chút dễ chịu cho bạn ngay lúc này?",
+        "severity": "soft"
+      },
+      {
+        "path": "answer",
+        "rule": "cliche",
+        "fragment": "chữa lành",
+        "severity": "soft"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "variant": "v1",
+    "withRepair": true,
+    "status": 200,
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Chưa có câu trả lời rõ ràng về tình cảm của anh ấy.",
+        "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy nhiều cảm xúc lãng mạn nhưng cũng đầy những điều chưa thật sự tỏ tường ở hiện tại. Bạn đang bước đi giữa những tưởng tượng và mong đợi của chính mình.",
+        "headline": "Giữa những cảm xúc chưa tỏ tường",
+        "opening": "Bạn hỏi anh ấy có thích mình không, cho thấy bạn đang bối rối trước những tín hiệu chưa rõ ràng giữa hai người.",
+        "tension": "Một bên là mong cầu được kết nối và thấu tỏ tình cảm, bên kia là bầu không khí mập mờ và nhiều giả định.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Theo đuổi cảm xúc",
+            "notice": "Hiệp sĩ Cốc ở quá khứ nhắc đến những bước đi ban đầu đầy lãng mạn và lý tưởng hóa, nơi mọi cảm xúc đều hướng về một hình ảnh đẹp.",
+            "scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông."
+          },
+          {
+            "position": 2,
+            "title": "Sự mập mờ hiện tại",
+            "notice": "Mặt Trăng ở hiện tại gợi lên một giai đoạn mọi thứ chưa rõ ràng, khi cảm xúc và thực tế đan xen khiến bạn khó nhận biết chính xác ý định của người kia.",
+            "scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa."
+          },
+          {
+            "position": 3,
+            "title": "Niềm vui sẻ chia",
+            "notice": "Ba Cốc ở tương lai mở ra khả năng kết nối nhẹ nhàng hơn qua bạn bè hoặc những cuộc gặp gỡ, nơi niềm vui được chia sẻ thay vì chỉ giữ riêng sự bận tâm.",
+            "scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt."
+          }
+        ],
+        "weave": "Các lá bài đi từ sự theo đuổi lãng mạn ban đầu, qua màn sương mập mờ hiện tại, hướng tới khả năng vui vẻ bên những người xung quanh. Giống như việc nhìn qua một khung cửa mờ hơi nước, bạn thấy bóng hình nhưng chưa thể chạm tay vào sự thật.",
+        "unsaid": "",
+        "outlook": "Nếu có thêm những buổi gặp gỡ chung, bạn sẽ dần hiểu thêm về cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+        "paths": [
+          {
+            "label": "Chủ động tìm hiểu",
+            "body": "Bạn chọn quan sát sao hơn và tạo thêm cơ hội trò chuyện. Cái giá là bạn có thể tiếp tục nuôi dưỡng những kỳ vọng chưa có lời đáp."
+          },
+          {
+            "label": "Quay về với nhịp sống riêng",
+            "body": "Bạn đặt câu chuyện tình cảm sang một bên để tập trung cho niềm vui cá nhân và bạn bè. Cái giá là bạn chấp nhận chưa biết được ý định của anh ấy."
+          }
+        ],
+        "closing": "Tình cảm đôi khi cần thời gian để tự sương tan, thay vì ép câu trả lời trong màn sương.",
+        "question": "Điều gì ở anh ấy khiến bạn dễ chìm đắm vào suy nghĩ nhất?",
+        "experiment": "Dành trọn cuối tuần cho một cuộc hẹn vui vẻ với bạn bè mà không nghĩ về tin nhắn nào chưa được đáp."
+      },
+      "notes": [
+        "third_party_limit",
+        "answer_verdict",
+        "question_opening",
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "calls": 1,
+    "tokens": 4611,
+    "seconds": 11.098,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 11029
+      }
+    ],
+    "diagnostics": [
+      {
+        "path": "verdict",
+        "rule": "answer_verdict",
+        "fragment": "Chưa có câu trả lời rõ ràng về tình cảm của anh ấy.",
+        "severity": "soft"
+      },
+      {
+        "path": "question",
+        "rule": "question_opening",
+        "fragment": "Điều gì",
+        "severity": "soft"
+      }
+    ]
+  }
+]

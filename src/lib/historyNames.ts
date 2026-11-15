@@ -1,0 +1,4 @@
+const KEY='tarot.history.names';
+export function readHistoryNames(storage:Storage|null):Record<string,string>{try{const raw=JSON.parse(storage?.getItem(KEY)??'{}');if(!raw||typeof raw!=='object'||Array.isArray(raw))return {};return Object.fromEntries(Object.entries(raw).filter(([k,v])=>k.length<200&&typeof v==='string'&&v.length<=80).slice(-100)) as Record<string,string>;}catch{return {};}}
+export function renameHistory(storage:Storage|null,id:string,name:string){try{if(!storage)return false;const all=readHistoryNames(storage);if(name.trim())all[id]=name.trim().slice(0,80);else delete all[id];storage.setItem(KEY,JSON.stringify(Object.fromEntries(Object.entries(all).slice(-100))));return true;}catch{return false;}}
+export function clearHistoryNames(storage:Storage|null){try{storage?.removeItem(KEY);}catch{/* best effort */}}

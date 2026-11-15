@@ -1,0 +1,421 @@
+From 37b52e98c40aeee3ec65cabfa023bbdfbc2fb34b Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 19 Oct 2026 00:17:24 -0600
+Subject: [PATCH 5/7] F5: preserve Node adapter bindings and log internal
+ exceptions correctly
+
+---
+ NOTES-8c.md                       | 19 +++++++++
+ README.md                         |  2 +-
+ ops/README.md                     |  8 +++-
+ package-lock.json                 |  2 +-
+ package.json                      |  2 +-
+ reports/prompt-8c/live-smoke.json | 64 +++++++++++++++++++++++++++++++
+ reports/prompt-8c/live-smoke.log  |  2 +
+ server/app.test.ts                |  4 +-
+ server/app.ts                     | 20 +++++-----
+ server/compatibility8c.test.ts    | 29 ++++++++++++++
+ server/eval/smoke8c.ts            | 29 ++++++++++++++
+ server/failureReason.ts           | 19 +++++++--
+ server/index.ts                   |  2 +-
+ server/shutdown.ts                |  6 +--
+ 14 files changed, 184 insertions(+), 24 deletions(-)
+ create mode 100644 reports/prompt-8c/live-smoke.json
+ create mode 100644 reports/prompt-8c/live-smoke.log
+ create mode 100644 server/compatibility8c.test.ts
+ create mode 100644 server/eval/smoke8c.ts
+
+diff --git a/NOTES-8c.md b/NOTES-8c.md
+index b8c50ea..dbc5d00 100644
+--- a/NOTES-8c.md
++++ b/NOTES-8c.md
+@@ -17,3 +17,22 @@ Giữ bản sửa nền 8b: Starfield/CinematicBackground từ trước Prompt8,
+ 
+ ## F4
+ Giữ sửa 8b: không có công tắc FPS trong Cài đặt, overlay chỉ URL ?fps=1. Kiểm wiring source đã qua trong F2. Không đổi settings khác.
++
++## F5 — nguyên nhân đã tái hiện
++Không tìm thấy API Node22-only trong server/mã dùng chung thuộc nhóm yêu cầu quét. `process.loadEnvFile` hiện dùng có từ Node20.12, phù hợp20.19. Môi trường đang chạy Node24.19; không có binary Node20/22, nên chưa kiểm trực tiếp hai runtime đó. engines đã nới >=20.19.0; test tĩnh chống dùng nhóm API mới đã thêm.
++
++**Lỗi thực sự tìm thấy:** 8E dùng `createRequestDrain(request => app.fetch(request))`, làm mất tham số bindings `{incoming,outgoing}` từ @hono/node-server. `getConnInfo(c)` đọc `c.env...incoming.socket` ném TypeError trước beforeCall. Đây là lỗi khớp attempts=[], tokens0 và thời gian rất ngắn, không phụ thuộc Node20. Test tái hiện đường mất bindings rồi kiểm đường sửa cùng Hono/getConnInfo, không giả lập riêng hàm IP. Sửa drain chuyển tiếp toàn bộ tham số, production truyền trực tiếp `app.fetch`.
++
++app.onError và catch trong request trả HTTP500/internal_error cho lỗi lập trình/cấu hình; provider_network chỉ dành cho mã network thật và attempts>0. Log providerError nay là {name,message,cause:{code}}, tối đa200 ký tự. Thông báo runtime chuẩn (ví dụ Cannot read properties...) và mã provider được giữ; ngoại lệ tùy ý bị che, cause.code chỉ nhận mã mạng đã biết để không rò câu hỏi/bài đọc/khóa. Không log stack hay request. HTTP4xx từ provider coi là lỗi nội bộ/cấu hình, không gọi nhầm network.
++
++Giữ nguyên mức20/IP/giờ (AI_HOURLY_IP_LIMIT),150/ngày (AI_DAILY_CAP), tính đúng một lượt ở beforeCall đầu, và ba dạng loopback tin CF header. Test cũ mong HTTP502 cho lỗi chưa gọi provider và lỗi cấu hình nay đổi500 theo yêu cầu, không sửa guard/schema.
++
++### Hai lượt thật — không chạy lại
++Chạy script `server/eval/smoke8c.ts` qua HTTP localhost + @hono/node-server + drain + getConnInfo, production pipeline đầy đủ, khóa hiện có; không phải provider giả. Mỗi trải đúng một request, không A/B.
++
++| Trải | HTTP | Ra bài | Call | Token | Giây |
++| --- | --- | --- | --- | --- | --- |
++| Celtic Cross | 200 | Có | 2 | 8597 | 19,412 |
++| Ba lá | 200 | Có | 1 | 4576 | 10,213 |
++
++Celtic: primary gemini-3.5-flash-lite + fallback gemini-3.5-flash, verdict repair bị từ chối và giữ bản gốc. Ba lá: primary flash-lite. reason/providerError đều null. Notes mềm vẫn giữ, không sửa prompt/schema/guard. Chi tiết metadata: reports/prompt-8c/live-smoke.json. Không lưu câu hỏi hay bài đọc trong log này. Đây là kiểm trên môi trường Node24 của phiên làm việc, không phải máy Mac của người dùng.
+diff --git a/README.md b/README.md
+index f9ac63f..f86a3c5 100644
+--- a/README.md
++++ b/README.md
+@@ -1,5 +1,5 @@
+ # Tarot tiếng Việt — Giai đoạn 3c-1
+-Yêu cầu Node.js 22.12+ và npm.
++Yêu cầu Node.js 20.19+ hoặc 22.12+ và npm.
+ `npm ci` để cài thư viện.
+ `npm run dev` để mở máy chủ phát triển (địa chỉ hiện trong terminal).
+ `npm test` để chạy kiểm thử logic và các trường hợp hồi quy.
+diff --git a/ops/README.md b/ops/README.md
+index 6a1335e..5516b06 100644
+--- a/ops/README.md
++++ b/ops/README.md
+@@ -1,7 +1,7 @@
+ # Chạy Tarot từ Mac qua Cloudflare Tunnel
+ 
+ ## Chuẩn bị một lần
+-Dùng Node22+ (`command -v node`), npm và cloudflared. Thư mục dự án là đường dẫn thật; tránh chạy từ thư mục đồng bộ tạm. Điền `.env` dựa trên `ops/environment.example`, giữ nguyên khóa của bạn. Không đưa `.env`, credential tunnel hay câu hỏi vào Git/log. `ALLOWED_ORIGIN` có thể chứa cả domain HTTPS và localhost, ngăn bằng dấu phẩy; không cần xóa localhost. `VITE_SITE_URL` là URL public, không bí mật, được chèn lúc build.
++Dùng Node20.19+ hoặc Node22+ (`command -v node`), npm và cloudflared. Thư mục dự án là đường dẫn thật; tránh chạy từ thư mục đồng bộ tạm. Điền `.env` dựa trên `ops/environment.example`, giữ nguyên khóa của bạn. Không đưa `.env`, credential tunnel hay câu hỏi vào Git/log. `ALLOWED_ORIGIN` có thể chứa cả domain HTTPS và localhost, ngăn bằng dấu phẩy; không cần xóa localhost. `VITE_SITE_URL` là URL public, không bí mật, được chèn lúc build.
+ 
+ ```sh
+ npm ci
+@@ -97,3 +97,9 @@ Xem thêm `providerError` và `attempts`: AI_BUSY không luôn đồng nghĩa HT
+ `AI_HOURLY_IP_LIMIT=20` mặc định; `.env` có giá trị cũ vẫn được ưu tiên.
+ Chỉ tính khi bắt đầu gọi nhà cung cấp, một lượt gồm tối đa 3 call. 400, 429, care không gọi provider không tiêu lượt.
+ Bộ đếm trong RAM; khởi động lại server sẽ đặt về 0, không có dữ liệu câu hỏi trong bộ đếm.
++
++
++### Lỗi trước provider (8c)
++`internal_error` / HTTP500 là lỗi nội bộ, không phải mất mạng. Xem `providerError.name`, `providerError.message` (tối đa200 ký tự), `providerError.cause.code`. Chỉ giữ thông báo runtime/mã lỗi an toàn; nội dung ngoại lệ tùy ý bị che để không rò câu hỏi, bài đọc, khóa.
++Lớp tắt êm phải dùng `createRequestDrain(app.fetch)` để chuyển cả bindings Node incoming/outgoing; không bọc thành `request => app.fetch(request)` vì làm mất socket khi getConnInfo đọc IP.
++Không dùng API chỉ có ở Node22 trong server/mã dùng chung; test tĩnh kiểm nhóm API mới. Môi trường kiểm tại đây là Node24, chưa chứng nhận bằng tiến trình Node20/22 thật.
+diff --git a/package-lock.json b/package-lock.json
+index 6284c52..31dfb1e 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -33,7 +33,7 @@
+         "vitest": "^4.1.11"
+       },
+       "engines": {
+-        "node": ">=22"
++        "node": ">=20.19.0"
+       }
+     },
+     "node_modules/@anthropic-ai/sdk": {
+diff --git a/package.json b/package.json
+index 858c36a..9d10614 100644
+--- a/package.json
++++ b/package.json
+@@ -41,6 +41,6 @@
+     "vitest": "^4.1.11"
+   },
+   "engines": {
+-    "node": ">=22"
++    "node": ">=20.19.0"
+   }
+ }
+diff --git a/reports/prompt-8c/live-smoke.json b/reports/prompt-8c/live-smoke.json
+new file mode 100644
+index 0000000..edca635
+--- /dev/null
++++ b/reports/prompt-8c/live-smoke.json
+@@ -0,0 +1,64 @@
++{
++  "ran": true,
++  "node": "24.19.0",
++  "results": [
++    {
++      "spread": "celtic-cross",
++      "status": 200,
++      "hasReading": true,
++      "calls": 2,
++      "tokens": 8597,
++      "seconds": 19.412,
++      "reason": null,
++      "providerError": null,
++      "attempts": [
++        {
++          "kind": "primary",
++          "outcome": "ok",
++          "model": "gemini-3.5-flash-lite",
++          "latencyMs": 16149
++        },
++        {
++          "kind": "fallback",
++          "outcome": "ok",
++          "model": "gemini-3.5-flash",
++          "latencyMs": 1376
++        }
++      ],
++      "notes": [
++        "answer_abstract",
++        "question_opening",
++        "cliche",
++        "soft_length",
++        "abstract_repeat",
++        "verdict_repair_triggered",
++        "verdict_repair_rejected"
++      ]
++    },
++    {
++      "spread": "past-present-future",
++      "status": 200,
++      "hasReading": true,
++      "calls": 1,
++      "tokens": 4576,
++      "seconds": 10.213,
++      "reason": null,
++      "providerError": null,
++      "attempts": [
++        {
++          "kind": "primary",
++          "outcome": "ok",
++          "model": "gemini-3.5-flash-lite",
++          "latencyMs": 9842
++        }
++      ],
++      "notes": [
++        "verdict_long",
++        "answer_verdict",
++        "question_opening",
++        "question_length",
++        "soft_length"
++      ]
++    }
++  ]
++}
+\ No newline at end of file
+diff --git a/reports/prompt-8c/live-smoke.log b/reports/prompt-8c/live-smoke.log
+new file mode 100644
+index 0000000..38891b8
+--- /dev/null
++++ b/reports/prompt-8c/live-smoke.log
+@@ -0,0 +1,2 @@
++{"spread":"celtic-cross","status":200,"hasReading":true,"calls":2,"tokens":8597,"seconds":19.412,"reason":null,"providerError":null,"attempts":[{"kind":"primary","outcome":"ok","model":"gemini-3.5-flash-lite","latencyMs":16149},{"kind":"fallback","outcome":"ok","model":"gemini-3.5-flash","latencyMs":1376}],"notes":["answer_abstract","question_opening","cliche","soft_length","abstract_repeat","verdict_repair_triggered","verdict_repair_rejected"]}
++{"spread":"past-present-future","status":200,"hasReading":true,"calls":1,"tokens":4576,"seconds":10.213,"reason":null,"providerError":null,"attempts":[{"kind":"primary","outcome":"ok","model":"gemini-3.5-flash-lite","latencyMs":9842}],"notes":["verdict_long","answer_verdict","question_opening","question_length","soft_length"]}
+diff --git a/server/app.test.ts b/server/app.test.ts
+index 0dd7201..85b2926 100644
+--- a/server/app.test.ts
++++ b/server/app.test.ts
+@@ -148,7 +148,7 @@ describe('prompts and guardrails', () => {
+   test('provider errors are private and timeout aborts without retry', async () => {
+     const provider: LlmProvider = {complete: async () => { throw new Error('PRIVATE_KEY_OR_CONTENT'); }};
+     const failed = setup([], {provider}); const res = await failed.post();
+-    expect(await res.text()).not.toContain('PRIVATE'); expect(res.status).toBe(502);
++    expect(await res.text()).not.toContain('PRIVATE'); expect(res.status).toBe(500);expect(failed.logs.at(-1)?.reason).toBe('internal_error');
+     let signal: AbortSignal | undefined;
+     const hanging: LlmProvider = {complete: (input) => { signal = input.signal; return new Promise(() => {}); }};
+     const timed = setup([], {provider: hanging, timeoutMs: 10});
+@@ -206,7 +206,7 @@ describe('Gemini retries share API call budget', () => {
+   });
+   test.each([400, 401, 403])('%i has no retry or fallback', async (status) => {
+     const {post, fetchMock} = init([failed(status)]);
+-    expect((await post()).status).toBe(502); expect(fetchMock).toHaveBeenCalledTimes(1);
++    expect((await post()).status).toBe(500); expect(fetchMock).toHaveBeenCalledTimes(1);
+   });
+   test('429 switches to fallback immediately', async () => {
+     const {post, fetchMock, logs} = init([failed(429), ok()]);
+diff --git a/server/app.ts b/server/app.ts
+index 44ada43..0699b72 100644
+--- a/server/app.ts
++++ b/server/app.ts
+@@ -1,4 +1,4 @@
+-import {failureReason,type FailureReason} from './failureReason';
++import {failureReason,errorMetadata,type ErrorMetadata,type FailureReason} from './failureReason';
+ import {staticCacheHeader} from '../src/lib/pwaConfig';
+ import {repairVerdict,verdictRepairReason} from './verdictRepair';
+ import {voiceSoftErrors} from './voiceRules';
+@@ -28,7 +28,7 @@ import { providerErrorCode, type AttemptKind, type LlmProvider } from './provide
+ import { CallBudgetError, createCallBudget } from './callBudget';
+ import { softLengthCount, parseAndGuard, guardrailFeedback, withThirdPartyLimit, type SchemaIssue } from './guardrails';
+ import { Limits } from './limits';
+-export interface Audit { reason: FailureReason | null; origin?: string; method: string; path: string; errorCode: string | null; time: string; status: number; latencyMs: number; attempts: {kind: AttemptKind; outcome: string; model?: string; latencyMs?: number; guardrailErrors?: string[]}[]; spreadId: string | null; mode: string | null; model: string; tokens: number; providerError: string | null; usedFallback: boolean; schemaIssues: SchemaIssue[]; responseChars: number; badSpacingCount: number }
++export interface Audit { reason: FailureReason | null; origin?: string; method: string; path: string; errorCode: string | null; time: string; status: number; latencyMs: number; attempts: {kind: AttemptKind; outcome: string; model?: string; latencyMs?: number; guardrailErrors?: string[]}[]; spreadId: string | null; mode: string | null; model: string; tokens: number; providerError: ErrorMetadata | null; usedFallback: boolean; schemaIssues: SchemaIssue[]; responseChars: number; badSpacingCount: number }
+ export function createApp(options: { provider: LlmProvider; model: string; origin: string; cap?: number; hourlyLimit?:number; providerName?: 'gemini' | 'anthropic'; freeTier?: boolean;
+   promptVariant?: PromptVariant; firstPass?: boolean; withVerdictRepair?: boolean;
+   onValidation?: (result:ReturnType<typeof parseAndGuard>)=>void;
+@@ -36,7 +36,7 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+   const app = new Hono<{ Variables: { audit: Partial<Audit> } }>();
+   const acceptsOrigin = originPolicy(options.origin, options.environment ?? process.env.NODE_ENV, options.vitePort ?? 5173);
+   const limits = new Limits(options.cap, options.now, options.hourlyLimit);
+-  app.onError((_error, c) => c.json({ error: 'unavailable', fallback: 'offline' }, 502));
++  app.onError((error,c)=>{const meta=c.get('audit')??{};meta.providerError=errorMetadata(error);meta.reason='internal_error';c.set('audit',meta);return c.json({error:'internal_error',fallback:'offline'},500);});
+   app.use('/api/*', async (c, next) => {
+     c.header('Cache-Control','no-store');
+     const start = Date.now();
+@@ -44,12 +44,12 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+       const meta = c.get('audit');
+       const status = c.res.status;
+       const errorCode = status < 400 ? null : status === 403 ? 'ORIGIN_BLOCKED' : status === 429 ? 'RATE_LIMIT'
+-        : status === 503 ? 'AI_BUSY' : status === 502 ? meta?.attempts?.some(a => a.outcome.startsWith('guardrail:')) ? 'GUARDRAIL' : 'PROVIDER_UNAVAILABLE'
++        : status === 500 ? 'INTERNAL_ERROR' : status === 503 ? 'AI_BUSY' : status === 502 ? meta?.attempts?.some(a => a.outcome.startsWith('guardrail:')) ? 'GUARDRAIL' : 'PROVIDER_UNAVAILABLE'
+         : status === 400 ? 'BAD_REQUEST' : status === 413 ? 'BODY_TOO_LARGE' : status === 404 ? 'NOT_FOUND' : 'REQUEST_FAILED';
+       // Never log query strings or arbitrary user-supplied path segments.
+       const path = ['/api/interpret', '/api/health', '/api/info'].includes(c.req.path) ? c.req.path : '/api/*';
+-      try { options.log?.({ method: c.req.method, path, errorCode, reason:status<400?null:meta?.reason??failureReason(status,meta?.providerError,meta?.attempts?.some(a=>a.outcome.startsWith('guardrail:'))), ...(status === 403 ? {origin: logOrigin(c.req.header('Origin') ?? '')} : {}), time: new Date().toISOString(), status: c.res.status, latencyMs: Date.now() - start, attempts: meta?.attempts ?? [],
+-        spreadId: meta?.spreadId ?? null, mode: meta?.mode ?? null, model: meta?.model ?? options.model, tokens: meta?.tokens ?? 0, providerError: meta?.providerError ?? null, usedFallback: meta?.usedFallback ?? false, schemaIssues: meta?.schemaIssues ?? [], responseChars: meta?.responseChars ?? 0, badSpacingCount: meta?.badSpacingCount ?? 0 }); } catch { /* No request or error logging. */ }
++      try { options.log?.({ method: c.req.method, path, errorCode, reason:status<400?null:meta?.reason??failureReason(status,meta?.providerError?.message,meta?.attempts?.some(a=>a.outcome.startsWith('guardrail:')),meta?.attempts?.length??0), ...(status === 403 ? {origin: logOrigin(c.req.header('Origin') ?? '')} : {}), time: new Date().toISOString(), status: c.res.status, latencyMs: Date.now() - start, attempts: meta?.attempts ?? [],
++        spreadId: meta?.spreadId ?? null, mode: meta?.mode ?? null, model: meta?.model ?? options.model, tokens: meta?.tokens ?? 0, providerError: meta?.providerError ?? (status>=400?errorMetadata(new Error(status===429?meta?.reason==='daily_budget'?'AI_DAILY_CAP':'RATE_LIMITED':status<500?'BAD_REQUEST':errorCode==='GUARDRAIL'?'GUARD_BLOCKED':'INTERNAL_ERROR')):null), usedFallback: meta?.usedFallback ?? false, schemaIssues: meta?.schemaIssues ?? [], responseChars: meta?.responseChars ?? 0, badSpacingCount: meta?.badSpacingCount ?? 0 }); } catch { /* No request or error logging. */ }
+     }
+   });
+   app.use('/api/*', async (c, next) => {
+@@ -78,9 +78,9 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+     const outcome = (code: string) => { const last = attempts.at(-1); if (last) { last.outcome = code; last.latencyMs = Date.now() - attemptStarted; } };
+     const providerFailed = (error: unknown) => {
+       const code = providerErrorCode(error);
+-      if(code!=='AI_BUSY'||!audit.providerError)audit.providerError = code;
++      if(code!=='AI_BUSY'||!audit.providerError)audit.providerError = errorMetadata(error);
+       if(controller.signal.aborted)audit.reason='timeout';
+-      else if(code!=='AI_BUSY')audit.reason=failureReason(502,code);
++      else if(code!=='AI_BUSY')audit.reason=failureReason(502,code,false,attempts.length);
+       outcome(controller.signal.aborted ? 'timeout' : code.replace(/^(?:GEMINI|ANTHROPIC)_/, '').toLowerCase());
+     };
+     c.set('audit', audit);
+@@ -184,10 +184,10 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+     } catch (error) {
+       if(best)return ship();
+       if(attempts.at(-1)?.outcome.startsWith('guardrail:')) return c.json({error:'guardrail',fallback:'offline'},502);
+-      if (providerErrorCode(error) === 'AI_BUSY' || controller.signal.aborted || (error instanceof CallBudgetError && !error.retryAfter)) { if (controller.signal.aborted) providerFailed(error); else if(!audit.providerError)audit.providerError = 'AI_BUSY'; return c.json({error: 'AI_BUSY', message: 'Hệ thống đang bận, bạn thử lại sau ít phút nhé'}, 503); }
++      if (providerErrorCode(error) === 'AI_BUSY' || controller.signal.aborted || (error instanceof CallBudgetError && !error.retryAfter)) { if (controller.signal.aborted) providerFailed(error); else if(!audit.providerError)audit.providerError = errorMetadata(new Error('AI_BUSY')); return c.json({error: 'AI_BUSY', message: 'Hệ thống đang bận, bạn thử lại sau ít phút nhé'}, 503); }
+       if (error instanceof CallBudgetError) {
+         if (error.retryAfter) { audit.reason=error.reason;c.header('Retry-After', String(error.retryAfter)); return c.json({error:error.reason}, 429); }
+-      } else providerFailed(error);
++      } else {providerFailed(error);if(audit.reason==='internal_error')return c.json({error:'internal_error',fallback:'offline'},500);}
+     }
+     finally { clearTimeout(timer); c.req.raw.signal.removeEventListener('abort', disconnected); }
+     if(best)return ship();
+diff --git a/server/compatibility8c.test.ts b/server/compatibility8c.test.ts
+new file mode 100644
+index 0000000..53d7d0a
+--- /dev/null
++++ b/server/compatibility8c.test.ts
+@@ -0,0 +1,29 @@
++import {expect,test} from 'vitest';
++import {readFileSync,readdirSync} from 'node:fs';
++import {join} from 'node:path';
++import {createRequestDrain} from './shutdown';
++import {createApp,type Audit} from './app';
++import {FakeProvider} from './provider';
++import {getConnInfo} from '@hono/node-server/conninfo';
++import {clientIp} from './clientIp';
++import {errorMetadata,failureReason} from './failureReason';
++const payload={question:'Hôm nay mình nên chú ý điều gì?',context:'',feelings:{ids:[]},topic:'Tổng quan',spreadId:'one-card',picks:[{position:1,cardId:'major-00-fool',reversed:false}]};
++const request=()=>new Request('http://localhost/api/interpret',{method:'POST',headers:{'Content-Type':'application/json','CF-Connecting-IP':'1.2.3.4'},body:JSON.stringify(payload)});
++const env={incoming:{socket:{remoteAddress:'::ffff:127.0.0.1',remotePort:12345,remoteFamily:'IPv6'}}};
++test('regression: missing adapter bindings fails before provider and logs native exception',async()=>{
++ const logs:Audit[]=[],provider=new FakeProvider([]),app=createApp({provider,model:'fake',origin:'http://localhost',ip:c=>clientIp(c.req.header('CF-Connecting-IP'),getConnInfo(c).remote.address),log:e=>logs.push(e)});
++ const broken=createRequestDrain(req=>app.fetch(req));expect((await broken.fetch(request())).status).toBe(500);
++ expect(provider.calls).toHaveLength(0);expect(logs[0]).toMatchObject({reason:'internal_error',tokens:0,attempts:[],providerError:{name:'TypeError'}});expect(logs[0].providerError?.message).toContain('Cannot read properties');
++ const fixed=createRequestDrain(app.fetch);expect((await fixed.fetch(request(),env)).status).toBe(502);expect(provider.calls).toHaveLength(3);expect(logs.at(-1)?.reason).toBe('guard_blocked');
++});
++test('network classification requires actual attempt; arbitrary error text is never logged',()=>{
++ expect(failureReason(502,'GEMINI_NETWORK',false,0)).toBe('internal_error');expect(failureReason(502,'GEMINI_NETWORK',false,1)).toBe('provider_network');
++ expect(failureReason(502,'PROVIDER_ERROR',false,1)).toBe('internal_error');
++ expect(errorMetadata(new TypeError('PRIVATE_QUESTION_OR_KEY'))).toEqual({name:'TypeError',message:'[redacted error message]',cause:{code:null}});
++ expect(errorMetadata(new Error('GEMINI_NETWORK',{cause:{code:'ECONNRESET'}})).cause.code).toBe('ECONNRESET');
++});
++test('runtime source excludes APIs unavailable on Node20.19',()=>{
++ const files=(dir:string):string[]=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(join(dir,e.name)):/\.[cm]?[jt]sx?$/.test(e.name)&&!e.name.includes('.test.')?[join(dir,e.name)]:[]);
++ const patterns=[/Promise\s*\.\s*withResolvers\s*\(/,/Array\s*\.\s*fromAsync\s*\(/,/RegExp\s*\.\s*escape\s*\(/,/\bIterator\s*[.(]/,/\.(?:union|intersection|difference|symmetricDifference|isSubsetOf|isSupersetOf|isDisjointFrom)\s*\(/];
++ for(const path of [...files('server'),...files('src/lib')])for(const pattern of patterns)expect(readFileSync(path,'utf8'),path).not.toMatch(pattern);
++});
+diff --git a/server/eval/smoke8c.ts b/server/eval/smoke8c.ts
+new file mode 100644
+index 0000000..6e1972d
+--- /dev/null
++++ b/server/eval/smoke8c.ts
+@@ -0,0 +1,29 @@
++/** Exactly two production HTTP requests. No content or credentials in report. */
++import {mkdir,writeFile} from 'node:fs/promises';
++import {serve} from '@hono/node-server';
++import {getConnInfo} from '@hono/node-server/conninfo';
++import {config} from '../config';
++import {createProvider} from '../provider';
++import {createApp,type Audit} from '../app';
++import {createRequestDrain,createShutdown} from '../shutdown';
++import {clientIp} from '../clientIp';
++import {cards,spreads} from '../../src/data';
++const directory='reports/prompt-8c';await mkdir(directory,{recursive:true});
++let settings:ReturnType<typeof config>|undefined;
++try{settings=config();}catch{await writeFile(`${directory}/live-smoke.json`,JSON.stringify({ran:false,reason:'Không có cấu hình/khóa hợp lệ trong môi trường này',node:process.versions.node},null,2));}
++if(settings){
++ const logs:Audit[]=[],app=createApp({provider:createProvider(settings),providerName:settings.provider,model:settings.model,origin:settings.origin,environment:'production',serveStatic:false,cap:settings.cap,hourlyLimit:settings.hourly,ip:c=>clientIp(c.req.header('CF-Connecting-IP'),getConnInfo(c).remote.address),log:e=>logs.push(e)});
++ const drain=createRequestDrain(app.fetch);
++ const server=serve({fetch:drain.fetch,port:0,hostname:'127.0.0.1'});
++ if(!server.listening)await new Promise<void>(resolve=>server.once('listening',resolve));
++ const address=server.address();if(!address||typeof address==='string')throw Error('NO_PORT');
++ const results=[];
++ try{for(const id of ['celtic-cross','past-present-future']){
++  const spread=spreads.find(s=>s.id===id)!;
++  const body={question:'Mình nên chú ý điều gì trong công việc tuần này?',context:'',feelings:{ids:[],want:'clarity'},topic:'Sự nghiệp',spreadId:id,picks:spread.positions.map((p,i)=>({position:p.number,cardId:cards[i].id,reversed:false}))};
++  const start=Date.now();const response=await fetch(`http://127.0.0.1:${address.port}/api/interpret`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});const data=await response.json();
++  const audit=logs.at(-1);results.push({spread:id,status:response.status,hasReading:Boolean(data.reading),calls:audit?.attempts.length??0,tokens:audit?.tokens??0,seconds:(Date.now()-start)/1000,reason:audit?.reason??null,providerError:audit?.providerError??null,attempts:audit?.attempts??[],notes:data.notes??[]});
++  await writeFile(`${directory}/live-smoke.json`,JSON.stringify({ran:true,node:process.versions.node,results},null,2));
++  console.log(JSON.stringify(results.at(-1)));
++ }}finally{await createShutdown(server,drain)();}
++}
+diff --git a/server/failureReason.ts b/server/failureReason.ts
+index 733bf40..f6cdd13 100644
+--- a/server/failureReason.ts
++++ b/server/failureReason.ts
+@@ -1,10 +1,21 @@
+-export type FailureReason='rate_limited'|'daily_budget'|'provider_429'|'provider_5xx'|'provider_network'|'timeout'|'guard_blocked'|'bad_request';
+-/** Only whitelisted metadata, never an arbitrary exception message. */
+-export function failureReason(status:number,code?:string|null,guard=false):FailureReason{
++export type FailureReason='rate_limited'|'daily_budget'|'provider_429'|'provider_5xx'|'provider_network'|'timeout'|'guard_blocked'|'bad_request'|'internal_error';
++export interface ErrorMetadata {name:string;message:string;cause:{code:string|null}}
++/** Arbitrary exception text may contain prompts or credentials. Keep known diagnostics only. */
++export function errorMetadata(error:unknown):ErrorMetadata{
++ const e=error instanceof Error?error:new Error();
++ const name=['Error','TypeError','ReferenceError','RangeError','SyntaxError','AbortError','TimeoutError'].includes(e.name)?e.name:'Error';
++ const safe=/^(?:GEMINI_|ANTHROPIC_)(?:HTTP_\d{3}|NETWORK|TIMEOUT|ABORTED|BLOCKED|MAX_TOKENS|NO_TEXT|INVALID_RESPONSE)$|^(?:AI_BUSY|AI_DAILY_CAP|CALL_BUDGET_EXHAUSTED|timeout|RATE_LIMITED|BAD_REQUEST|GUARD_BLOCKED|INTERNAL_ERROR)$/;
++ const native=/^Cannot read properties of (?:undefined|null) \(reading '[A-Za-z_$][\w$]*'\)$|^[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)* is (?:not defined|not a function)$/;
++ const message=(safe.test(e.message)||(['TypeError','ReferenceError'].includes(name)&&native.test(e.message))?e.message:'[redacted error message]').slice(0,200);
++ const cause=e.cause&&typeof e.cause==='object'&&'code' in e.cause?String(e.cause.code):'';
++ return {name,message,cause:{code:/^(?:ECONNRESET|ECONNREFUSED|ENOTFOUND|EAI_AGAIN|ETIMEDOUT|EPIPE|ENETUNREACH|UND_ERR_CONNECT_TIMEOUT|UND_ERR_SOCKET)$/.test(cause)?cause:null}};
++}
++export function failureReason(status:number,code?:string|null,guard=false,attempts=0):FailureReason{
+  if(status>=400&&status<500&&status!==429)return 'bad_request';
+  if(guard)return 'guard_blocked';
+  if(/TIMEOUT|ABORTED/.test(code??''))return 'timeout';
+  if(/HTTP_429/.test(code??''))return 'provider_429';
+  if(/HTTP_5\d\d/.test(code??'')||code==='AI_BUSY')return 'provider_5xx';
+- return 'provider_network';
++ if(attempts>0&&/^(?:GEMINI|ANTHROPIC)_NETWORK$/.test(code??''))return 'provider_network';
++ return 'internal_error';
+ }
+diff --git a/server/index.ts b/server/index.ts
+index d757ca1..2f090c7 100644
+--- a/server/index.ts
++++ b/server/index.ts
+@@ -11,7 +11,7 @@ const app = createApp({ provider, providerName: settings.provider, freeTier: set
+   // Loopback-only ingress; Cloudflare supplies CF-Connecting-IP. Ignore X-Forwarded-For.
+   ip: (c) => clientIp(c.req.header('CF-Connecting-IP'), getConnInfo(c).remote.address), log: (entry) => console.log(JSON.stringify(entry)),
+ });
+-const drain=createRequestDrain(request=>app.fetch(request));
++const drain=createRequestDrain(app.fetch);
+ const server=serve({ fetch: drain.fetch, port: 8787, hostname: '127.0.0.1' });
+ const stop=createShutdown(server,drain,settings.shutdownMs);
+ for(const signal of ['SIGTERM','SIGINT'] as const)process.once(signal,()=>{void stop().then(clean=>process.exit(clean?0:1));});
+diff --git a/server/shutdown.ts b/server/shutdown.ts
+index 1cb03f0..d633868 100644
+--- a/server/shutdown.ts
++++ b/server/shutdown.ts
+@@ -1,14 +1,14 @@
+-export function createRequestDrain(handler:(request:Request)=>Response|Promise<Response>){
++export function createRequestDrain<Args extends unknown[]>(handler:(request:Request,...args:Args)=>Response|Promise<Response>){
+  let active=0,closing=false;const idle=new Set<()=>void>();
+  return {
+-  fetch:async(request:Request)=>{if(closing)return Response.json({error:'AI_BUSY'},{status:503,headers:{'Retry-After':'10','Cache-Control':'no-store'}});active++;try{return await handler(request);}finally{active--;if(!active){idle.forEach(fn=>fn());idle.clear();}}},
++  fetch:async(request:Request,...args:Args)=>{if(closing)return Response.json({error:'AI_BUSY'},{status:503,headers:{'Retry-After':'10','Cache-Control':'no-store'}});active++;try{return await handler(request,...args);}finally{active--;if(!active){idle.forEach(fn=>fn());idle.clear();}}},
+   stop:()=>{closing=true;},
+   wait:()=>active===0?Promise.resolve():new Promise<void>(resolve=>idle.add(resolve)),
+   get active(){return active;}
+  };
+ }
+ export interface ClosableServer{close:(cb:(error?:Error)=>void)=>unknown;closeIdleConnections?:()=>void;closeAllConnections?:()=>void}
+-export function createShutdown(server:ClosableServer,drain:ReturnType<typeof createRequestDrain>,graceMs=120000){
++export function createShutdown(server:ClosableServer,drain:{stop:()=>void;wait:()=>Promise<void>},graceMs=120000){
+  let pending:Promise<boolean>|undefined;
+  return ()=>pending??=(async()=>{
+   drain.stop();let timer:ReturnType<typeof setTimeout>|undefined;
+-- 
+2.51.1
+

@@ -1,0 +1,235 @@
+From 228acda3d6336699ecf9315e3752e9c5254df61f Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Sun, 18 Oct 2026 14:56:20 +0300
+Subject: [PATCH 1/6] 8A: finite responsive spread geometry and accessible card
+ sheet
+
+---
+ NOTES-8.md                         |  9 ++++++
+ src/components/AmbientControls.tsx |  4 ++-
+ src/components/BottomSheet.tsx     |  9 ++++++
+ src/components/SpreadBoard.tsx     | 46 ++++++++++++++++--------------
+ src/lib/spreadLayout.test.ts       | 10 +++++++
+ src/lib/spreadLayout.ts            | 21 ++++++++++++++
+ src/screens/TableScreen.tsx        |  4 +--
+ src/theme.css                      | 25 ++++++++++++++++
+ 8 files changed, 104 insertions(+), 24 deletions(-)
+ create mode 100644 NOTES-8.md
+ create mode 100644 src/components/BottomSheet.tsx
+ create mode 100644 src/lib/spreadLayout.test.ts
+ create mode 100644 src/lib/spreadLayout.ts
+
+diff --git a/NOTES-8.md b/NOTES-8.md
+new file mode 100644
+index 0000000..fd67940
+--- /dev/null
++++ b/NOTES-8.md
+@@ -0,0 +1,9 @@
++# Prompt 8 — ghi nhận kiểm chứng
++
++Không thay prompt/schema/guardrails/care/cards.json. Kết quả luận giải vẫn cuộn liên tục. Không gọi Gemini hay A/B trong lượt này. Git được khởi tạo từ bản trước Prompt 8 vì gói nguồn ban đầu không có repository.
++
++## 8A
++- Tất cả trải bài đi qua computeSpreadLayout, Celtic Cross 4×4, cặp 1/2 là ngoại lệ chồng; lá 2 thu nhỏ. Tọa độ px, board đo ResizeObserver/visualViewport, dành 70px cuối màn hình. Không cuộn ngang.
++- Mobile chỉ badge; sheet native dialog có focus trap/Esc/đóng nền/trả focus, kéo header xuống đóng, lật ngay trong sheet. Desktop nhãn có title và sheet xem đầy đủ. Dock chuyển lên trên, tự thu khi cuộn xuống.
++- 121 test PASS: 120 tổ hợp spread×8 rộng×5 cao; bounds xoay, overlap, z, tâm, >=44px ở ma trận yêu cầu; trường hợp cực nhỏ hữu hạn. Lá nhỏ hơn 44px trong khung thực tế thấp hơn ma trận vẫn có nút chạm tối thiểu44; không hứa tối ưu trên mọi bàn phím/zoom.
++- Typecheck PASS. CHƯA kiểm layout/touch/focus/gesture thực tế vì không có Chromium/iPhone. Kiểm toán học không thay kiểm Safari.
+diff --git a/src/components/AmbientControls.tsx b/src/components/AmbientControls.tsx
+index 93ddd0e..f5b4d1e 100644
+--- a/src/components/AmbientControls.tsx
++++ b/src/components/AmbientControls.tsx
+@@ -14,7 +14,9 @@ export function parseAudioCredits(value:unknown):Credit[] {
+ }
+ export function AmbientDock({music}:{music:AmbientController}) {
+   const {state}=music;const active=state.status==='playing'||state.status==='starting';
+-  return <aside className="ambient-dock" aria-label="Âm thanh và hiệu ứng"><EffectsControls/>
++  const [collapsed,setCollapsed]=useState(false);
++  useEffect(()=>{let last=scrollY;const scroll=()=>{setCollapsed(scrollY>last&&scrollY>80);last=scrollY;};addEventListener('scroll',scroll,{passive:true});return()=>removeEventListener('scroll',scroll);},[]);
++  return <aside data-collapsed={collapsed} className="ambient-dock" aria-label="Âm thanh và hiệu ứng"><EffectsControls/>
+     {state.ask&&<div className="ambient-invite"><span>Bật nhạc nền?</span><button onClick={()=>music.choose(true)}>Bật</button><button onClick={()=>music.choose(false)}>Không bật</button></div>}
+     <span className="sr-only" role="status" aria-live="polite">{state.message}</span>
+     <button type="button" className="ambient-speaker" aria-pressed={active} aria-label={active?'Tắt nhạc nền':'Bật nhạc nền'} title={state.message||(active?'Tắt nhạc nền':'Bật nhạc nền')} onClick={music.toggle}>
+diff --git a/src/components/BottomSheet.tsx b/src/components/BottomSheet.tsx
+new file mode 100644
+index 0000000..8bedebe
+--- /dev/null
++++ b/src/components/BottomSheet.tsx
+@@ -0,0 +1,9 @@
++import {useEffect,useRef,type ReactNode} from 'react';
++import {createPortal} from 'react-dom';
++/** Native modal supplies focus trapping/inert background; caller focus is restored. */
++export function BottomSheet({title,children,onClose}:{title:string;children:ReactNode;onClose:()=>void}){
++ const ref=useRef<HTMLDialogElement>(null),start=useRef<number|null>(null),close=useRef(onClose);close.current=onClose;
++ useEffect(()=>{const previous=document.activeElement as HTMLElement|null;const dialog=ref.current;dialog?.showModal();return()=>{dialog?.close();previous?.focus({preventScroll:true});};},[]);
++ return createPortal(<dialog ref={ref} className="bottom-sheet" aria-label={title} onCancel={e=>{e.preventDefault();close.current();}} onClick={e=>{if(e.target===e.currentTarget)close.current();}}><div className="sheet-content">
++ <header onPointerDown={e=>{start.current=e.clientY;}} onPointerUp={e=>{if(start.current!==null&&e.clientY-start.current>70)close.current();start.current=null;}}><span className="sheet-handle" aria-hidden="true"/><h2>{title}</h2><button onClick={onClose} aria-label="Đóng chi tiết lá bài">Đóng</button></header>{children}</div></dialog>,document.body);
++}
+diff --git a/src/components/SpreadBoard.tsx b/src/components/SpreadBoard.tsx
+index 34ff6bd..6dfcd99 100644
+--- a/src/components/SpreadBoard.tsx
++++ b/src/components/SpreadBoard.tsx
+@@ -1,12 +1,17 @@
++import type {CSSProperties} from 'react';
++import {computeSpreadLayout} from '../lib/spreadLayout';
++import {BottomSheet} from './BottomSheet';
++import {CardFace} from './CardFace';
++import {CardBack} from './CardBack';
+ import { useMotionPreference } from '../lib/useMotionPreference';
+ import {burst} from '../lib/fxEvents';
+ import type {CardRect} from '../fx/CardFlight';
+ import {lazy, Suspense, useCallback, useLayoutEffect, useRef, useState} from 'react';
+ import { motion } from 'framer-motion';
+-import type { DrawnCard, Spread, SpreadPosition } from '../types';
++import type { DrawnCard, Spread } from '../types';
+ import { CardFlip } from './CardFlip';
+ const CardFlight=lazy(()=>import('../fx/CardFlight'));
+-function OccupiedSlot({ origin, item, index, deckIndex, flipped, revealing, onFlip, onFinish }: {
++function OccupiedSlot({ origin, item, index, deckIndex, flipped, onFlip, onFinish }: {
+   origin?: CardRect; item: DrawnCard; index: number; deckIndex: number; flipped: boolean; revealing: boolean;
+   onFlip: (index: number) => void; onFinish: (index: number) => void;
+ }) {
+@@ -21,7 +26,7 @@ function OccupiedSlot({ origin, item, index, deckIndex, flipped, revealing, onFl
+     transition={reduced ? { duration: 0.15 } : { type: 'spring', stiffness: 160, damping: 23 }}>
+     {!landed&&origin&&target&&<Suspense fallback={null}><CardFlight from={origin} to={target} rotation={item.position.rotation??0} onDone={land}/></Suspense>}
+     {landed&&!reduced&&<motion.i className="landing-flash" aria-hidden="true" initial={{opacity:.85,scale:.9}} animate={{opacity:0,scale:1.12}} transition={{duration:.5}}/>}
+-    <button style={{opacity:landed?1:0}} className="flip-button" disabled={!landed || !revealing || flipped} onClick={() => onFlip(index)}
++    <button style={{opacity:landed?1:0}} className="flip-button" disabled={!landed} onClick={() => onFlip(index)}
+       aria-label={flipped ? `Lá ${item.position.number}, ${item.position.name_vi}: ${item.card.name_vi}, ${item.reversed ? 'ngược' : 'xuôi'}` : `Lật lá ${item.position.number}, ${item.position.name_vi}`}>
+       <CardFlip card={item.card} flipped={flipped&&landed} reversed={item.reversed} onComplete={complete} />
+     </button>
+@@ -31,24 +36,23 @@ export function SpreadBoard({ origins, spread, reading, pickedIndices, revealed,
+   origins: Map<number,CardRect>; spread: Spread; reading: DrawnCard[]; pickedIndices: number[]; revealed: number[]; revealing: boolean;
+   onFlip: (index: number) => void; onFinish: (index: number) => void;
+ }) {
+-  const minX = Math.min(...spread.positions.map((p) => p.x)), minY = Math.min(...spread.positions.map((p) => p.y));
+-  const maxX = Math.max(...spread.positions.map((p) => p.x)) - minX, maxY = Math.max(...spread.positions.map((p) => p.y)) - minY;
+-  const coords = (p: SpreadPosition) => ({
+-    left: `calc(var(--board-pad) + ${p.x - minX} * var(--board-col))`,
+-    top: `calc(var(--board-pad) + ${p.y - minY} * var(--board-row))`,
+-  });
+-  return <div className="board-scroll" tabIndex={0} role="region" aria-label="Bố cục thế bài, có thể cuộn ngang">
+-    <div className="spread-board" style={{
+-      width: `calc(${maxX} * var(--board-col) + var(--card-w) + 2 * var(--board-pad))`,
+-      height: `calc(${maxY + 1} * var(--board-row) + 2 * var(--board-pad))`,
+-    }}>
+-      {spread.positions.map((position, index) => <div key={position.number} className={`board-slot ${position.rotation ? 'cross-slot' : ''}`}
+-        style={{ ...coords(position), zIndex: position.rotation ? 2 : 1 }}>
+-        {!reading[index] && <div className="empty-slot" style={{ transform: `rotate(${position.rotation ?? 0}deg)` }} aria-hidden="true"><span>{position.number}</span></div>}
+-        {reading[index] && <OccupiedSlot origin={origins.get(pickedIndices[index])} item={reading[index]} index={index} deckIndex={pickedIndices[index]}
+-          flipped={revealed.includes(index)} revealing={revealing} onFlip={onFlip} onFinish={onFinish} />}
+-        <p className="position-label">{position.number}. {position.name_vi}</p>
+-      </div>)}
++  const host=useRef<HTMLDivElement>(null);const [box,setBox]=useState({w:320,h:420});const [selected,setSelected]=useState<number|null>(null);
++  useLayoutEffect(()=>{const node=host.current;if(!node)return;const update=()=>{const r=node.getBoundingClientRect();const h=Math.max(80,Math.min(720,(window.visualViewport?.height??innerHeight)-r.top-70));node.style.height=`${h}px`;setBox({w:r.width,h});};update();const observer=new ResizeObserver(update);observer.observe(node);window.addEventListener('resize',update);window.visualViewport?.addEventListener('resize',update);return()=>{observer.disconnect();window.removeEventListener('resize',update);window.visualViewport?.removeEventListener('resize',update);};},[]);
++  const layout=computeSpreadLayout(spread.id,box.w,box.h),next=reading.findIndex((_,i)=>!revealed.includes(i));
++  const item=selected===null?null:reading[selected],position=selected===null?null:spread.positions[selected];
++  return <div className="spread-fit" ref={host} role="region" aria-label="Bàn trải bài">
++    <div className="spread-board" style={{width:layout.board.w,height:layout.board.h}}>
++    {layout.cards.map((c,index)=><div key={c.id} className="fit-slot" data-next={revealing&&index===next} style={{left:c.x,top:c.y,width:c.w,height:c.h,zIndex:c.z,'--card-w':`${c.w}px`,'--card-h':`${c.h}px`} as CSSProperties}>
++     {reading[index]?<OccupiedSlot origin={origins.get(pickedIndices[index])} item={reading[index]} index={index} deckIndex={pickedIndices[index]} flipped={revealed.includes(index)} revealing={revealing} onFlip={()=>setSelected(index)} onFinish={onFinish}/>:<button className="empty-slot" aria-label={`${c.id}. ${spread.positions[index].name_vi}`} onClick={()=>setSelected(index)} style={{transform:`rotate(${c.rotate}deg)`}}/>}
++     <button className="position-badge" aria-label={`Chi tiết vị trí ${c.id}: ${spread.positions[index].name_vi}`} onClick={()=>setSelected(index)}>{c.id}</button>
++     <span className="fit-label" title={spread.positions[index].name_vi}>{c.id}. {spread.positions[index].name_vi}</span>
++    </div>)}
++    {layout.controls&&revealing&&<div className="cross-controls" style={{left:layout.controls.x,top:layout.controls.y,width:layout.controls.w,height:layout.controls.h}}><span>Đã lật {revealed.length}/{spread.card_count}</span><button disabled={next<0} onClick={()=>onFlip(next)}>Lật lá tiếp theo</button></div>}
+     </div>
++    {position&&<BottomSheet title={`${position.number}. ${position.name_vi}`} onClose={()=>setSelected(null)}>
++     {item&&<div className="sheet-card" style={{transform:item.reversed?'rotate(180deg)':undefined}}>{revealed.includes(selected!)?<CardFace card={item.card}/>:<CardBack/>}</div>}
++     {position.meaning_short&&<p>{position.meaning_short}</p>}
++     {item&&revealing&&!revealed.includes(selected!)&&<button className="button-primary" onClick={()=>{onFlip(selected!);setSelected(null);}}>Lật lá này</button>}
++    </BottomSheet>}
+   </div>;
+ }
+diff --git a/src/lib/spreadLayout.test.ts b/src/lib/spreadLayout.test.ts
+new file mode 100644
+index 0000000..7640ca2
+--- /dev/null
++++ b/src/lib/spreadLayout.test.ts
+@@ -0,0 +1,10 @@
++import {expect,test} from 'vitest';
++import spreads from '../data/spreads.json';
++import {computeSpreadLayout,rotatedBounds} from './spreadLayout';
++for(const W of [320,360,390,430,440,768,1024,1440])for(const H of [568,667,844,932,1000])for(const spread of spreads)test(`${spread.id} ${W}x${H}`,()=>{
++ const l=computeSpreadLayout(spread.id,W,H);expect(l.board.w).toBeLessThanOrEqual(W);expect(l.board.h).toBeLessThanOrEqual(H);
++ for(const c of l.cards){const b=rotatedBounds(c);expect(b.x).toBeGreaterThanOrEqual(-.001);expect(b.y).toBeGreaterThanOrEqual(-.001);expect(b.x+b.w).toBeLessThanOrEqual(W+.001);expect(b.y+b.h).toBeLessThanOrEqual(H+.001);if(W>=360)expect(c.w).toBeGreaterThanOrEqual(44);
++ for(const other of l.cards.filter(o=>o.id>c.id)){const d=rotatedBounds(other),overlap=b.x<d.x+d.w-.001&&b.x+b.w>d.x+.001&&b.y<d.y+d.h-.001&&b.y+b.h>d.y+.001;if(spread.id==='celtic-cross'&&c.id===1&&other.id===2){expect(overlap).toBe(true);expect(other.z).toBeGreaterThan(c.z);}else expect(overlap).toBe(false);}}
++ if(spread.id==='celtic-cross'){const b=rotatedBounds(l.cards[1]);for(const c of l.cards.slice(2))expect(c.x+c.w/2>b.x&&c.x+c.w/2<b.x+b.w&&c.y+c.h/2>b.y&&c.y+c.h/2<b.y+b.h).toBe(false);expect(l.cards[9].y).toBeLessThan(l.cards[6].y);}
++});
++test('tiny, zero, invalid boxes stay finite',()=>{for(const n of [0,1,10,NaN,Infinity,-5]){const l=computeSpreadLayout('celtic-cross',n,n);expect(JSON.stringify(l)).not.toContain('null');for(const c of l.cards)expect(Object.values(c).every(Number.isFinite)).toBe(true);}});
+diff --git a/src/lib/spreadLayout.ts b/src/lib/spreadLayout.ts
+new file mode 100644
+index 0000000..06be949
+--- /dev/null
++++ b/src/lib/spreadLayout.ts
+@@ -0,0 +1,21 @@
++import spreads from '../data/spreads.json';
++export const CARD_RATIO=.585;
++export interface LayoutCard {id:number;x:number;y:number;w:number;h:number;rotate:number;z:number}
++const finite=(n:number)=>Number.isFinite(n)?Math.max(0,n):0;
++/** Coordinates describe unrotated boxes; rotation is around their centres. */
++export function computeSpreadLayout(spreadId:string,boxW:number,boxH:number,opts:{gap?:number;maxCardW?:number}={}){
++ const W=finite(boxW),H=finite(boxH),spread=spreads.find(s=>s.id===spreadId)??spreads[0];
++ const cross=spread.id==='celtic-cross',cols=cross?4:spread.card_count,rows=cross?4:1;
++ const gap=Math.min(finite(opts.gap??10),W/(cols*4),H/(rows*4));
++ const label=W>=600?Math.min(26,H/(rows*8)):0;
++ const w=Math.max(0,Math.min(opts.maxCardW??180,(W-gap*(cols+1))/cols,((H-gap*(rows+1))/rows-label)*CARD_RATIO));
++ const h=w/CARD_RATIO,stepX=w+gap,stepY=h+label+gap;
++ const left=(W-(cols*w+(cols-1)*gap))/2,top=(H-(rows*(h+label)+(rows-1)*gap))/2;
++ const xy=[[1,1],[1,1],[1,2],[0,1],[1,0],[2,1],[3,3],[3,2],[3,1],[3,0]];
++ const cards=spread.positions.map((p,i)=>{
++  const [col,row]=cross?xy[i]:[i,0],scale=cross&&i===1?Math.min(1,Math.max(CARD_RATIO,W>=360&&H>=568?44/Math.max(w,1):0)):1;
++  return {id:p.number,x:left+col*stepX+(w-w*scale)/2,y:top+row*stepY+(h-h*scale)/2,w:w*scale,h:h*scale,rotate:cross&&i===1?90:0,z:cross&&i===1?2:1};
++ });
++ return {cards,board:{w:W,h:H},cardScale:w/120,controls:cross?{x:left,y:top+3*stepY,w:3*w+2*gap,h:h+label}:null};
++}
++export function rotatedBounds(c:LayoutCard){const swap=c.rotate%180!==0,w=swap?c.h:c.w,h=swap?c.w:c.h;return{x:c.x+(c.w-w)/2,y:c.y+(c.h-h)/2,w,h};}
+diff --git a/src/screens/TableScreen.tsx b/src/screens/TableScreen.tsx
+index f02aef0..3bc4f96 100644
+--- a/src/screens/TableScreen.tsx
++++ b/src/screens/TableScreen.tsx
+@@ -44,8 +44,8 @@ export function TableScreen({ state, spread, onPick, onFlip, onFinish, onResult
+         <div className="table-controls"><p className="muted">Đã chọn {state.reading.length}/{spread.card_count} lá</p><button onClick={() => pick()}>Rút ngẫu nhiên{state.reading.length ? ' các lá còn lại' : ''}</button></div>
+       </>}
+       {revealing && <div className="table-controls">
+-        <p className="muted">Đã lật {state.finished.length}/{spread.card_count} lá</p>
+-        <button ref={nextButton} disabled={next < 0} onClick={() => next >= 0 && onFlip(next)}>Lật lá tiếp theo</button>
++        {spread.id!=='celtic-cross'&&<p className="muted">Đã lật {state.finished.length}/{spread.card_count} lá</p>}
++        {spread.id!=='celtic-cross'&&<button ref={nextButton} disabled={next < 0} onClick={() => next >= 0 && onFlip(next)}>Lật lá tiếp theo</button>}
+         {allFinished && <button ref={resultButton} className="button-primary" onClick={onResult}>Xem diễn giải <span aria-hidden="true">→</span></button>}
+       </div>}
+       <SpreadBoard origins={origins.current} spread={spread} reading={state.reading} pickedIndices={state.pickedIndices} revealed={state.revealed}
+diff --git a/src/theme.css b/src/theme.css
+index 73f8055..0f8ad91 100644
+--- a/src/theme.css
++++ b/src/theme.css
+@@ -394,3 +394,28 @@ html[data-motion='reduced'] button::after { transition: none; }
+ @media(max-width:767px){:root{--reading-body:17px;} .result-stage .stage-paths{grid-template-columns:1fr;} .ambient-dock{bottom:calc(80px + env(safe-area-inset-bottom));} }
+ .result-stage .reading-feedback button { font-size:16px;min-width:44px;min-height:44px; }
+ .settings-screen legend,.history-screen .history-toolbar {font-size:18px;}
++/* Prompt 8A: the board owns a finite viewport; no per-card text on narrow screens. */
++.spread-fit{position:relative;width:100%;height:min(720px,calc(100dvh - 270px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));min-height:200px;overflow:visible;}
++.spread-board{position:relative;margin:auto;}
++.fit-slot{position:absolute;}
++.fit-slot .board-card,.fit-slot .flip-button,.fit-slot .empty-slot{width:100%;height:100%;}
++.fit-slot .card-nameplate{display:none;}
++.position-badge{position:absolute;top:-6px;left:-6px;min-width:44px;min-height:44px;padding:0;border-radius:50%;background:#21152e;color:#f4e5c3;z-index:4;}
++.fit-label{position:absolute;top:calc(100% + 3px);left:0;width:100%;font-size:14px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;pointer-events:none;}
++.cross-controls{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;font-size:14px;}
++.cross-controls button{font-size:14px;padding:8px;min-height:44px;}
++.fit-slot[data-next=true] .flip-button:after{content:'';position:absolute;inset:-3px;border:2px solid #e3bd76;border-radius:8px;pointer-events:none;animation:next-glow 2.4s ease-in-out infinite;}
++@keyframes next-glow{0%,100%{opacity:.35;transform:scale(1);}50%{opacity:.9;transform:scale(1.04);}}
++:root[data-motion=reduced] .fit-slot .flip-button:after{animation:none;}
++.bottom-sheet{padding:0;border:1px solid #76618e;border-radius:24px 24px 0 0;background:#1a1033;color:#ece6f7;width:min(640px,100%);max-width:100%;max-height:90dvh;margin:auto auto 0;overflow:auto;overscroll-behavior:contain;}
++.bottom-sheet::backdrop{background:#07050fcc;}
++.sheet-content{padding:20px 24px calc(24px + env(safe-area-inset-bottom));}
++.sheet-content header{touch-action:pan-x;position:relative;}
++.sheet-content h2{font-size:26px;}
++.sheet-handle{display:block;width:48px;height:4px;background:#c4b4d8;margin:0 auto 16px;border-radius:4px;}
++.sheet-card{width:min(190px,50vw);aspect-ratio:.585;margin:16px auto;}
++.sheet-card>*{width:100%;height:100%;}
++.ambient-dock{top:max(8px,env(safe-area-inset-top));bottom:auto;right:max(8px,env(safe-area-inset-right));padding:4px;border-radius:24px;background:#171021;transition:transform .25s,opacity .25s;}
++.ambient-dock[data-collapsed=true]:not(:focus-within):not(:hover){transform:translateY(-80%);opacity:.5;}
++.app-header{padding-top:calc(64px + env(safe-area-inset-top));}
++@media(max-width:599px){.fit-label{display:none;}.table-screen h1{font-size:28px;}.table-screen .lede{font-size:15px;margin:6px 0;}.table-screen .eyebrow{margin:4px 0;}.table-screen{padding:12px;}.table-controls{gap:8px;margin:8px 0;}.position-badge{font-size:12px;min-width:28px;min-height:28px;}.fit-slot .flip-button{min-width:44px;min-height:44px;}.position-badge:before{content:'';position:absolute;inset:-8px;}.spread-fit:has(.cross-controls)+*{margin-top:0;}}
+-- 
+2.51.1
+

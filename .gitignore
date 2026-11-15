@@ -1,0 +1,12 @@
+.env
+.env.*
+node_modules/
+dist/
+logs/
+project_source/
+data/raw_*.json
+*.log
+shuffle_dump.txt
+.tmp/
+*.tsbuildinfo
+.DS_Store

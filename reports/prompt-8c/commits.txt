@@ -1,0 +1,7 @@
+b013a9f F1: verify isolated today page and one-time native welcome
+bf077bc F2: restore pre-8 fan and board, isolate mobile Celtic layout
+4eaecf8 F3: verify restored background and transient canvas effects
+c67ad2f F4: verify FPS remains URL-only
+37b52e9 F5: preserve Node adapter bindings and log internal exceptions correctly
+3df2166 F7: restore floating bottom dock and five-column navigation
+37e85ac F8: record production smoke results and final regression gates

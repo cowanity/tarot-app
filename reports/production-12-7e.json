@@ -1,0 +1,315 @@
+{
+  "case": 12,
+  "name": "hồ sơ không trùng",
+  "mode": "full",
+  "personalLength": 0,
+  "hasResonance": false,
+  "voice": [
+    0,
+    1,
+    1,
+    0,
+    1,
+    1,
+    1
+  ],
+  "flagged": [
+    {
+      "path": "personal.title",
+      "rule": "personal_style",
+      "fragment": "Bối cảnh Nữ Tu năm nay",
+      "severity": "hard"
+    },
+    {
+      "path": "personal.text",
+      "rule": "personal_style",
+      "fragment": "Lá Nữ Tu trong năm nay gợi nhắc bạn lắng nghe trực giác và tìm về khoảng lặng nội tâm. Khi bận rộn với dự án mới, việc quay về với chính mình sẽ giúp bạn thấu hiểu sâu sắc hơn nhữn",
+      "severity": "hard"
+    },
+    {
+      "path": "verdict",
+      "rule": "answer_verdict",
+      "fragment": "Cần cân đối lại thời gian và công việc.",
+      "severity": "soft"
+    },
+    {
+      "path": "question",
+      "rule": "question_length",
+      "fragment": "Bạn muốn thay đổi điều gì ngay hôm nay để kết nối lại với người thân?",
+      "severity": "soft"
+    },
+    {
+      "path": "personal.title",
+      "rule": "cliche",
+      "fragment": "Bối cảnh Nữ Tu năm nay",
+      "severity": "soft"
+    },
+    {
+      "path": "personal.text",
+      "rule": "cliche",
+      "fragment": "Lá Nữ Tu trong năm nay gợi nhắc bạn lắng nghe trực giác và tìm về khoảng lặng nội tâm. Khi bận rộn với dự án mới, việc quay về với chính mình sẽ giúp bạn thấu hiểu sâu sắc hơn nhữn",
+      "severity": "soft"
+    },
+    {
+      "path": "verdict",
+      "rule": "cliche",
+      "fragment": "Cần cân đối lại thời gian và công việc.",
+      "severity": "soft"
+    },
+    {
+      "path": "personal.title",
+      "rule": "personal_year_context",
+      "fragment": "Giai đoạn ưu tiên cho dự án mới",
+      "severity": "hard"
+    },
+    {
+      "path": "personal.text",
+      "rule": "personal_year_context",
+      "fragment": "Nhịp sống bận rộn từ công việc dễ khiến sự quan tâm dành cho gia đình bị thu hẹp lại. Khi sự chú ý dồn hết vào các mục tiêu trước mắt, cảm giác xa cách có thể vô tình xuất hiện tro",
+      "severity": "hard"
+    },
+    {
+      "path": "personal.title",
+      "rule": "cliche",
+      "fragment": "Giai đoạn ưu tiên cho dự án mới",
+      "severity": "soft"
+    },
+    {
+      "path": "personal.text",
+      "rule": "cliche",
+      "fragment": "Nhịp sống bận rộn từ công việc dễ khiến sự quan tâm dành cho gia đình bị thu hẹp lại. Khi sự chú ý dồn hết vào các mục tiêu trước mắt, cảm giác xa cách có thể vô tình xuất hiện tro",
+      "severity": "soft"
+    },
+    {
+      "path": "answer",
+      "rule": "cliche",
+      "fragment": "Bốn Cốc và Tám Gậy phản ánh nhịp làm việc cuốn bạn đi nhanh nhưng để lại cảm giác trống trải khi thiếu gắn kết. Bạn có thể chủ động sắp xếp lại lịch trình để không bỏ quên những ng",
+      "severity": "soft"
+    },
+    {
+      "path": "question",
+      "rule": "cliche",
+      "fragment": "Bạn muốn thay đổi điều gì ngay hôm nay để kết nối lại với người thân?",
+      "severity": "soft"
+    }
+  ],
+  "exampleId": "clarity-third-party",
+  "exampleParrot": false,
+  "thirdPartyFlags": [],
+  "busyRetries": 0,
+  "abstractRepeatCount": 0,
+  "quality": {
+    "answer": {
+      "errors": [
+        "answer_verdict"
+      ],
+      "words": 44,
+      "directionalQuestion": false
+    },
+    "unsupportedDistress": {
+      "count": 0,
+      "hasInputSignal": false,
+      "requiresHumanReview": true
+    },
+    "openingQuote": "review",
+    "rhythm": {
+      "sentences": 34,
+      "short": 2,
+      "long": 28,
+      "shortRatio": 0.059,
+      "paragraphs": 30,
+      "paragraphsWithoutShort": 28,
+      "informationalOnly": true,
+      "targetMet": false
+    },
+    "restrictedAbstract": {
+      "năng lượng": 1,
+      "vũ trụ": 0,
+      "thông điệp": 0,
+      "hành trình": 0
+    },
+    "abstractTargetMet": true,
+    "imagery": {
+      "cards": [
+        {
+          "position": 1,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 2,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 3,
+          "sourceSymbolCount": 6,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 4,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 1,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 5,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 6,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 7,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 8,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 9,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        },
+        {
+          "position": 10,
+          "sourceSymbolCount": 0,
+          "anchored": false,
+          "comparisonMarkers": 0,
+          "requiresHumanReview": true
+        }
+      ],
+      "paragraphsOverOneComparison": 0,
+      "requiresHumanReview": true
+    },
+    "closingEcho": {
+      "sharedWords": 0,
+      "requiresHumanReview": true
+    }
+  },
+  "attempts": [
+    {
+      "kind": "primary",
+      "outcome": "guardrail:personal_style,answer_verdict,question_length,cliche",
+      "model": "gemini-3.5-flash-lite",
+      "latencyMs": 9288,
+      "guardrailErrors": [
+        "personal_style",
+        "answer_verdict",
+        "question_length",
+        "cliche"
+      ]
+    },
+    {
+      "kind": "fallback",
+      "outcome": "ok",
+      "model": "gemini-3.5-flash",
+      "latencyMs": 1512,
+      "guardrailErrors": []
+    }
+  ],
+  "guardrail": "qua",
+  "notes": [
+    "answer_verdict",
+    "question_length",
+    "cliche",
+    "personal_dropped",
+    "soft_length"
+  ],
+  "softLengthCount": 3,
+  "clicheCount": 1,
+  "matchedCliches": [
+    "năng lượng"
+  ],
+  "ominousCount": 0,
+  "transportFails": 0,
+  "guardrailFails": 1,
+  "fieldLengths": {
+    "verdict": 39,
+    "answer": 200,
+    "headline": 32,
+    "opening": 90,
+    "tension": 117,
+    "per_card.0.title": 21,
+    "per_card.0.scene": 123,
+    "per_card.0.notice": 104,
+    "per_card.1.title": 18,
+    "per_card.1.scene": 94,
+    "per_card.1.notice": 101,
+    "per_card.2.title": 21,
+    "per_card.2.scene": 107,
+    "per_card.2.notice": 84,
+    "per_card.3.title": 17,
+    "per_card.3.scene": 105,
+    "per_card.3.notice": 79,
+    "per_card.4.title": 19,
+    "per_card.4.scene": 124,
+    "per_card.4.notice": 110,
+    "per_card.5.title": 20,
+    "per_card.5.scene": 135,
+    "per_card.5.notice": 79,
+    "per_card.6.title": 21,
+    "per_card.6.scene": 115,
+    "per_card.6.notice": 90,
+    "per_card.7.title": 17,
+    "per_card.7.scene": 94,
+    "per_card.7.notice": 77,
+    "per_card.8.title": 19,
+    "per_card.8.scene": 99,
+    "per_card.8.notice": 82,
+    "per_card.9.title": 17,
+    "per_card.9.scene": 95,
+    "per_card.9.notice": 83,
+    "weave": 216,
+    "unsaid": 0,
+    "outlook": 107,
+    "paths.0.label": 17,
+    "paths.0.body": 90,
+    "paths.1.label": 22,
+    "paths.1.body": 95,
+    "closing": 56,
+    "question": 69,
+    "experiment": 72
+  },
+  "badSpacingCount": 0,
+  "guardrailErrors": [],
+  "flaggedFields": [],
+  "schemaIssues": [],
+  "responseChars": 3627,
+  "providerError": null,
+  "error": null,
+  "latencyMs": 11153,
+  "tokens": 9585,
+  "words": 757,
+  "headline": "Khi công việc cuốn lấy nhịp sống",
+  "outlook": "Nếu bạn chủ động dành một khoảng thời gian cố định cho người thân, cảm giác căng thẳng sẽ dần được xoa dịu.",
+  "scenePreview": "Chàng trai ngồi khoanh tay dưới gốc cây, nhìn ba chén trước mặt, trong khi từ đám mây một bàn tay đưa ra chiếc chén thứ tư.",
+  "questionPreview": "Bạn muốn thay đổi điều gì ngay hôm nay để kết nối lại với người thân?",
+  "primaryFailed": false,
+  "usedFallback": true,
+  "providerCalls": 2,
+  "status": 200
+}

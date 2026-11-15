@@ -1,0 +1,91 @@
+From c0d1a9f21eaadc50c0acefed828388970255acb1 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 19 Oct 2026 08:34:24 +0800
+Subject: [PATCH 4/6] F4: expose FPS diagnostics only through explicit URL flag
+
+---
+ NOTES-8b.md                    | 3 +++
+ src/components/FpsOverlay.tsx  | 3 +--
+ src/lib/fixes8b.test.ts        | 4 ++++
+ src/lib/settings.ts            | 5 ++---
+ src/screens/SettingsScreen.tsx | 1 -
+ 5 files changed, 10 insertions(+), 6 deletions(-)
+
+diff --git a/NOTES-8b.md b/NOTES-8b.md
+index 466dab6..f223c29 100644
+--- a/NOTES-8b.md
++++ b/NOTES-8b.md
+@@ -11,3 +11,6 @@ Nguyên nhân trong mã: ResizeObserver đọc vị trí top của chính board,
+ 
+ ## F3
+ Khôi phục mount Starfield cũ và thời lượng aurora 38/47/59 giây từ baseline `ebb65eb` (bản trước Prompt 8 đang có trong repo; không có lịch sử commit 7d riêng). Gỡ đường nối/sao băng và sweep/rune khỏi các màn. Canvas chỉ mount khi có hạt lật/xáo bài; hết hạt thì dừng và unmount. Giữ SparkPool, FxEngine, ánh kim, hiệu ứng lật và hạ cấp FPS. Test nguồn + engine giả; chưa so nền bằng mắt trên trình duyệt. Overlay FPS khi không có canvas giữ mẫu cuối, không phải phép đo FPS nền liên tục.
++
++## F4
++Đã xóa công tắc FPS và thuộc tính lưu showFps. Overlay chỉ bật bằng `?fps=1` (trong hash hoặc search URL). Test nguồn xác nhận không còn công tắc. Chưa kiểm render.
+diff --git a/src/components/FpsOverlay.tsx b/src/components/FpsOverlay.tsx
+index c64d55d..f0c4cb6 100644
+--- a/src/components/FpsOverlay.tsx
++++ b/src/components/FpsOverlay.tsx
+@@ -1,4 +1,3 @@
+ import {useSyncExternalStore} from 'react';
+ import {getFxMetrics,subscribeFxMetrics} from '../lib/fxMetrics';
+-import {useSettings} from '../hooks/useSettings';
+-export function FpsOverlay(){const metrics=useSyncExternalStore(subscribeFxMetrics,getFxMetrics,getFxMetrics),{settings}=useSettings();const hash=useSyncExternalStore(fn=>{addEventListener('hashchange',fn);return()=>removeEventListener('hashchange',fn);},()=>location.hash,()=> '');if(!settings.showFps&&!new URLSearchParams(hash.split('?')[1]??'').has('fps'))return null;return <output className="fps-overlay" aria-label="Đo hiệu năng">{metrics.fps} FPS · {metrics.level}<br/>{metrics.particles}/40 hạt · hạ cấp {metrics.downgrades}<br/>JS {metrics.jsMs}ms/frame</output>;}
++export function FpsOverlay(){const metrics=useSyncExternalStore(subscribeFxMetrics,getFxMetrics,getFxMetrics);const hash=useSyncExternalStore(fn=>{addEventListener('hashchange',fn);return()=>removeEventListener('hashchange',fn);},()=>location.hash,()=> '');if(new URLSearchParams(hash.split('?')[1]??location.search).get('fps')!=='1')return null;return <output className="fps-overlay" aria-label="Đo hiệu năng">{metrics.fps} FPS · {metrics.level}<br/>{metrics.particles}/40 hạt · hạ cấp {metrics.downgrades}<br/>JS {metrics.jsMs}ms/frame</output>;}
+diff --git a/src/lib/fixes8b.test.ts b/src/lib/fixes8b.test.ts
+index f8c6511..6c5ccaf 100644
+--- a/src/lib/fixes8b.test.ts
++++ b/src/lib/fixes8b.test.ts
+@@ -17,3 +17,7 @@ test('background is CSS stars; canvas only emits transient particles',()=>{
+  expect(source('App.tsx')).toContain('<Starfield/>');
+  const fx=source('fx/ParticleCanvas.tsx');expect(fx).not.toContain('lineTo(');expect(fx).not.toContain('meteor');expect(fx).toContain('active&&!reduced');
+ });
++test('FPS overlay is explicit URL only',()=>{
++ expect(source('screens/SettingsScreen.tsx')).not.toContain('showFps');
++ expect(source('components/FpsOverlay.tsx')).toContain(".get('fps')!=='1'");
++});
+diff --git a/src/lib/settings.ts b/src/lib/settings.ts
+index 541e582..b494342 100644
+--- a/src/lib/settings.ts
++++ b/src/lib/settings.ts
+@@ -4,7 +4,6 @@ export type EffectLevel = 'full' | 'medium' | 'minimal';
+ export const deviceEffectDefault = (): EffectLevel => 'full';
+ export interface Settings {
+   schemaVersion: 2;
+-  showFps: boolean;
+   sensorTilt: boolean;
+   motionPromptSeen: boolean;
+   detail: 'full' | 'summary';
+@@ -16,7 +15,7 @@ export interface Settings {
+   autoInterpret: boolean;
+ }
+ export const DEFAULT_SETTINGS: Readonly<Settings> = {
+-  schemaVersion: 2, showFps:false, sensorTilt:false, motionPromptSeen: false, detail: 'full', effects: 'full', motion: 'full', fontScale: 'medium', allowReversedDefault: false, autoSave: false, autoInterpret: true,
++  schemaVersion: 2, sensorTilt:false, motionPromptSeen: false, detail: 'full', effects: 'full', motion: 'full', fontScale: 'medium', allowReversedDefault: false, autoSave: false, autoInterpret: true,
+ };
+ export const FONT_SCALES = { small: 0.92, medium: 1, large: 1.12 } as const;
+ 
+@@ -29,7 +28,7 @@ export function parseSettings(raw: string | null): Settings {
+     // Previous shipped code defaulted to system/mobile-medium; reduced/minimal required a choice.
+     const legacyOff=!current&&(object.motion==='reduced'||object.effects==='minimal');
+     return {
+-      schemaVersion:2, showFps:object.showFps===true, sensorTilt:object.sensorTilt===true, motionPromptSeen:legacyOff||(current&&object.motionPromptSeen===true), detail:object.detail==='summary'?'summary':'full',
++      schemaVersion:2, sensorTilt:object.sensorTilt===true, motionPromptSeen:legacyOff||(current&&object.motionPromptSeen===true), detail:object.detail==='summary'?'summary':'full',
+       effects: !current ? (legacyOff?'minimal':'full') : object.effects === 'full' || object.effects === 'medium' || object.effects === 'minimal' ? object.effects : deviceEffectDefault(),
+       motion: !current ? (legacyOff?'reduced':'full') : object.motion === 'reduced' || object.motion === 'full' || object.motion === 'system' ? object.motion : 'full',
+       fontScale: object.fontScale === 'small' || object.fontScale === 'large' || object.fontScale === 'medium' ? object.fontScale : 'medium',
+diff --git a/src/screens/SettingsScreen.tsx b/src/screens/SettingsScreen.tsx
+index 8ec371e..a72b8d7 100644
+--- a/src/screens/SettingsScreen.tsx
++++ b/src/screens/SettingsScreen.tsx
+@@ -44,7 +44,6 @@ export default function SettingsScreen({music, aiInfo, profileController, onClea
+         <button type="button" onClick={() => updateSettings({motion: 'full', effects: 'full'})}>Bật đầy đủ hiệu ứng</button>
+       </div>}
+     </fieldset>
+-    <label className="switch-row"><input type="checkbox" checked={settings.showFps} onChange={e=>updateSettings({showFps:e.target.checked})}/><span>Hiển thị khung hình/giây</span></label>
+     <label className="switch-row"><input type="checkbox" checked={settings.sensorTilt} onChange={async e=>{if(!e.target.checked){updateSettings({sensorTilt:false});return;}const allowed=await requestSensorTilt();updateSettings({sensorTilt:allowed});setMessage(allowed?'Đã bật nghiêng theo cảm biến khi bạn giữ lá bài.':'Chưa có quyền cảm biến. Bạn vẫn có thể chạm để xem lá.');}}/><span>Nghiêng lá theo cảm biến điện thoại (tùy chọn)</span></label>
+     <fieldset className="settings-options"><legend>Chuyển động</legend>
+       {motions.map(({ value, label }) => <label key={value}><input type="radio" name="motion" value={value}
+-- 
+2.51.1
+

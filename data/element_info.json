@@ -1,0 +1,217 @@
+{
+  "Đất": {
+    "name_vi": "Đất",
+    "name_en": "earth",
+    "source_ref": "H-tr.452",
+    "source_page_note": "Số trang ước lượng: đếm ký tự form feed phía trước + 1.",
+    "line_start": 10895,
+    "colors": [
+      "Các sắc nâu",
+      "các sắc xanh",
+      "các sắc đen"
+    ],
+    "qualities": [
+      "Sự phì nhiêu",
+      "tăng trưởng",
+      "giao dịch",
+      "cuộc sống hằng ngày",
+      "sự tồn tại",
+      "tính tất yếu",
+      "tính nữ",
+      "tiếp nhận",
+      "sức khỏe",
+      "tiền bạc",
+      "kinh doanh",
+      "đất đai",
+      "thực phẩm",
+      "dưỡng dục",
+      "phát triển",
+      "suy tàn",
+      "nền tảng",
+      "bảo vệ",
+      "nuôi dưỡng",
+      "mái nhà",
+      "lòng trung thành"
+    ],
+    "zodiac_signs": [
+      "Kim Ngưu",
+      "Xử Nữ",
+      "Ma Kết"
+    ],
+    "season": "Mùa thu",
+    "field_source_refs": {
+      "colors": [
+        "H-tr.452"
+      ],
+      "qualities": [
+        "H-tr.452"
+      ],
+      "zodiac_signs": [
+        "H-tr.452"
+      ],
+      "season": [
+        "H-tr.452"
+      ]
+    },
+    "source_refs": [
+      "H-tr.452"
+    ],
+    "line_end": 10904
+  },
+  "Khí": {
+    "name_vi": "Khí",
+    "name_en": "air",
+    "source_ref": "H-tr.452",
+    "source_page_note": "Số trang ước lượng: đếm ký tự form feed phía trước + 1.",
+    "line_start": 10909,
+    "colors": [
+      "Các sắc xanh da trời",
+      "các sắc trắng",
+      "các sắc vàng"
+    ],
+    "qualities": [
+      "Trao đổi",
+      "học hỏi",
+      "tâm thức",
+      "kiến thức",
+      "những ý tưởng",
+      "phát minh",
+      "logic",
+      "từ ngữ",
+      "các chữ cái",
+      "nghiên cứu",
+      "trường đại học",
+      "trí nhớ",
+      "sự thay đổi",
+      "giảng dạy",
+      "sự thông tuệ"
+    ],
+    "zodiac_signs": [
+      "Bảo Bình",
+      "Song Tử",
+      "Thiên Bình"
+    ],
+    "season": "Mùa xuân",
+    "field_source_refs": {
+      "colors": [
+        "H-tr.453"
+      ],
+      "qualities": [
+        "H-tr.453"
+      ],
+      "zodiac_signs": [
+        "H-tr.453"
+      ],
+      "season": [
+        "H-tr.453"
+      ]
+    },
+    "source_refs": [
+      "H-tr.452",
+      "H-tr.453"
+    ],
+    "line_end": 10918
+  },
+  "Lửa": {
+    "name_vi": "Lửa",
+    "name_en": "fire",
+    "source_ref": "H-tr.453",
+    "source_page_note": "Số trang ước lượng: đếm ký tự form feed phía trước + 1.",
+    "line_start": 10923,
+    "colors": [
+      "Các sắc đỏ",
+      "các sắc cam",
+      "các sắc đen",
+      "các sắc vàng"
+    ],
+    "qualities": [
+      "Mạnh mẽ",
+      "có nghị lực",
+      "có ý chí",
+      "đam mê",
+      "khao khát",
+      "tham vọng",
+      "chiến thắng",
+      "giận dữ",
+      "hung hăng",
+      "sự thanh lọc",
+      "cái tôi",
+      "sự tự tin"
+    ],
+    "zodiac_signs": [
+      "Bạch Dương",
+      "Sư Tử",
+      "Nhân Mã"
+    ],
+    "season": "Mùa hè",
+    "field_source_refs": {
+      "colors": [
+        "H-tr.453"
+      ],
+      "qualities": [
+        "H-tr.453"
+      ],
+      "zodiac_signs": [
+        "H-tr.453"
+      ],
+      "season": [
+        "H-tr.453"
+      ]
+    },
+    "source_refs": [
+      "H-tr.453"
+    ],
+    "line_end": 10929
+  },
+  "Nước": {
+    "name_vi": "Nước",
+    "name_en": "water",
+    "source_ref": "H-tr.454",
+    "source_page_note": "Số trang ước lượng: đếm ký tự form feed phía trước + 1.",
+    "line_start": 10935,
+    "colors": [
+      "Các sắc xanh biển",
+      "các sắc tím",
+      "các sắc xanh lá cây"
+    ],
+    "qualities": [
+      "Cảm xúc",
+      "những xúc cảm",
+      "trái tim",
+      "tình yêu",
+      "các mối quan hệ",
+      "các tình huống xã hội",
+      "máu",
+      "kinh nguyệt chữa bệnh",
+      "lòng bác ái",
+      "trực giác",
+      "khả năng ngoại cảm",
+      "đầu hàng",
+      "tâm linh"
+    ],
+    "zodiac_signs": [
+      "Song Ngư",
+      "Cự Giải",
+      "Bọ Cạp"
+    ],
+    "season": "Mùa đông",
+    "field_source_refs": {
+      "colors": [
+        "H-tr.454"
+      ],
+      "qualities": [
+        "H-tr.454"
+      ],
+      "zodiac_signs": [
+        "H-tr.454"
+      ],
+      "season": [
+        "H-tr.454"
+      ]
+    },
+    "source_refs": [
+      "H-tr.454"
+    ],
+    "line_end": 10943
+  }
+}

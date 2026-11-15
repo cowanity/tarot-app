@@ -1,0 +1,219 @@
+{
+  "id": 24,
+  "input": {
+    "question": "Mình có nên nhận lời cầu hôn không?",
+    "context": "",
+    "feelings": {
+      "ids": [],
+      "want": "decision"
+    },
+    "topic": "Tình yêu",
+    "spreadId": "past-present-future",
+    "picks": [
+      {
+        "position": 1,
+        "cardId": "major-06-lovers",
+        "reversed": false
+      },
+      {
+        "position": 2,
+        "cardId": "pentacles-four",
+        "reversed": true
+      },
+      {
+        "position": 3,
+        "cardId": "major-11-justice",
+        "reversed": false
+      }
+    ]
+  },
+  "status": 200,
+  "seconds": 13.044,
+  "audit": {
+    "method": "POST",
+    "path": "/api/interpret",
+    "errorCode": null,
+    "time": "2026-10-18T09:07:19.250Z",
+    "status": 200,
+    "latencyMs": 13038,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 10098
+      },
+      {
+        "kind": "fallback",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash",
+        "latencyMs": 2237
+      }
+    ],
+    "spreadId": "past-present-future",
+    "mode": "full",
+    "model": "gemini-3.5-flash",
+    "tokens": 5091,
+    "providerError": null,
+    "usedFallback": true,
+    "schemaIssues": [],
+    "responseChars": 2259,
+    "badSpacingCount": 0
+  },
+  "payload": {
+    "mode": "full",
+    "reading": {
+      "verdict": "Cân nhắc kỹ trước khi nhận lời.",
+      "answer": "Tình Nhân ở quá khứ nhắc về sự gắn bó từng có, nhưng Bốn Tiền ngược cho thấy bạn đang băn khoăn về sự an toàn và cách duy trì nền nếp. Công Lý ở tương lai hướng bạn đến việc đánh giá thành thật mọi hệ quả trước khi đưa ra quyết định.",
+      "headline": "Lời cầu hôn và sự cân bằng",
+      "opening": "Bạn đang đứng trước một câu hỏi lớn về việc nhận lời cầu hôn khi cần nhìn lại cả cảm xúc lẫn thực tế phía trước.",
+      "tension": "Bạn muốn giữ lấy sự gắn bó, nhưng đồng thời cũng cần chắc chắn về nền tảng lâu dài và ranh giới an toàn cho mình.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Gắn bó và lựa chọn",
+          "notice": "Tình Nhân ở quá khứ gợi lại những trải nghiệm kết nối sâu sắc và sự thấu hiểu từng có giữa hai người.",
+          "scene": "Một đôi nam nữ khỏa thân đứng dưới thiên thần có cánh lớn giữa mặt trời; sau người nữ là cây có con rắn, sau người nam là cây lửa."
+        },
+        {
+          "position": 2,
+          "title": "Nới lỏng hay giữ gìn",
+          "notice": "Bốn Tiền ngược ở hiện tại cho thấy bạn có thể đang cảm thấy sự bất định về cấu trúc an toàn hoặc cách bạn muốn giữ gìn nguồn lực của mình trong mối quan hệ này.",
+          "scene": "Người ngồi ôm chặt một đồng xu trước ngực, đội một đồng xu lên đầu, hai đồng nữa dưới chân, thành phố phía sau. (lá ngược)"
+        },
+        {
+          "position": 3,
+          "title": "Đánh giá công bằng",
+          "notice": "Công Lý ở tương lai hướng bạn đến việc nhìn nhận rõ ràng mối liên hệ giữa lựa chọn hiện tại và hệ quả lâu dài.",
+          "scene": "Người ngồi ngai giữa hai cột, tay phải cầm thanh kiếm dựng thẳng, tay trái cầm cán cân, sau lưng là tấm màn tím."
+        }
+      ],
+      "weave": "Sự kết nối từ quá khứ đang gặp phải những băn khoăn về sự an toàn ở hiện tại, dẫn đến nhu cầu cân nhắc mọi yếu tố một cách công bằng trước khi bước tiếp.",
+      "unsaid": "",
+      "outlook": "Nếu bạn làm rõ những điểm chưa chắc chắn ngay từ đầu, quyết định đưa ra sẽ vững vàng hơn. Nếu vội vàng nhận lời khi lòng còn gợn sóng, sự bất an có thể vẫn ở lại.",
+      "paths": [
+        {
+          "label": "Nhận lời ngay",
+          "body": "Bạn bước vào cam kết mới dựa trên tình cảm có sẵn, nhưng có thể phải đối mặt với những lo lắng chưa được giải quyết."
+        },
+        {
+          "label": "Chờ thêm thời gian",
+          "body": "Bạn có không gian để cân nhắc kỹ hơn về sự tương hợp và nền tảng thực tế trước khi đưa ra quyết định."
+        }
+      ],
+      "closing": "Sự thật của quyết định nằm ở sự cân bằng giữa tình cảm và trách nhiệm.",
+      "question": "Điều gì ở tương lai chung đôi khiến bạn còn ngần ngại?",
+      "experiment": "Liệt kê ba điều bạn kỳ vọng nhất ở một cam kết lâu dài và đối chiếu với thực tế hiện tại."
+    },
+    "notes": [
+      "question_anchor",
+      "answer_verdict",
+      "answer_direction",
+      "question_opening",
+      "soft_length",
+      "verdict_repair_triggered",
+      "verdict_repair_rejected"
+    ],
+    "model": "gemini-3.5-flash-lite"
+  },
+  "validations": [
+    {
+      "afterCompletion": 1,
+      "errors": [],
+      "notes": [
+        "question_anchor",
+        "answer_verdict",
+        "answer_direction",
+        "question_opening"
+      ],
+      "diagnostics": [
+        {
+          "path": "question",
+          "rule": "question_anchor",
+          "fragment": "Điều gì ở tương lai chung đôi khiến bạn còn ngần ngại?",
+          "severity": "soft"
+        },
+        {
+          "path": "verdict",
+          "rule": "answer_verdict",
+          "fragment": "Cân nhắc kỹ trước khi nhận lời.",
+          "severity": "soft"
+        },
+        {
+          "path": "verdict",
+          "rule": "answer_direction",
+          "fragment": "Cân nhắc kỹ trước khi nhận lời.",
+          "severity": "soft"
+        },
+        {
+          "path": "answer",
+          "rule": "answer_direction",
+          "fragment": "Tình Nhân ở quá khứ nhắc về sự gắn bó từng có, nhưng Bốn Tiền ngược cho thấy bạn đang băn khoăn về sự an toàn và cách duy trì nền nếp. Công Lý ở tương lai hướng bạn đến việc đánh g",
+          "severity": "soft"
+        },
+        {
+          "path": "question",
+          "rule": "question_opening",
+          "fragment": "Điều gì",
+          "severity": "soft"
+        }
+      ],
+      "schemaIssues": []
+    },
+    {
+      "afterCompletion": 2,
+      "errors": [],
+      "notes": [
+        "question_anchor",
+        "answer_abstract",
+        "question_opening"
+      ],
+      "diagnostics": [
+        {
+          "path": "question",
+          "rule": "question_anchor",
+          "fragment": "Điều gì ở tương lai chung đôi khiến bạn còn ngần ngại?",
+          "severity": "soft"
+        },
+        {
+          "path": "answer",
+          "rule": "answer_abstract",
+          "fragment": "nền tảng",
+          "severity": "soft"
+        },
+        {
+          "path": "question",
+          "rule": "question_opening",
+          "fragment": "Điều gì",
+          "severity": "soft"
+        }
+      ],
+      "schemaIssues": []
+    }
+  ],
+  "completions": [
+    {
+      "call": 1,
+      "repairFields": null,
+      "model": "gemini-3.5-flash-lite",
+      "text": "{\n  \"verdict\": \"Cân nhắc kỹ trước khi nhận lời.\",\n  \"answer\": \"Tình Nhân ở quá khứ nhắc về sự gắn bó từng có, nhưng Bốn Tiền ngược cho thấy bạn đang băn khoăn về sự an toàn và cách duy trì nền nếp. Công Lý ở tương lai hướng bạn đến việc đánh giá thành thật mọi hệ quả trước khi đưa ra quyết định.\",\n  \"headline\": \"Lời cầu hôn và sự cân bằng\",\n  \"opening\": \"Bạn đang đứng trước một câu hỏi lớn về việc nhận lời cầu hôn khi cần nhìn lại cả cảm xúc lẫn thực tế phía trước.\",\n  \"tension\": \"Bạn muốn giữ lấy sự gắn bó, nhưng đồng thời cũng cần chắc chắn về nền tảng lâu dài và ranh giới an toàn cho mình.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Gắn bó và lựa chọn\",\n      \"notice\": \"Tình Nhân ở quá khứ gợi lại những trải nghiệm kết nối sâu sắc và sự thấu hiểu từng có giữa hai người.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Nới lỏng hay giữ gìn\",\n      \"notice\": \"Bốn Tiền ngược ở hiện tại cho thấy bạn có thể đang cảm thấy sự bất định về cấu trúc an toàn hoặc cách bạn muốn giữ gìn nguồn lực của mình trong mối quan hệ này.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Đánh giá công bằng\",\n      \"notice\": \"Công Lý ở tương lai hướng bạn đến việc nhìn nhận rõ ràng mối liên hệ giữa lựa chọn hiện tại và hệ quả lâu dài.\"\n    }\n  ],\n  \"weave\": \"Sự kết nối từ quá khứ đang gặp phải những băn khoăn về sự an toàn ở hiện tại, dẫn đến nhu cầu cân nhắc mọi yếu tố một cách công bằng trước khi bước tiếp.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu bạn làm rõ những điểm chưa chắc chắn ngay từ đầu, quyết định đưa ra sẽ vững vàng hơn. Nếu vội vàng nhận lời khi lòng còn gợn sóng, sự bất an có thể vẫn ở lại.\",\n  \"paths\": [\n    {\n      \"label\": \"Nhận lời ngay\",\n      \"body\": \"Bạn bước vào cam kết mới dựa trên tình cảm có sẵn, nhưng có thể phải đối mặt với những lo lắng chưa được giải quyết.\"\n    },\n    {\n      \"label\": \"Chờ thêm thời gian\",\n      \"body\": \"Bạn có không gian để cân nhắc kỹ hơn về sự tương hợp và nền tảng thực tế trước khi đưa ra quyết định.\"\n    }\n  ],\n  \"closing\": \"Sự thật của quyết định nằm ở sự cân bằng giữa tình cảm và trách nhiệm.\",\n  \"question\": \"Điều gì ở tương lai chung đôi khiến bạn còn ngần ngại?\",\n  \"experiment\": \"Liệt kê ba điều bạn kỳ vọng nhất ở một cam kết lâu dài và đối chiếu với thực tế hiện tại.\"\n}",
+      "usage": {
+        "input": 3912,
+        "output": 668
+      }
+    },
+    {
+      "call": 2,
+      "repairFields": [
+        "verdict",
+        "answer"
+      ],
+      "model": "gemini-3.5-flash",
+      "text": "{\n  \"verdict\": \"nên cân nhắc kỹ trước khi quyết định\",\n  \"answer\": \"Lá Tình Nhân thể hiện nền tảng tình cảm sẵn có, nhưng Bốn Tiền ngược ở hiện tại phản ánh tâm lý lo ngại về sự ổn định. Lá Công Lý ở tương lai khuyên bạn cần xem xét công bằng trách nhiệm và sự cam kết của cả hai trước khi đồng ý.\"\n}",
+      "usage": {
+        "input": 423,
+        "output": 88
+      }
+    }
+  ]
+}

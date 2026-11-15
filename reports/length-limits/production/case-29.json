@@ -1,0 +1,265 @@
+{
+  "id": 29,
+  "input": {
+    "question": "Anh ấy có thích mình không?",
+    "context": "",
+    "feelings": {
+      "ids": [],
+      "want": "clarity"
+    },
+    "topic": "Tình yêu",
+    "spreadId": "past-present-future",
+    "picks": [
+      {
+        "position": 1,
+        "cardId": "cups-knight",
+        "reversed": false
+      },
+      {
+        "position": 2,
+        "cardId": "major-18-moon",
+        "reversed": false
+      },
+      {
+        "position": 3,
+        "cardId": "cups-three",
+        "reversed": false
+      }
+    ]
+  },
+  "status": 200,
+  "seconds": 11.118,
+  "audit": {
+    "method": "POST",
+    "path": "/api/interpret",
+    "errorCode": null,
+    "time": "2026-10-18T10:05:56.054Z",
+    "status": 200,
+    "latencyMs": 11117,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "guardrail:answer_vague,verdict_long,answer_verdict",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 10158,
+        "guardrailErrors": [
+          "answer_vague",
+          "verdict_long",
+          "answer_verdict"
+        ]
+      },
+      {
+        "kind": "fallback",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash",
+        "latencyMs": 868
+      }
+    ],
+    "spreadId": "past-present-future",
+    "mode": "full",
+    "model": "gemini-3.5-flash",
+    "tokens": 5142,
+    "providerError": null,
+    "usedFallback": true,
+    "schemaIssues": [],
+    "responseChars": 2455,
+    "badSpacingCount": 0
+  },
+  "payload": {
+    "mode": "full",
+    "reading": {
+      "verdict": "Anh ấy có cảm tình tốt với bạn",
+      "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+      "headline": "Giữa những cảm xúc chưa thành hình",
+      "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+      "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Theo đuổi lãng mạn",
+          "notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+          "scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông."
+        },
+        {
+          "position": 2,
+          "title": "Sự mơ hồ",
+          "notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+          "scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa."
+        },
+        {
+          "position": 3,
+          "title": "Chia sẻ và kết nối",
+          "notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+          "scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt."
+        }
+      ],
+      "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+      "unsaid": "",
+      "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+      "paths": [
+        {
+          "label": "Chủ động tìm hiểu",
+          "body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi."
+        },
+        {
+          "label": "Để mọi thứ tự nhiên",
+          "body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn."
+        }
+      ],
+      "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+      "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+      "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+    },
+    "notes": [
+      "third_party_limit",
+      "soft_length"
+    ],
+    "model": "gemini-3.5-flash-lite"
+  },
+  "validations": [
+    {
+      "afterCompletion": 1,
+      "errors": [
+        "answer_vague"
+      ],
+      "notes": [
+        "verdict_long",
+        "answer_verdict"
+      ],
+      "schemaIssues": [],
+      "fields": {
+        "verdict": "Chưa rõ tình cảm thực sự của anh ấy.",
+        "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+        "headline": "Giữa những cảm xúc chưa thành hình",
+        "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+        "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+        "per_card.0.title": "Theo đuổi lãng mạn",
+        "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+        "per_card.1.title": "Sự mơ hồ",
+        "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+        "per_card.2.title": "Chia sẻ và kết nối",
+        "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+        "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+        "unsaid": "",
+        "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+        "paths.0.label": "Chủ động tìm hiểu",
+        "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+        "paths.1.label": "Để mọi thứ tự nhiên",
+        "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+        "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+        "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+        "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+      },
+      "diagnostics": [
+        {
+          "path": "verdict",
+          "rule": "answer_vague",
+          "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+          "severity": "hard"
+        },
+        {
+          "path": "verdict",
+          "rule": "verdict_long",
+          "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+          "severity": "soft"
+        },
+        {
+          "path": "verdict",
+          "rule": "answer_verdict",
+          "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+          "severity": "soft"
+        }
+      ]
+    },
+    {
+      "afterCompletion": 2,
+      "errors": [],
+      "notes": [],
+      "schemaIssues": [],
+      "fields": {
+        "verdict": "Anh ấy có cảm tình tốt với bạn",
+        "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+        "headline": "Giữa những cảm xúc chưa thành hình",
+        "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+        "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+        "per_card.0.title": "Theo đuổi lãng mạn",
+        "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+        "per_card.0.scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông.",
+        "per_card.1.title": "Sự mơ hồ",
+        "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+        "per_card.1.scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa.",
+        "per_card.2.title": "Chia sẻ và kết nối",
+        "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+        "per_card.2.scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt.",
+        "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+        "unsaid": "",
+        "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+        "paths.0.label": "Chủ động tìm hiểu",
+        "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+        "paths.1.label": "Để mọi thứ tự nhiên",
+        "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+        "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+        "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+        "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+      },
+      "diagnostics": []
+    },
+    {
+      "afterCompletion": 2,
+      "errors": [],
+      "notes": [],
+      "schemaIssues": [],
+      "fields": {
+        "verdict": "Anh ấy có cảm tình tốt với bạn",
+        "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+        "headline": "Giữa những cảm xúc chưa thành hình",
+        "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+        "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+        "per_card.0.title": "Theo đuổi lãng mạn",
+        "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+        "per_card.0.scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông.",
+        "per_card.1.title": "Sự mơ hồ",
+        "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+        "per_card.1.scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa.",
+        "per_card.2.title": "Chia sẻ và kết nối",
+        "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+        "per_card.2.scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt.",
+        "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+        "unsaid": "",
+        "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+        "paths.0.label": "Chủ động tìm hiểu",
+        "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+        "paths.1.label": "Để mọi thứ tự nhiên",
+        "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+        "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+        "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+        "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+      },
+      "diagnostics": []
+    }
+  ],
+  "completions": [
+    {
+      "call": 1,
+      "repairFields": null,
+      "model": "gemini-3.5-flash-lite",
+      "text": "{\n  \"verdict\": \"Chưa rõ tình cảm thực sự của anh ấy.\",\n  \"answer\": \"Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.\",\n  \"headline\": \"Giữa những cảm xúc chưa thành hình\",\n  \"opening\": \"Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.\",\n  \"tension\": \"Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Theo đuổi lãng mạn\",\n      \"notice\": \"Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Sự mơ hồ\",\n      \"notice\": \"Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Chia sẻ và kết nối\",\n      \"notice\": \"Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.\"\n    }\n  ],\n  \"weave\": \"Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.\",\n  \"paths\": [\n    {\n      \"label\": \"Chủ động tìm hiểu\",\n      \"body\": \"Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.\"\n    },\n    {\n      \"label\": \"Để mọi thứ tự nhiên\",\n      \"body\": \"Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.\"\n    }\n  ],\n  \"closing\": \"Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.\",\n  \"question\": \"Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?\",\n  \"experiment\": \"Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý.\"\n}",
+      "usage": {
+        "input": 3889,
+        "output": 681
+      }
+    },
+    {
+      "call": 2,
+      "repairFields": [
+        "verdict"
+      ],
+      "model": "gemini-3.5-flash",
+      "text": "{\n  \"verdict\": \"Anh ấy có cảm tình tốt với bạn\"\n}",
+      "usage": {
+        "input": 553,
+        "output": 19
+      }
+    }
+  ]
+}

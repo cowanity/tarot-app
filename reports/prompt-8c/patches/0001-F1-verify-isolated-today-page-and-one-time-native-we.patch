@@ -1,0 +1,73 @@
+From b013a9f12daab911c5dc7c159449d7b06e6ac2e2 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 19 Oct 2026 09:06:59 +0800
+Subject: [PATCH 1/7] F1: verify isolated today page and one-time native
+ welcome
+
+---
+ NOTES-8c.md                             |  6 ++++++
+ reports/prompt-8c/f1.log                | 11 +++++++++++
+ reports/prompt-8c/protected-sha256.json | 20 ++++++++++++++++++++
+ 3 files changed, 37 insertions(+)
+ create mode 100644 NOTES-8c.md
+ create mode 100644 reports/prompt-8c/f1.log
+ create mode 100644 reports/prompt-8c/protected-sha256.json
+
+diff --git a/NOTES-8c.md b/NOTES-8c.md
+new file mode 100644
+index 0000000..0a20322
+--- /dev/null
++++ b/NOTES-8c.md
+@@ -0,0 +1,6 @@
++# Sửa lỗi 8c
++
++Mốc trước sửa: `before-8c`. Nguồn UI cũ: `ebb65eb` (Baseline before Prompt 8), không lấy từ tag 8b/8c.
++
++## F1
++Kiểm lại bản 8b: home không chứa DailyCard; route #/today và nav đã tồn tại; onboarding là native dialog, lưu đã xem, lời nhắc OS đợi đóng. Giữ nguyên các sửa này. Test onboarding và wiring đã qua; chưa kiểm trình duyệt thật.
+diff --git a/reports/prompt-8c/f1.log b/reports/prompt-8c/f1.log
+new file mode 100644
+index 0000000..6e9cb00
+--- /dev/null
++++ b/reports/prompt-8c/f1.log
+@@ -0,0 +1,11 @@
++npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
++
++ RUN  v4.1.11 /workspace/scratch/2a7b5bba0556/tarot-app
++
++······
++
++ Test Files  2 passed (2)
++      Tests  6 passed (6)
++   Start at  09:06:59
++   Duration  541ms (transform 68ms, setup 0ms, import 77ms, tests 34ms, environment 0ms)
++
+diff --git a/reports/prompt-8c/protected-sha256.json b/reports/prompt-8c/protected-sha256.json
+new file mode 100644
+index 0000000..512c627
+--- /dev/null
++++ b/reports/prompt-8c/protected-sha256.json
+@@ -0,0 +1,20 @@
++{
++  "server/guardrailPolicy.ts": "1d69fd680bdfa7ea4f2e21c36c941daf21bbced20dc074c213e4fbc9eac32857",
++  "server/guardrails.ts": "64da9ccb01ce2ee280b736c01d851cf3595b5720fafc6253236e835754792329",
++  "server/schema.ts": "40ea10e636ec0ff574a2857a07d39fe08d74a62d7d94dc55d13abd649b1b182b",
++  "server/geminiResponseSchema.json": "53b18fac43245b7acd79b58f8f5afbec5bfffc7fb7252a60bc8d96155aa05706",
++  "server/prompts/goldenExamples.test.ts": "b88c5a0761e3a940d13962855fc547d9a5ee55bbf6e047b0dbe4dc0fee6bb6cf",
++  "server/prompts/goldenExamples.ts": "85c7622622dc93db04f50b465cf7698a7aca516464c0a0384292ff0cc7202676",
++  "server/prompts/oldUser.ts": "f7309a73acdb74b7d33032d219f15a024f4414f77f530926bcdacf2ce95cc2bf",
++  "server/prompts/variant.ts": "81cbfa3ffb4317039227b80b5f3662cff0b8f1a81bdcc30a575f869addad7e31",
++  "server/prompts/user.ts": "04e3921714b6ed4793529d3948c7c03835cf48dc23bae922cac3c77676ca399f",
++  "server/prompts/oldExamples.ts": "4ff429e532fa8b1d71081cf5b25712b5538ed9fd039bb2e4bc41f03e00e70cb0",
++  "server/prompts/oldSystem.ts": "bc1cb969b64890cd488c4ac88b6bbb46647e6f1b298f03b1fe7f622fa526f1ed",
++  "server/prompts/golden_v1.json": "3bee3bf6dddf3bab781c471de69fc7b13b478fa133a35e3772c4940d49f31a97",
++  "server/prompts/system.ts": "472e6e23aea7ad7f7bfad814627b37cd4fca759563753df925a821a69c051c17",
++  "src/data/cards.json": "2b23b6ff85a5389b38d432446242be82472409db3b8864a9238c773f324e2ae5",
++  "server/answerRules.ts": "a39ae5222d58fb1ce61d3b84ff6d5be6dfa0b84dc86a30eeab75755343395e7c",
++  "server/voiceRules.ts": "d527ed50555fbd65a37c60a9756039ac085f7b7a3b1d39e33a7fcdccfae6d150",
++  "server/editorialRules.ts": "8e4e11d8ec4868c48d9147238ddb3376e168b6cfe022ac4939f928a85370afa3",
++  "src/lib/safetyText.ts": "5a002406e2e81fe45ae0259df9d39f426d9d139a4f20c39222bb1656ee809497"
++}
+-- 
+2.51.1
+

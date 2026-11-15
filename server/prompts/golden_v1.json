@@ -1,0 +1,167 @@
+[
+  {
+    "id": "clarity-third-party",
+    "want": "clarity",
+    "input": {
+      "question": "Anh ấy có quay lại không?",
+      "context": "",
+      "topic": "Tình yêu",
+      "spread": "3 lá: quá khứ / hiện tại / tương lai",
+      "cards": [
+        "Cái Chết (quá khứ)",
+        "Năm Cốc (hiện tại)",
+        "Bảy Gậy (tương lai)"
+      ]
+    },
+    "output": {
+      "verdict": "Chưa nên chờ anh ấy quay lại.",
+      "answer": "Cái Chết và Năm Cốc đều nói về chuyện đã khép lại và điều còn tiếc, không phải một cuộc gặp lại. Bảy Gậy kêu bạn giữ chỗ đứng của mình, nên mình đọc bài này theo hướng đừng dựng kế hoạch quanh việc anh ấy quay về.",
+      "headline": "Sau một kết thúc",
+      "opening": "Bạn hỏi anh ấy có quay lại không, tức là bạn đang cân nhắc có nên tiếp tục chờ.",
+      "tension": "Câu hỏi hy vọng một lần quay lại, trong khi cả ba lá xoay quanh việc đã kết thúc và việc giữ mình.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Chuyện cũ đã đổi",
+          "notice": "Ở vị trí quá khứ, Cái Chết nói về một kết thúc đã xảy ra, không phải một khoảng nghỉ. Nếu có bắt đầu lại, điều đáng hỏi là hai người sẽ làm khác điều gì."
+        },
+        {
+          "position": 2,
+          "title": "Điều còn tiếc",
+          "notice": "Năm Cốc ở hiện tại nhắc tới điều đã mất, nên nỗi tiếc dễ trở thành lý do để chờ. Chiếc chén đổ gợi điều khó lấy lại nguyên vẹn."
+        },
+        {
+          "position": 3,
+          "title": "Giữ phần của mình",
+          "notice": "Bảy Gậy ở tương lai là người phải tự giữ chỗ đứng của mình. Lá này không hứa ai sẽ quay lại, nó hỏi bạn đang giữ được gì."
+        }
+      ],
+      "weave": "Ba lá đi từ chuyện đã khép, qua điều còn tiếc, đến việc tự giữ mình; không lá nào nói về một cuộc gặp lại. Giống như trước một cánh cửa đã khép, bài khuyên bạn đừng tựa lưng vào nó.",
+      "unsaid": "",
+      "outlook": "Nếu anh ấy có liên lạc, một tin nhắn chưa đủ để biết hai người có thể bắt đầu lại. Điều cần nhìn là cả hai có muốn nói rõ điều từng làm mối quan hệ dừng lại hay không.",
+      "paths": [
+        {
+          "label": "Tiếp tục chờ",
+          "body": "Bạn giữ được khả năng nối lại, nhưng kế hoạch của mình bị treo vào một quyết định chưa ai biết. Nếu chọn cách này, hãy đặt cho việc chờ một giới hạn thời gian."
+        },
+        {
+          "label": "Ngừng chờ",
+          "body": "Bạn vẫn có thể còn nhớ mà không để cuộc sống xoay quanh việc anh ấy có nhắn hay không. Cái giá là phải chấp nhận chưa có lời đáp."
+        }
+      ],
+      "closing": "Bạn có thể còn nhớ mà không cần tiếp tục chờ.",
+      "question": "Nếu anh ấy quay lại, bạn cần điều gì khác trước?",
+      "experiment": "Chọn một việc cuối tuần không phụ thuộc vào việc anh ấy có liên lạc."
+    }
+  },
+  {
+    "id": "decision-work",
+    "want": "decision",
+    "input": {
+      "question": "Có nên nghỉ việc không?",
+      "context": "Mình làm thêm giờ gần như mỗi ngày, muốn nghỉ nhưng chưa có việc mới.",
+      "topic": "Sự nghiệp",
+      "spread": "3 lá: hiện tại / thử thách / hướng đi",
+      "cards": [
+        "Mười Gậy (hiện tại)",
+        "Hai Tiền (thử thách)",
+        "Tám Tiền (hướng đi)"
+      ]
+    },
+    "output": {
+      "verdict": "Nên chuẩn bị nghỉ, đừng nghỉ vội.",
+      "answer": "Mười Gậy khớp với chuyện làm thêm giờ bạn kể, nên mong muốn nghỉ là có lý do. Hai Tiền nhắc bạn còn phải cân đối thu nhập, còn Tám Tiền chỉ ra bước hợp lý nhất là dùng nghề đang có để tìm chỗ mới trước khi nộp đơn.",
+      "headline": "Nghỉ việc khi chưa có việc mới",
+      "opening": "Bạn làm thêm giờ gần như mỗi ngày và muốn nghỉ, nhưng chưa muốn đổi nó lấy nỗi lo không có thu nhập.",
+      "tension": "Bạn muốn thoát khỏi việc làm quá giờ, nhưng cũng cần một chỗ đứng vững trước khi rời đi.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Gánh đã quá nặng",
+          "notice": "Mười Gậy ở hiện tại khớp với việc làm thêm giờ bạn kể: một gánh được nhận dần cho đến khi quá sức. Mong muốn nghỉ ở đây là phản ứng có cơ sở."
+        },
+        {
+          "position": 2,
+          "title": "Cán cân thu nhập",
+          "notice": "Hai Tiền ở vị trí thử thách là việc giữ thăng bằng giữa nhiều thứ cùng lúc. Với bạn, đó là thời gian của mình và khoản thu nhập, nên đừng bỏ bên nào quá nhanh."
+        },
+        {
+          "position": 3,
+          "title": "Mài nghề, tìm chỗ mới",
+          "notice": "Tám Tiền ở vị trí hướng đi là người cần mẫn mài tay nghề. Bước hợp nhất là dùng chính kỹ năng bạn đang có để chuẩn bị chỗ mới, rồi mới tính chuyện nộp đơn."
+        }
+      ],
+      "weave": "Ba lá kể một chuyện khá rõ: gánh nặng là thật, cán cân thu nhập là thật, và lối ra đi qua việc mài lại tay nghề chứ không qua một cú rời đi vội. Giống người đang ôm bó gậy, bạn chưa cần ném nó xuống, chỉ cần tìm trước chỗ đặt nó.",
+      "unsaid": "",
+      "outlook": "Nếu bạn bắt đầu chuẩn bị ngay, quyết định nghỉ sẽ nhẹ hơn vì đã có chỗ để đi. Nếu cứ chịu thêm mà không chuẩn bị gì, cảm giác kiệt sức có thể vẫn ở nguyên.",
+      "paths": [
+        {
+          "label": "Nghỉ ngay",
+          "body": "Bạn thoát khỏi việc làm quá giờ ngay, nhưng phải chịu áp lực thu nhập trong lúc đi tìm việc."
+        },
+        {
+          "label": "Chuẩn bị rồi nghỉ",
+          "body": "Bạn chịu thêm một thời gian, đổi lại có việc mới hoặc ít nhất một kế hoạch rõ trước khi nộp đơn."
+        }
+      ],
+      "closing": "Bạn chưa cần ném bó gậy xuống, chỉ cần biết sẽ đặt nó ở đâu.",
+      "question": "Công việc mới cần khác điều gì để bạn không lại muốn nghỉ?",
+      "experiment": "Cập nhật một mục trong CV bằng việc bạn đã làm tốt gần đây."
+    }
+  },
+  {
+    "id": "listen-breakup",
+    "want": "listen",
+    "input": {
+      "question": "Mình chỉ muốn có ai nghe thôi.",
+      "context": "Mình vừa chia tay, tối nào cũng muốn nhắn lại.",
+      "topic": "Tình yêu",
+      "spread": "3 lá: hiện tại / điều cần / điều hỗ trợ",
+      "cards": [
+        "Năm Cốc (hiện tại)",
+        "Bốn Kiếm (điều cần)",
+        "Sức Mạnh (điều hỗ trợ)"
+      ]
+    },
+    "output": {
+      "verdict": "Bạn chưa cần ép mình hết nhớ.",
+      "answer": "Năm Cốc hợp với nỗi nhớ sau chia tay bạn vừa kể, và Bốn Kiếm cho phép bạn nghỉ, chưa phải quyết định ngay. Sức Mạnh ở đây là chịu được cơn muốn nhắn mà chưa cần làm gì với nó.",
+      "headline": "Còn gần chuyện chia tay",
+      "opening": "Tối nào bạn cũng muốn nhắn lại, và bạn nói chỉ cần có người nghe. Mình đọc bài theo đúng điều đó.",
+      "tension": "Bạn muốn nhắn lại, và cũng cần một khoảng yên trước khi quyết định điều gì.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Điều đã mất",
+          "notice": "Năm Cốc cho thấy nỗi buồn mất mát còn rất gần. Tối nào cũng nhớ không có nghĩa là bạn làm sai điều gì."
+        },
+        {
+          "position": 2,
+          "title": "Được phép nghỉ",
+          "notice": "Bốn Kiếm là lá của sự nghỉ ngơi. Ở đây nó nói rằng bạn được dừng lại trước khi quyết định có nhắn hay không."
+        },
+        {
+          "position": 3,
+          "title": "Chịu được cơn muốn",
+          "notice": "Sức Mạnh là sự dịu dàng giữ một điều mạnh mà không gồng. Cơn muốn nhắn có thể cứ ở đó, bạn chưa phải làm theo nó."
+        }
+      ],
+      "weave": "Ba lá không bắt bạn phải sớm ổn. Chúng nói về việc ngồi cạnh nỗi nhớ như ngồi cạnh một con sư tử đang thở nặng, không đuổi nó đi mà cũng không để nó dắt mình.",
+      "unsaid": "",
+      "outlook": "Nếu bạn cho phép mình nghỉ, cơn muốn nhắn có thể dịu dần theo từng tuần. Nếu có lúc đã nhắn thì đó cũng không phải là thất bại.",
+      "paths": [
+        {
+          "label": "Chưa nhắn tối nay",
+          "body": "Bạn giữ khoảng nghỉ, nỗi nhớ vẫn còn đó nhưng không có thêm điều gì phải giải thích sau một tin nhắn."
+        },
+        {
+          "label": "Nói với người khác",
+          "body": "Bạn kể cho một người tin cậy thay vì người cũ. Cái giá là phải mở lời với ai đó khi đang mệt."
+        }
+      ],
+      "closing": "Tối nay, chưa quyết định chuyện nhắn lại cũng được.",
+      "question": "Điều gì khiến buổi tối là lúc bạn nhớ nhất?",
+      "experiment": ""
+    }
+  }
+]

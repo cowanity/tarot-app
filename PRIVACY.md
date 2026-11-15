@@ -1,0 +1,13 @@
+# Quyền riêng tư
+- Máy chủ gửi câu hỏi, bối cảnh, cảm xúc và ngữ cảnh bài đọc cho nhà cung cấp được chọn bằng AI_PROVIDER (Anthropic hoặc Google Gemini) để tạo lời đọc.
+- Nhà cung cấp AI xử lý nội dung theo chính sách/điều khoản của họ: https://www.anthropic.com/legal/privacy hoặc https://ai.google.dev/gemini-api/terms
+- Khi dùng gói miễn phí của Gemini API, Google có thể dùng nội dung gửi đi để cải thiện sản phẩm theo điều khoản của họ; không nên dùng gói này cho dữ liệu riêng tư của người khác.
+- Máy chủ không lưu hoặc log câu hỏi, bối cảnh, cảm xúc hay câu trả lời.
+- Log chỉ gồm thời gian, status, độ trễ latencyMs, attempts (chỉ primary/retry/fallback và mã kết quả, không nội dung), spreadId, mode, model, số token, providerError (mã ngắn hoặc null), usedFallback (boolean), schemaIssues (chỉ path/code) và responseChars (số ký tự), badSpacingCount (chỉ số lượng token lỗi, không ghi token).
+- IP chỉ dùng trong bộ nhớ để giới hạn tốc độ, không ghi vào log; bộ đếm đặt lại mỗi ngày UTC hoặc khi khởi động lại.
+- Câu hỏi có dấu hiệu khủng hoảng trả mode care, không gửi AI.
+- Lịch sử trình duyệt giữ nguyên; bối cảnh và cảm xúc không lưu vào lịch sử.
+- Script eval chỉ dùng câu hỏi mẫu, in headline/outlook theo yêu cầu kiểm thử; không dùng dữ liệu riêng tư.
+- Hồ sơ (ngày sinh, tên gọi) chỉ tính trong trình duyệt; mặc định không lưu, chỉ giữ trong bộ nhớ phiên. Có công tắc nhớ trên thiết bị và nút xóa.
+- Khi chủ động dùng hồ sơ và yêu cầu luận giải, máy chủ chỉ nhận số và id lá, tự tính lại cộng hưởng; không nhận ngày sinh/tên gọi từ ô hồ sơ. Các trường này không lưu trong lịch sử hoặc log.
+- Văn bản bạn tự nhập vào câu hỏi/bối cảnh vẫn được gửi khi yêu cầu luận giải; tránh tự điền thông tin định danh vào đó.

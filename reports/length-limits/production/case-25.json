@@ -1,0 +1,151 @@
+{
+  "id": 25,
+  "input": {
+    "question": "Bạn thân dạo này xa cách mình, mình nên làm gì?",
+    "context": "",
+    "feelings": {
+      "ids": [],
+      "want": "clarity"
+    },
+    "topic": "Bản thân",
+    "spreadId": "past-present-future",
+    "picks": [
+      {
+        "position": 1,
+        "cardId": "cups-six",
+        "reversed": false
+      },
+      {
+        "position": 2,
+        "cardId": "swords-two",
+        "reversed": false
+      },
+      {
+        "position": 3,
+        "cardId": "cups-page",
+        "reversed": false
+      }
+    ]
+  },
+  "status": 200,
+  "seconds": 10.904,
+  "audit": {
+    "method": "POST",
+    "path": "/api/interpret",
+    "errorCode": null,
+    "time": "2026-10-18T10:05:14.425Z",
+    "status": 200,
+    "latencyMs": 10903,
+    "attempts": [
+      {
+        "kind": "primary",
+        "outcome": "ok",
+        "model": "gemini-3.5-flash-lite",
+        "latencyMs": 10774
+      }
+    ],
+    "spreadId": "past-present-future",
+    "mode": "full",
+    "model": "gemini-3.5-flash-lite",
+    "tokens": 4413,
+    "providerError": null,
+    "usedFallback": false,
+    "schemaIssues": [],
+    "responseChars": 2070,
+    "badSpacingCount": 0
+  },
+  "payload": {
+    "mode": "full",
+    "reading": {
+      "verdict": "Chủ động nói chuyện thẳng thắn với bạn.",
+      "answer": "Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.",
+      "headline": "Khoảng cách bất ngờ",
+      "opening": "Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.",
+      "tension": "Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.",
+      "per_card": [
+        {
+          "position": 1,
+          "title": "Hoài niệm và ký ức",
+          "notice": "Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.",
+          "scene": "Hai đứa trẻ trong sân làng, một em đưa cho em kia chén đầy hoa trắng, thêm bốn chén hoa xung quanh."
+        },
+        {
+          "position": 2,
+          "title": "Cân bằng tạm thời",
+          "notice": "Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.",
+          "scene": "Người phụ nữ bịt mắt ngồi giữ hai thanh kiếm bắt chéo trước ngực, lưng quay ra mặt biển tĩnh dưới trăng lưỡi liềm."
+        },
+        {
+          "position": 3,
+          "title": "Cảm hứng kết nối",
+          "notice": "Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.",
+          "scene": "Chàng trai trẻ mặc áo hoa đứng bên bờ biển, trong chén có con cá nhỏ ló đầu lên nhìn anh."
+        }
+      ],
+      "weave": "Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.",
+      "unsaid": "Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.",
+      "outlook": "Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.",
+      "paths": [
+        {
+          "label": "Chủ động hỏi han",
+          "body": "Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ."
+        },
+        {
+          "label": "Tiếp tục giữ khoảng cách",
+          "body": "Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm."
+        }
+      ],
+      "closing": "Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.",
+      "question": "Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?",
+      "experiment": "Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này."
+    },
+    "notes": [
+      "soft_length"
+    ],
+    "model": "gemini-3.5-flash-lite"
+  },
+  "validations": [
+    {
+      "afterCompletion": 1,
+      "errors": [],
+      "notes": [],
+      "schemaIssues": [],
+      "fields": {
+        "verdict": "Chủ động nói chuyện thẳng thắn với bạn.",
+        "answer": "Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.",
+        "headline": "Khoảng cách bất ngờ",
+        "opening": "Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.",
+        "tension": "Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.",
+        "per_card.0.title": "Hoài niệm và ký ức",
+        "per_card.0.notice": "Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.",
+        "per_card.1.title": "Cân bằng tạm thời",
+        "per_card.1.notice": "Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.",
+        "per_card.2.title": "Cảm hứng kết nối",
+        "per_card.2.notice": "Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.",
+        "weave": "Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.",
+        "unsaid": "Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.",
+        "outlook": "Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.",
+        "paths.0.label": "Chủ động hỏi han",
+        "paths.0.body": "Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ.",
+        "paths.1.label": "Tiếp tục giữ khoảng cách",
+        "paths.1.body": "Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm.",
+        "closing": "Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.",
+        "question": "Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?",
+        "experiment": "Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này."
+      },
+      "diagnostics": []
+    }
+  ],
+  "completions": [
+    {
+      "call": 1,
+      "repairFields": null,
+      "model": "gemini-3.5-flash-lite",
+      "text": "{\n  \"verdict\": \"Chủ động nói chuyện thẳng thắn với bạn.\",\n  \"answer\": \"Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.\",\n  \"headline\": \"Khoảng cách bất ngờ\",\n  \"opening\": \"Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.\",\n  \"tension\": \"Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Hoài niệm và ký ức\",\n      \"notice\": \"Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Cân bằng tạm thời\",\n      \"notice\": \"Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Cảm hứng kết nối\",\n      \"notice\": \"Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.\"\n    }\n  ],\n  \"weave\": \"Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.\",\n  \"unsaid\": \"Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.\",\n  \"outlook\": \"Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.\",\n  \"paths\": [\n    {\n      \"label\": \"Chủ động hỏi han\",\n      \"body\": \"Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ.\"\n    },\n    {\n      \"label\": \"Tiếp tục giữ khoảng cách\",\n      \"body\": \"Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm.\"\n    }\n  ],\n  \"closing\": \"Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.\",\n  \"question\": \"Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?\",\n  \"experiment\": \"Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này.\"\n}",
+      "usage": {
+        "input": 3791,
+        "output": 622
+      }
+    }
+  ]
+}

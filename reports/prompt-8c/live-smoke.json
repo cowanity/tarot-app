@@ -1,0 +1,64 @@
+{
+  "ran": true,
+  "node": "24.19.0",
+  "results": [
+    {
+      "spread": "celtic-cross",
+      "status": 200,
+      "hasReading": true,
+      "calls": 2,
+      "tokens": 8597,
+      "seconds": 19.412,
+      "reason": null,
+      "providerError": null,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 16149
+        },
+        {
+          "kind": "fallback",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash",
+          "latencyMs": 1376
+        }
+      ],
+      "notes": [
+        "answer_abstract",
+        "question_opening",
+        "cliche",
+        "soft_length",
+        "abstract_repeat",
+        "verdict_repair_triggered",
+        "verdict_repair_rejected"
+      ]
+    },
+    {
+      "spread": "past-present-future",
+      "status": 200,
+      "hasReading": true,
+      "calls": 1,
+      "tokens": 4576,
+      "seconds": 10.213,
+      "reason": null,
+      "providerError": null,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 9842
+        }
+      ],
+      "notes": [
+        "verdict_long",
+        "answer_verdict",
+        "question_opening",
+        "question_length",
+        "soft_length"
+      ]
+    }
+  ]
+}

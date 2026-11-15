@@ -1,0 +1,454 @@
+From 854adf0128997ba70e217d49924cceee13b95690 Mon Sep 17 00:00:00 2001
+From: Codex <codex@local>
+Date: Mon, 19 Oct 2026 08:37:46 +0800
+Subject: [PATCH 5/6] F5: charge only actual readings and distinguish failure
+ reasons
+
+---
+ NOTES-8b.md                       | 18 +++++++++++++++++-
+ ops/README.md                     | 11 ++++++++++-
+ ops/environment.example           |  2 +-
+ server/app.test.ts                | 31 ++++++++++++++++++++++++++-----
+ server/app.ts                     | 23 ++++++++++-------------
+ server/callBudget.ts              |  7 ++++---
+ server/config.ts                  |  2 +-
+ server/failureReason.ts           | 10 ++++++++++
+ server/limits.ts                  |  8 +++++++-
+ server/ops8.test.ts               |  5 ++++-
+ src/components/AiReadingPanel.tsx |  2 +-
+ src/hooks/useAiReading.ts         |  2 +-
+ src/lib/aiClient.test.ts          | 13 +++++++++----
+ src/lib/aiClient.ts               |  5 +++--
+ src/lib/aiErrorMessage.ts         |  5 ++---
+ src/lib/aiState.ts                |  3 ++-
+ 16 files changed, 108 insertions(+), 39 deletions(-)
+ create mode 100644 server/failureReason.ts
+
+diff --git a/NOTES-8b.md b/NOTES-8b.md
+index f223c29..891cb73 100644
+--- a/NOTES-8b.md
++++ b/NOTES-8b.md
+@@ -10,7 +10,23 @@ Nguyên nhân trong mã: ResizeObserver đọc vị trí top của chính board,
+ 151 test hình học/measurement qua (H thiếu/0/120/200/844, W320–1920), gồm chồng lấn, khoảng cách, badge và hai giai đoạn. Test cũ ép board.height <= viewport đã thay vì trái yêu cầu mới cho phép cuộn dọc. Chưa chứng minh hiển thị trên Safari/Chrome thật.
+ 
+ ## F3
+-Khôi phục mount Starfield cũ và thời lượng aurora 38/47/59 giây từ baseline `ebb65eb` (bản trước Prompt 8 đang có trong repo; không có lịch sử commit 7d riêng). Gỡ đường nối/sao băng và sweep/rune khỏi các màn. Canvas chỉ mount khi có hạt lật/xáo bài; hết hạt thì dừng và unmount. Giữ SparkPool, FxEngine, ánh kim, hiệu ứng lật và hạ cấp FPS. Test nguồn + engine giả; chưa so nền bằng mắt trên trình duyệt. Overlay FPS khi không có canvas giữ mẫu cuối, không phải phép đo FPS nền liên tục.
++Khôi phục mount Starfield cũ và thời lượng aurora 38/47/59 giây từ baseline `ebb65eb` (bản trước Prompt 8 đang có trong repo; không có lịch sử commit 7d riêng). Gỡ đường nối/sao băng và sweep/rune khỏi các màn. Canvas chỉ mount khi có hạt lật/xáo bài; hết hạt thì dừng và unmount. Giữ SparkPool, FxEngine, ánh kim, hiệu ứng lật và hạ cấp FPS. Test nguồn + engine giả; chưa so nền bằng mắt trên trình duyệt. Một engine vẫn đo FPS khi không có hạt để hạ cấp sau bốn cửa sổ chậm; không tạo canvas nền. Dừng rAF khi hidden/reduced/minimal. Chưa có số FPS thật từ thiết bị.
+ 
+ ## F4
+ Đã xóa công tắc FPS và thuộc tính lưu showFps. Overlay chỉ bật bằng `?fps=1` (trong hash hoặc search URL). Test nguồn xác nhận không còn công tắc. Chưa kiểm render.
++
++## F5 — chẩn đoán trước/sau
++Không có log từ server Mac hoặc phản hồi HTTP của lượt thất bại trong ảnh, nên **chưa xác định nguyên nhân trực tiếp của các lượt trên thiết bị**; không kết luận hết quota hay lỗi Gemini.
++
++Kiểm mã trước sửa:
++- Log có errorCode/providerError/attempts nhưng 429 nội bộ chung RATE_LIMIT; AI_BUSY cuối có thể che mã 429/5xx nhà cung cấp trước đó. Chưa có reason chuẩn.
++- clientIp đã nhận đủ ::1, 127.0.0.1, ::ffff:127.0.0.1; CF-Connecting-IP chỉ được tin từ loopback. Không tìm thấy lỗi gom IP trong hàm này. Cần log/kiểm đường tunnel thực tế để biết cấu hình vận hành có đúng không.
++- Lỗi xác nhận được: middleware tăng bộ đếm IP trước kiểm body/care, vì vậy 400 và chặn trước provider cũng tiêu lượt.
++
++Đã chuyển tính IP + trần ngày thành thao tác đồng bộ tại beforeCall đầu tiên. Retry/repair vẫn chung tối đa 3 call, chỉ tính một lượt. Đã từ chối thì không tiêu cả hai ngân sách. Mặc định AI_HOURLY_IP_LIMIT=20, AI_DAILY_CAP=150; cấu hình đã ghi trong .env vẫn được ưu tiên, không tự sửa .env.
++
++Mỗi request lỗi có một dòng audit JSON metadata với reason: rate_limited, daily_budget, provider_429, provider_5xx, provider_network, timeout, guard_blocked hoặc bad_request. Giữ mã provider gốc khi tầng transport kết thúc bằng AI_BUSY. provider_network cũng là nhóm lỗi giao tiếp không có mã HTTP; provider_5xx khi chỉ biết AI_BUSY nghĩa là nhà cung cấp chưa khả dụng, không khẳng định nhận HTTP 5xx. Xem thêm providerError/attempts để phân biệt. Không ghi câu hỏi, bài đọc, khóa hoặc IP.
++
++Ví dụ dòng rút gọn: `{"path":"/api/interpret","status":429,"reason":"daily_budget","attempts":[],"tokens":0}`. Xem log server theo ops/README.md, lọc `reason`; 429 có reason provider_429 là lỗi phía nhà cung cấp (HTTP trả client có thể 502/503), khác rate_limited của app. Bộ đếm ở RAM: restart đặt về 0; trần ngày theo UTC.
++
++Client giữ reason qua reducer, hiển thị hai câu riêng cho giới hạn IP/ngày, vẫn có Thử lại/Đọc theo sách. Retry-After tối đa một ngày để không hẹn sớm hơn trần ngày. Test giả kiểm 400/care không tiêu lượt, retry3 tính1, các reason, IP loopback/spoof và reset. Không gọi Gemini thật.
+diff --git a/ops/README.md b/ops/README.md
+index 705e3b1..6a1335e 100644
+--- a/ops/README.md
++++ b/ops/README.md
+@@ -71,7 +71,7 @@ curl http://127.0.0.1:8787/api/health
+ Log server chỉ metadata/mã lỗi, không nội dung. Log file launchd không tự xoay; định kỳ lưu/xóa bản cũ hoặc cấu hình newsyslog để tránh đầy ổ.
+ 
+ ## Hạn mức và riêng tư
+-- AI_HOURLY_IP_LIMIT mặc định10 lượt POST/giờ/IP, cửa sổ trượt; vượt trả429/rate_limited.
++- AI_HOURLY_IP_LIMIT mặc định 20 lượt thực sự gọi nhà cung cấp/giờ/IP, cửa sổ trượt; vượt trả429/rate_limited.
+ - AI_DAILY_CAP mặc định150 lượt có gọi provider/ngày UTC, tính một lần mỗi lượt, dùng chung mọi IP; vượt trả429/daily_budget. Một lượt vẫn tối đa3 calls, nên trần150 lượt có thể là450 calls.
+ - Limit ở RAM cho một process: restart làm mất bộ đếm; không dùng nhiều worker để né/nhân hạn mức. Theo dõi thêm quota của provider, vì đây không phải sổ ngân sách bền vững qua restart.
+ - Chỉ tin CF-Connecting-IP nếu socket đến từ loopback (cloudflared trên cùng Mac). Header từ kết nối ngoài bị bỏ qua; X-Forwarded-For không dùng. Giữ bind127.0.0.1, không publish8787; người có quyền chạy code ngay trên Mac vẫn nằm trong vùng tin cậy.
+@@ -88,3 +88,12 @@ Sao lưu `.env` và credential tunnel vào nơi mã hóa ngoài Git; repo nguồ
+ Tài liệu chính thức để đối chiếu khi cài:
+ - Apple launchd: https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html
+ - Cloudflare cấu hình tunnel: https://developers.cloudflare.com/tunnel/features/locally-managed-tunnels/configuration-file/
++
++### Chẩn đoán lỗi luận giải (8b)
++Log server là JSON metadata; xem `reason` ở dòng `/api/interpret`:
++`rate_limited` (IP), `daily_budget` (ngày), `provider_429`, `provider_5xx`, `provider_network`, `timeout`, `guard_blocked`, `bad_request`.
++Ví dụ rút gọn: `{"status":429,"reason":"rate_limited","attempts":[]}`.
++Xem thêm `providerError` và `attempts`: AI_BUSY không luôn đồng nghĩa HTTP 5xx.
++`AI_HOURLY_IP_LIMIT=20` mặc định; `.env` có giá trị cũ vẫn được ưu tiên.
++Chỉ tính khi bắt đầu gọi nhà cung cấp, một lượt gồm tối đa 3 call. 400, 429, care không gọi provider không tiêu lượt.
++Bộ đếm trong RAM; khởi động lại server sẽ đặt về 0, không có dữ liệu câu hỏi trong bộ đếm.
+diff --git a/ops/environment.example b/ops/environment.example
+index 6051aff..c0079fd 100644
+--- a/ops/environment.example
++++ b/ops/environment.example
+@@ -4,7 +4,7 @@ GEMINI_API_KEY=DIEN_KHOA_TREN_MAY_CUA_BAN
+ AI_MODEL=gemini-3.5-flash-lite
+ AI_FALLBACK_MODELS=gemini-3.5-flash
+ AI_DAILY_CAP=150
+-AI_HOURLY_IP_LIMIT=10
++AI_HOURLY_IP_LIMIT=20
+ SHUTDOWN_TIMEOUT_MS=120000
+ ALLOWED_ORIGIN=https://tarotvp.id.vn,http://localhost:5173
+ VITE_SITE_URL=https://tarotvp.id.vn
+diff --git a/server/app.test.ts b/server/app.test.ts
+index 272f458..0dd7201 100644
+--- a/server/app.test.ts
++++ b/server/app.test.ts
+@@ -35,7 +35,7 @@ const good: ReadingOutput = {verdict:"Nhìn lại lựa chọn hiện tại",ans
+   weave: 'Các lá đặt cạnh nhau.', unsaid: 'Có thể còn một câu hỏi khác.', outlook: 'Không đưa dự đoán cho chủ đề này. Bạn có thể suy ngẫm về điều mình cần.',
+   paths: [{label: 'Một phía', body: 'Bạn có thể tự hỏi về điều đã kể.'}, {label: 'Phía còn lại', body: 'Bạn có thể nhìn lại điều đang cân nhắc.'}],
+   closing: 'Một câu hỏi có thể còn mở.', question: 'Bạn muốn hiểu thêm điều gì?', experiment: 'Có thể thử ghi một câu.'};
+-const setup = (responses = [JSON.stringify(good)], extra: Partial<Parameters<typeof createApp>[0]> = {}) => {
++const setup = (responses: (string|Error)[] = [JSON.stringify(good)], extra: Partial<Parameters<typeof createApp>[0]> = {}) => {
+   const provider = new FakeProvider(responses), logs: Audit[] = [];
+   const app = createApp({provider, model: 'test-model', origin: 'http://localhost:5173', log: (entry) => logs.push(entry), ...extra});
+   const post = (body: unknown = input, headers: Record<string, string> = {}) => app.request('/api/interpret', {
+@@ -91,7 +91,7 @@ describe('API validation, safety and privacy', () => {
+     const {post, logs} = setup(); const res = await post({...input, question: 'PRIVATE_QUESTION', context: 'PRIVATE_CONTEXT', feelings: {ids: ['hy_vong']}});
+     const result = await res.json(); expect(Object.keys(result).sort()).toEqual(['mode', 'model', 'notes', 'reading']);
+     expect(result.mode).toBe('full'); expect(JSON.stringify(logs)).not.toMatch(/PRIVATE_|Hy vọng|Dành thời gian/);
+-    expect(Object.keys(logs[0]).sort()).toEqual(['method', 'path', 'errorCode', 'time', 'status', 'latencyMs', 'attempts', 'spreadId', 'mode', 'model', 'tokens', 'providerError', 'usedFallback', 'schemaIssues', 'responseChars', 'badSpacingCount'].sort());
++    expect(Object.keys(logs[0]).sort()).toEqual(['reason', 'method', 'path', 'errorCode', 'time', 'status', 'latencyMs', 'attempts', 'spreadId', 'mode', 'model', 'tokens', 'providerError', 'usedFallback', 'schemaIssues', 'responseChars', 'badSpacingCount'].sort());
+     expect(logs[0].tokens).toBe(30);
+   });
+   test('CORS only allows configured origin; forwarded IP cannot bypass limits', async () => {
+@@ -101,7 +101,7 @@ describe('API validation, safety and privacy', () => {
+     expect(allowed.headers.get('Access-Control-Allow-Origin')).toBe('http://localhost:5173');
+     const preflight = await app.request('/api/interpret', {method: 'OPTIONS', headers: {Origin: 'http://localhost:5173', 'Access-Control-Request-Method': 'POST'}});
+     expect(preflight.status).toBe(204);
+-    for (let i = 0; i < 10; i++) expect((await post(input, {'X-Forwarded-For': `fake-${i}`})).status).toBe(200);
++    for (let i = 0; i < 20; i++) expect((await post(input, {'X-Forwarded-For': `fake-${i}`})).status).toBe(200);
+     const limited = await post(); expect(limited.status).toBe(429); expect(Number(limited.headers.get('Retry-After'))).toBeGreaterThan(0);
+   });
+ });
+@@ -164,9 +164,9 @@ describe('in-memory budgets', () => {
+     expect(budgets.request('a')).toBe(0); expect(budgets.aiCall()).toBe(0);
+     expect(budgets.request('b')).toBe(0); expect(budgets.aiCall()).toBe(86400);
+   });
+-  test('10/hour, independent IPs, UTC global reset', () => {
++  test('20/hour, independent IPs, UTC global reset', () => {
+     let now=0;const limits=new Limits(1,()=>now);
+-    for(let i=0;i<10;i++)expect(limits.request('a')).toBe(0);
++    for(let i=0;i<20;i++)expect(limits.request('a')).toBe(0);
+     expect(limits.request('a')).toBe(3600);expect(limits.request('b')).toBe(0);
+     expect(limits.aiCall()).toBe(0);expect(limits.aiCall()).toBe(86400);
+     now=3600000;expect(limits.request('a')).toBe(0);
+@@ -1036,3 +1036,24 @@ test('7b invalid backup returns busy without repair or a canned reading',async()
+  const res=await post({...input,question:'Liệu mình làm được không?'});
+  expect(res.status).toBe(502);expect(await res.json()).toEqual({error:'guardrail',fallback:'offline'});expect(models).toEqual(['main','main','backup']);
+ });
++
++describe('8b diagnostic reasons and charge at provider boundary',()=>{
++ test('invalid and care do not consume IP; retry calls count as one reading',async()=>{
++  const {post,provider,logs}=setup(['bad'],{hourlyLimit:1});
++  expect((await post({})).status).toBe(400);expect(logs.at(-1)?.reason).toBe('bad_request');
++  expect((await post({...input,question:'Tôi muốn tự tử'})).status).toBe(200);
++  expect(provider.calls).toHaveLength(0);
++  expect((await post()).status).toBe(502);expect(provider.calls).toHaveLength(3);expect(logs.at(-1)?.reason).toBe('guard_blocked');
++  const limited=await post();expect(limited.status).toBe(429);expect(await limited.json()).toEqual({error:'rate_limited'});expect(logs.at(-1)?.reason).toBe('rate_limited');expect(provider.calls).toHaveLength(3);
++ });
++ test('daily denial is logged separately',async()=>{
++  const {post,logs}=setup([JSON.stringify(good)],{cap:1});await post();const res=await post();expect(await res.json()).toEqual({error:'daily_budget'});expect(logs.at(-1)?.reason).toBe('daily_budget');
++ });
++ test.each([['GEMINI_HTTP_429','provider_429'],['GEMINI_HTTP_503','provider_5xx'],['GEMINI_NETWORK','provider_network'],['GEMINI_TIMEOUT','timeout']])('%s logs only safe reason %s',async(code,reason)=>{
++  const {post,logs}=setup([new Error(code)]);expect((await post()).status).toBeGreaterThanOrEqual(500);expect(logs.at(-1)?.reason).toBe(reason);expect(JSON.stringify(logs)).not.toContain(input.question);
++ });
++ test('underlying provider 429 survives exhausted transport AI_BUSY',async()=>{
++  const provider:LlmProvider={complete:async i=>{i.beforeCall?.();i.onProviderError?.('GEMINI_HTTP_429');throw new Error('AI_BUSY');}};
++  const {post,logs}=setup([],{provider});expect((await post()).status).toBe(503);expect(logs.at(-1)?.reason).toBe('provider_429');
++ });
++});
+diff --git a/server/app.ts b/server/app.ts
+index 6fcaf4d..44ada43 100644
+--- a/server/app.ts
++++ b/server/app.ts
+@@ -1,3 +1,4 @@
++import {failureReason,type FailureReason} from './failureReason';
+ import {staticCacheHeader} from '../src/lib/pwaConfig';
+ import {repairVerdict,verdictRepairReason} from './verdictRepair';
+ import {voiceSoftErrors} from './voiceRules';
+@@ -27,7 +28,7 @@ import { providerErrorCode, type AttemptKind, type LlmProvider } from './provide
+ import { CallBudgetError, createCallBudget } from './callBudget';
+ import { softLengthCount, parseAndGuard, guardrailFeedback, withThirdPartyLimit, type SchemaIssue } from './guardrails';
+ import { Limits } from './limits';
+-export interface Audit { origin?: string; method: string; path: string; errorCode: string | null; time: string; status: number; latencyMs: number; attempts: {kind: AttemptKind; outcome: string; model?: string; latencyMs?: number; guardrailErrors?: string[]}[]; spreadId: string | null; mode: string | null; model: string; tokens: number; providerError: string | null; usedFallback: boolean; schemaIssues: SchemaIssue[]; responseChars: number; badSpacingCount: number }
++export interface Audit { reason: FailureReason | null; origin?: string; method: string; path: string; errorCode: string | null; time: string; status: number; latencyMs: number; attempts: {kind: AttemptKind; outcome: string; model?: string; latencyMs?: number; guardrailErrors?: string[]}[]; spreadId: string | null; mode: string | null; model: string; tokens: number; providerError: string | null; usedFallback: boolean; schemaIssues: SchemaIssue[]; responseChars: number; badSpacingCount: number }
+ export function createApp(options: { provider: LlmProvider; model: string; origin: string; cap?: number; hourlyLimit?:number; providerName?: 'gemini' | 'anthropic'; freeTier?: boolean;
+   promptVariant?: PromptVariant; firstPass?: boolean; withVerdictRepair?: boolean;
+   onValidation?: (result:ReturnType<typeof parseAndGuard>)=>void;
+@@ -47,7 +48,7 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+         : status === 400 ? 'BAD_REQUEST' : status === 413 ? 'BODY_TOO_LARGE' : status === 404 ? 'NOT_FOUND' : 'REQUEST_FAILED';
+       // Never log query strings or arbitrary user-supplied path segments.
+       const path = ['/api/interpret', '/api/health', '/api/info'].includes(c.req.path) ? c.req.path : '/api/*';
+-      try { options.log?.({ method: c.req.method, path, errorCode, ...(status === 403 ? {origin: logOrigin(c.req.header('Origin') ?? '')} : {}), time: new Date().toISOString(), status: c.res.status, latencyMs: Date.now() - start, attempts: meta?.attempts ?? [],
++      try { options.log?.({ method: c.req.method, path, errorCode, reason:status<400?null:meta?.reason??failureReason(status,meta?.providerError,meta?.attempts?.some(a=>a.outcome.startsWith('guardrail:'))), ...(status === 403 ? {origin: logOrigin(c.req.header('Origin') ?? '')} : {}), time: new Date().toISOString(), status: c.res.status, latencyMs: Date.now() - start, attempts: meta?.attempts ?? [],
+         spreadId: meta?.spreadId ?? null, mode: meta?.mode ?? null, model: meta?.model ?? options.model, tokens: meta?.tokens ?? 0, providerError: meta?.providerError ?? null, usedFallback: meta?.usedFallback ?? false, schemaIssues: meta?.schemaIssues ?? [], responseChars: meta?.responseChars ?? 0, badSpacingCount: meta?.badSpacingCount ?? 0 }); } catch { /* No request or error logging. */ }
+     }
+   });
+@@ -59,12 +60,6 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+   app.use('/api/*', cors({ origin: origin => acceptsOrigin(origin) ? origin : undefined, allowMethods: ['POST', 'GET', 'OPTIONS'], allowHeaders: ['Content-Type'] }));
+   app.get('/api/info', (c) => c.json({provider: options.providerName ?? 'anthropic', freeTier: options.freeTier ?? false}));
+   app.get('/api/health', (c) => c.json({ ok: true }));
+-  app.use('/api/interpret', async (c, next) => {
+-    if(c.req.method!=='POST')return next();
+-    const retry = limits.request(options.ip?.(c) ?? 'local');
+-    if (retry) { c.header('Retry-After', String(retry)); return c.json({ error: 'rate_limited' }, 429); }
+-    await next();
+-  });
+   app.use('/api/interpret', bodyLimit({ maxSize: 8192, onError: (c) => c.json({ error: 'body_too_large' }, 413) }));
+   app.post('/api/interpret', async (c) => {
+     if (!c.req.header('Content-Type')?.toLowerCase().startsWith('application/json')) return c.json({error: 'content_type'}, 400);
+@@ -83,7 +78,9 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+     const outcome = (code: string) => { const last = attempts.at(-1); if (last) { last.outcome = code; last.latencyMs = Date.now() - attemptStarted; } };
+     const providerFailed = (error: unknown) => {
+       const code = providerErrorCode(error);
+-      audit.providerError = code;
++      if(code!=='AI_BUSY'||!audit.providerError)audit.providerError = code;
++      if(controller.signal.aborted)audit.reason='timeout';
++      else if(code!=='AI_BUSY')audit.reason=failureReason(502,code);
+       outcome(controller.signal.aborted ? 'timeout' : code.replace(/^(?:GEMINI|ANTHROPIC)_/, '').toLowerCase());
+     };
+     c.set('audit', audit);
+@@ -102,7 +99,7 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+     const disconnected = () => controller.abort();
+     c.req.raw.signal.addEventListener('abort', disconnected, { once: true });
+     if (c.req.raw.signal.aborted) controller.abort();
+-    const takeCall = createCallBudget(limits);
++    const takeCall = createCallBudget(limits,3,options.ip?.(c)??'local');
+     let feedback = '';
+     const excludedModels = new Set<string>();
+ 
+@@ -187,14 +184,14 @@ export function createApp(options: { provider: LlmProvider; model: string; origi
+     } catch (error) {
+       if(best)return ship();
+       if(attempts.at(-1)?.outcome.startsWith('guardrail:')) return c.json({error:'guardrail',fallback:'offline'},502);
+-      if (providerErrorCode(error) === 'AI_BUSY' || controller.signal.aborted || (error instanceof CallBudgetError && !error.retryAfter)) { if (controller.signal.aborted) providerFailed(error); else audit.providerError = 'AI_BUSY'; return c.json({error: 'AI_BUSY', message: 'Hệ thống đang bận, bạn thử lại sau ít phút nhé'}, 503); }
++      if (providerErrorCode(error) === 'AI_BUSY' || controller.signal.aborted || (error instanceof CallBudgetError && !error.retryAfter)) { if (controller.signal.aborted) providerFailed(error); else if(!audit.providerError)audit.providerError = 'AI_BUSY'; return c.json({error: 'AI_BUSY', message: 'Hệ thống đang bận, bạn thử lại sau ít phút nhé'}, 503); }
+       if (error instanceof CallBudgetError) {
+-        if (error.retryAfter) { c.header('Retry-After', String(error.retryAfter)); return c.json({error: 'daily_budget'}, 429); }
++        if (error.retryAfter) { audit.reason=error.reason;c.header('Retry-After', String(error.retryAfter)); return c.json({error:error.reason}, 429); }
+       } else providerFailed(error);
+     }
+     finally { clearTimeout(timer); c.req.raw.signal.removeEventListener('abort', disconnected); }
+     if(best)return ship();
+-    if (attempts.at(-1)?.outcome.startsWith('guardrail:')) return c.json({error:'guardrail',fallback:'offline'},502);
++    if (attempts.at(-1)?.outcome.startsWith('guardrail:')) {audit.reason='guard_blocked';return c.json({error:'guardrail',fallback:'offline'},502);}
+     if (attempts.length >= 3) return c.json({error: 'AI_BUSY', message: 'Hệ thống đang bận, bạn thử lại sau ít phút nhé'}, 503);
+     return c.json({error: 'unavailable', fallback: 'offline'}, 502);
+   });
+diff --git a/server/callBudget.ts b/server/callBudget.ts
+index ec26b9b..d016208 100644
+--- a/server/callBudget.ts
++++ b/server/callBudget.ts
+@@ -1,13 +1,14 @@
+ import type { Limits } from './limits';
+ export class CallBudgetError extends Error {
+-  constructor(public readonly retryAfter = 0) { super(retryAfter ? 'AI_DAILY_CAP' : 'CALL_BUDGET_EXHAUSTED'); }
++  constructor(public readonly retryAfter = 0, public readonly reason:'rate_limited'|'daily_budget'='daily_budget') { super(retryAfter ? 'AI_DAILY_CAP' : 'CALL_BUDGET_EXHAUSTED'); }
+ }
+ /** One instance per API request, shared by provider retries and guardrail repair. */
+-export function createCallBudget(limits: Limits, maximum = 3) {
++export function createCallBudget(limits: Limits, maximum = 3, ip?:string) {
+   let calls = 0;
+   return () => {
+     if (calls >= maximum) throw new CallBudgetError();
+-    const retryAfter = calls === 0 ? limits.aiCall() : 0;
++    if(calls===0&&ip!==undefined){const denied=limits.acquire(ip);if(denied)throw new CallBudgetError(denied.retryAfter,denied.reason);}
++    const retryAfter = calls === 0 && ip===undefined ? limits.aiCall() : 0;
+     if (retryAfter) throw new CallBudgetError(retryAfter);
+     calls++;
+   };
+diff --git a/server/config.ts b/server/config.ts
+index b013c4d..59e52f3 100644
+--- a/server/config.ts
++++ b/server/config.ts
+@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs';
+ if (existsSync('.env')) process.loadEnvFile('.env');
+ export function config(env: NodeJS.ProcessEnv = process.env) {
+   const cap = Number(env.AI_DAILY_CAP ?? 150);
+-  const hourly=Number(env.AI_HOURLY_IP_LIMIT??10);
++  const hourly=Number(env.AI_HOURLY_IP_LIMIT??20);
+   const shutdownMs=Number(env.SHUTDOWN_TIMEOUT_MS??120000);
+   if(!Number.isInteger(hourly)||hourly<1||hourly>10000)throw new Error('INVALID_HOURLY_LIMIT');
+   if(!Number.isInteger(shutdownMs)||shutdownMs<1000||shutdownMs>600000)throw new Error('INVALID_SHUTDOWN_TIMEOUT');
+diff --git a/server/failureReason.ts b/server/failureReason.ts
+new file mode 100644
+index 0000000..733bf40
+--- /dev/null
++++ b/server/failureReason.ts
+@@ -0,0 +1,10 @@
++export type FailureReason='rate_limited'|'daily_budget'|'provider_429'|'provider_5xx'|'provider_network'|'timeout'|'guard_blocked'|'bad_request';
++/** Only whitelisted metadata, never an arbitrary exception message. */
++export function failureReason(status:number,code?:string|null,guard=false):FailureReason{
++ if(status>=400&&status<500&&status!==429)return 'bad_request';
++ if(guard)return 'guard_blocked';
++ if(/TIMEOUT|ABORTED/.test(code??''))return 'timeout';
++ if(/HTTP_429/.test(code??''))return 'provider_429';
++ if(/HTTP_5\d\d/.test(code??'')||code==='AI_BUSY')return 'provider_5xx';
++ return 'provider_network';
++}
+diff --git a/server/limits.ts b/server/limits.ts
+index 7fb7299..f88b3d5 100644
+--- a/server/limits.ts
++++ b/server/limits.ts
+@@ -1,7 +1,7 @@
+ /** One process, in-memory rolling IP window + UTC global daily reading budget. */
+ export class Limits {
+  private ips=new Map<string,number[]>();private day=-1;private calls=0;
+- constructor(private cap=150,private now=Date.now,private hourly=10){}
++ constructor(private cap=150,private now=Date.now,private hourly=20){}
+  private time(){const now=this.now(),day=Math.floor(now/86_400_000);if(day!==this.day){this.day=day;this.calls=0;}return {now,retry:Math.max(1,Math.ceil(((day+1)*86_400_000-now)/1000))};}
+  request(ip:string):number{
+   const {now}=this.time();for(const [key,list] of this.ips)if(!list.length||list[list.length-1]<=now-3600_000)this.ips.delete(key);
+@@ -11,6 +11,12 @@ export class Limits {
+   if(recent.length>=this.hourly)return Math.max(1,Math.ceil((recent[0]+3600_000-now)/1000));
+   recent.push(now);this.ips.set(key,recent);return 0;
+  }
++ /** Atomic: denied requests spend neither budget. No awaits between check and charge. */
++ acquire(ip:string):{reason:'rate_limited'|'daily_budget';retryAfter:number}|null{
++  const {retry}=this.time();if(this.calls>=this.cap)return {reason:'daily_budget',retryAfter:retry};
++  const retryAfter=this.request(ip);if(retryAfter)return {reason:'rate_limited',retryAfter};
++  this.calls++;return null;
++ }
+  /** Called once, immediately before the first provider call in an interpretation. */
+  aiCall():number{const {retry}=this.time();if(this.calls>=this.cap)return retry;this.calls++;return 0;}
+ }
+diff --git a/server/ops8.test.ts b/server/ops8.test.ts
+index b6fc1cc..ddd98ba 100644
+--- a/server/ops8.test.ts
++++ b/server/ops8.test.ts
+@@ -8,7 +8,10 @@ import {readFileSync} from 'node:fs';
+ import {staticCacheHeader} from '../src/lib/pwaConfig';
+ test('hour window crosses UTC midnight, daily budget resets separately',()=>{let now=86399000;const l=new Limits(1,()=>now,2);expect(l.request('a')).toBe(0);expect(l.request('a')).toBe(0);expect(l.aiCall()).toBe(0);expect(l.aiCall()).toBe(1);now+=1001;expect(l.aiCall()).toBe(0);expect(l.request('a')).toBeGreaterThan(3500);expect(l.request('b')).toBe(0);now+=3600000;expect(l.request('a')).toBe(0);});
+ test('ignore spoofed CF header except loopback ingress',()=>{expect(clientIp('1.2.3.4','203.0.113.10')).toBe('203.0.113.10');expect(clientIp('1.2.3.4',undefined)).toBe('unknown');for(const ip of ['127.0.0.1','::1','::ffff:127.0.0.1'])expect(clientIp('1.2.3.4',ip)).toBe('1.2.3.4');expect(clientIp('garbage','::1')).toBe('::1');});
+-test('rate response code, retry header, API no-store',async()=>{const p=new FakeProvider([]);const app=createApp({provider:p,model:'fake',origin:'http://localhost:5173',hourlyLimit:1});const req=()=>app.request('/api/interpret',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});expect((await req()).status).toBe(400);const r=await req();expect(r.status).toBe(429);expect(await r.json()).toEqual({error:'rate_limited'});expect(r.headers.get('Retry-After')).toBeTruthy();expect(r.headers.get('Cache-Control')).toBe('no-store');expect(p.calls).toHaveLength(0);expect(staticCacheHeader('/sw.js')).toBe('no-cache');});
++test('invalid bodies never spend budget, API no-store',async()=>{const p=new FakeProvider([]);const app=createApp({provider:p,model:'fake',origin:'http://localhost:5173',hourlyLimit:1});const req=()=>app.request('/api/interpret',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});expect((await req()).status).toBe(400);const r=await req();expect(r.status).toBe(400);expect(await r.json()).toEqual({error:'invalid_body'});expect(r.headers.get('Retry-After')).toBeNull();expect(r.headers.get('Cache-Control')).toBe('no-store');expect(p.calls).toHaveLength(0);expect(staticCacheHeader('/sw.js')).toBe('no-cache');});
+ test('shutdown stops new work, waits active request and is idempotent',async()=>{let finish!:()=>void;const d=createRequestDrain(()=>new Promise<Response>(resolve=>{finish=()=>resolve(new Response('done'));}));const request=d.fetch(new Request('http://localhost/'));let closed!:()=>void;const close=vi.fn((cb:()=>void)=>{closed=cb;});const stop=createShutdown({close},d);const pending=stop();expect(stop()).toBe(pending);expect((await d.fetch(new Request('http://localhost/'))).status).toBe(503);let completed=false;void pending.then(()=>completed=true);await Promise.resolve();expect(completed).toBe(false);finish();await request;closed();expect(await pending).toBe(true);expect(close).toHaveBeenCalledTimes(1);});
+ test('shutdown deadline force-closes stalled connections',async()=>{vi.useFakeTimers();try{const d=createRequestDrain(()=>new Response());const force=vi.fn();const stop=createShutdown({close:()=>{},closeAllConnections:force},d,1000);const pending=stop();await vi.advanceTimersByTimeAsync(1000);expect(await pending).toBe(false);expect(force).toHaveBeenCalledOnce();}finally{vi.useRealTimers();}});
+ test('launch agent templates no credentials and grace allowance',()=>{const server=readFileSync('ops/com.tarot.server.plist','utf8');expect(server).toContain('ExitTimeOut');expect(server).toContain('<integer>130</integer>');for(const p of ['server','tunnel'])expect(readFileSync(`ops/com.tarot.${p}.plist`,'utf8')).not.toContain('GEMINI_API_KEY');});
++test('atomic acquisition never charges a denied request or a different IP on daily denial',()=>{
++ let now=0;const l=new Limits(2,()=>now,1);expect(l.acquire('a')).toBeNull();expect(l.acquire('a')?.reason).toBe('rate_limited');expect(l.acquire('b')).toBeNull();expect(l.acquire('c')?.reason).toBe('daily_budget');now=86400000;expect(l.acquire('c')).toBeNull();
++});
+diff --git a/src/components/AiReadingPanel.tsx b/src/components/AiReadingPanel.tsx
+index 0d37482..ad06efe 100644
+--- a/src/components/AiReadingPanel.tsx
++++ b/src/components/AiReadingPanel.tsx
+@@ -15,7 +15,7 @@ export function AiReadingPanel({info, ai, payload, autoInterpret=false, careFirs
+   const failed = ['unavailable', 'network', 'blocked', 'busy', 'rate_limit'].includes(state.status);
+   return <section className="ai-section" aria-label="Luận giải theo câu hỏi">
+     <div role="status" aria-live="polite" aria-atomic="true" className="ai-status">
+-      {failed && <p>{aiErrorMessage(state.status)}</p>}
++      {failed && <p>{aiErrorMessage(state.errorReason??state.status)}</p>}
+       {state.status === 'ok' && <span className="sr-only">Luận giải đã sẵn sàng.</span>}
+       {state.status === 'care' && <span className="sr-only">Bạn không cần đi qua điều này một mình. Lời nhắn hỗ trợ ở đầu trang.</span>}
+     </div>
+diff --git a/src/hooks/useAiReading.ts b/src/hooks/useAiReading.ts
+index 44ed58c..720a8ac 100644
+--- a/src/hooks/useAiReading.ts
++++ b/src/hooks/useAiReading.ts
+@@ -42,6 +42,6 @@ export function useAiReading(readingId: string) {
+     if(autoGate.claim({id,...options,ready:autoPayloadReady(payload,options.count)}))void run(payload);
+   },[autoGate,run]);
+   const abortPending=useCallback(()=>{if(active.current)cancel();},[cancel]);
+-  return {state, run, autoRun, abortPending, cancel, remaining: Math.max(0, Math.min(3600, Math.ceil((state.retryUntil - clock) / 1000)))};
++  return {state, run, autoRun, abortPending, cancel, remaining: Math.max(0, Math.min(86400, Math.ceil((state.retryUntil - clock) / 1000)))};
+ }
+ export type AiReadingController = ReturnType<typeof useAiReading>;
+diff --git a/src/lib/aiClient.test.ts b/src/lib/aiClient.test.ts
+index 47f65c1..8be8add 100644
+--- a/src/lib/aiClient.test.ts
++++ b/src/lib/aiClient.test.ts
+@@ -22,7 +22,7 @@ describe('AI client, no live network', () => {
+     expect(JSON.parse(String(init?.body))).toEqual(payload); expect(init?.signal).toBeInstanceOf(AbortSignal);
+   });
+   test('care contains no reading', async () => expect(await interpret(payload, {fetchImpl: response({mode: 'care'})})).toEqual({kind: 'care', answer: CARE_ANSWER}));
+-  test.each([[undefined, 60], ['120', 120], ['99999', 3600], ['invalid', 60]] as const)('429 Retry-After %s', async (header, seconds) => {
++  test.each([[undefined, 60], ['120', 120], ['99999', 86400], ['invalid', 60]] as const)('429 Retry-After %s', async (header, seconds) => {
+     expect(await interpret(payload, {fetchImpl: response({}, 429, header ? {'Retry-After': header} : {})})).toEqual({kind: 'rate_limit', retryAfter: seconds});
+   });
+   test('502 and network failure are distinct', async () => {
+@@ -186,10 +186,10 @@ test('V2 client normalizes per-card copy order to spread positions', async () =>
+  });
+  test('friendly messages and error layout: message before retry, offline below', async () => {
+    const {aiErrorMessage}=await import('./aiErrorMessage');
+-   expect(aiErrorMessage('network')).toBe('Cần kết nối mạng để luận giải. Bạn kiểm tra mạng rồi thử lại.');
++   expect(aiErrorMessage('network')).toBe('Chưa soạn được luận giải lúc này. Bạn vẫn có bản đọc từ sách bên dưới.');
+    expect(aiErrorMessage('blocked')).toContain('Địa chỉ truy cập này chưa được cho phép.');
+-   expect(aiErrorMessage('rate_limit')).toBe('Bạn thử lại sau ít phút nhé.');
+-   expect(aiErrorMessage('busy')).toBe('Hệ thống đang bận, thử lại sau ít phút.');
++   expect(aiErrorMessage('rate_limit')).toBe('Bạn vừa rút khá nhiều lượt. Thử lại sau ít phút nhé.');
++   expect(aiErrorMessage('busy')).toBe('Chưa soạn được luận giải lúc này. Bạn vẫn có bản đọc từ sách bên dưới.');
+    const {createElement}=await import('react'); const {renderToStaticMarkup}=await import('react-dom/server');
+    const {SettingsProvider}=await import('../hooks/useSettings'); const {AiReadingPanel}=await import('../components/AiReadingPanel');
+    const html=renderToStaticMarkup(createElement(SettingsProvider,{children:createElement(AiReadingPanel,{
+@@ -200,3 +200,8 @@ test('V2 client normalizes per-card copy order to spread positions', async () =>
+    expect(html.indexOf('>Thử lại<')).toBeLessThan(html.indexOf('Đọc theo sách (không cần mạng)'));
+    expect(html).not.toContain('ORIGIN_BLOCKED');
+  });
++test.each(['rate_limited','daily_budget'] as const)('keeps %s through client and reducer',async reason=>{
++ const result=await interpret(payload,{fetchImpl:response({error:reason},429,{'Retry-After':'120'})});
++ expect(result).toEqual({kind:'rate_limit',reason,retryAfter:120});
++ expect(aiReducer(initialAiState,{type:'finish',result,now:0}).errorReason).toBe(reason);
++});
+diff --git a/src/lib/aiClient.ts b/src/lib/aiClient.ts
+index a1520f4..a7ee645 100644
+--- a/src/lib/aiClient.ts
++++ b/src/lib/aiClient.ts
+@@ -12,7 +12,7 @@ export interface AiPayload {
+   picks: {position: number; cardId: string; reversed: boolean}[];
+ }
+ export type AiResult = {kind: 'ok'; mode: 'full' | 'reflective_only'; reading: AiReading; notes: string[]}
+-  | {kind: 'blocked'} | {kind: 'busy'} | {kind: 'care'; answer: string} | {kind: 'rate_limit'; retryAfter: number}
++  | {kind: 'blocked'} | {kind: 'busy'} | {kind: 'care'; answer: string} | {kind: 'rate_limit'; retryAfter: number; reason?:'rate_limited'|'daily_budget'}
+   | {kind: 'unavailable' | 'network' | 'aborted'};
+ export function buildAiPayload(state: {
+   profile?: Profile | null; profileEnabled?: boolean;
+@@ -71,7 +71,8 @@ async function interpretOnce(payload: AiPayload, {signal, fetchImpl = fetch}: Cl
+         if (res.status === 429) {
+           const header = res.headers.get('Retry-After');
+           const seconds = header && /^\d+$/.test(header) ? Number(header) : header ? Math.ceil((Date.parse(header) - Date.now()) / 1000) : 60;
+-          return {kind: 'rate_limit', retryAfter: Number.isFinite(seconds) ? Math.max(1, Math.min(3600, seconds)) : 60};
++          let reason:'rate_limited'|'daily_budget'|undefined;try{const body=await res.json();if(body?.error==='daily_budget'||body?.error==='rate_limited')reason=body.error;}catch{/* No content logged. */}
++          return {kind: 'rate_limit', ...(reason?{reason}:{}), retryAfter: Number.isFinite(seconds) ? Math.max(1, Math.min(86400, seconds)) : 60};
+         }
+         if (!res.ok) {
+           try { const error = await res.json(); if (object(error) && error.error === 'AI_BUSY') return {kind: 'busy'}; } catch { /* No response content is logged. */ }
+diff --git a/src/lib/aiErrorMessage.ts b/src/lib/aiErrorMessage.ts
+index efbef14..d7041cb 100644
+--- a/src/lib/aiErrorMessage.ts
++++ b/src/lib/aiErrorMessage.ts
+@@ -1,8 +1,7 @@
+ /** App-authored messages only: never display a provider response or raw code. */
+ export function aiErrorMessage(status: string): string {
+-  if (status === 'network') return 'Cần kết nối mạng để luận giải. Bạn kiểm tra mạng rồi thử lại.';
+   if (status === 'blocked') return 'Địa chỉ truy cập này chưa được cho phép. Bạn thử địa chỉ chính thức hoặc báo người quản trị.';
+-  if (status === 'rate_limit') return 'Bạn thử lại sau ít phút nhé.';
+-  if (status === 'busy') return 'Hệ thống đang bận, thử lại sau ít phút.';
++  if (status === 'rate_limit'||status==='rate_limited') return 'Bạn vừa rút khá nhiều lượt. Thử lại sau ít phút nhé.';
++  if(status==='daily_budget')return 'Hôm nay bộ bài đã luận giải đủ nhiều. Hẹn bạn ngày mai, hoặc đọc theo sách bên dưới.';
+   return 'Chưa soạn được luận giải lúc này. Bạn vẫn có bản đọc từ sách bên dưới.';
+ }
+diff --git a/src/lib/aiState.ts b/src/lib/aiState.ts
+index 761150d..f0daa8f 100644
+--- a/src/lib/aiState.ts
++++ b/src/lib/aiState.ts
+@@ -3,6 +3,7 @@ export interface AiState {
+   status: 'idle' | 'loading' | 'ok' | 'care' | 'rate_limit' | 'unavailable' | 'network' | 'busy' | 'blocked';
+   result: Extract<AiResult, {kind: 'ok'}> | null;
+   retryUntil: number;
++  errorReason?: 'rate_limited'|'daily_budget';
+   careAnswer?: string;
+ }
+ export const initialAiState: AiState = {status: 'idle', result: null, retryUntil: 0};
+@@ -14,5 +15,5 @@ export function aiReducer(state: AiState, action: AiAction): AiState {
+   const result = action.result;
+   if (result.kind === 'aborted') return initialAiState;
+   if (result.kind === 'ok') return {status: 'ok', result, retryUntil: 0};
+-  return {status: result.kind, result: null, ...(result.kind === 'care' ? {careAnswer: result.answer} : {}), retryUntil: result.kind === 'rate_limit' ? action.now + Math.min(3600, result.retryAfter) * 1000 : 0};
++  return {...(result.kind==='rate_limit'?{errorReason:result.reason}:{}),status: result.kind, result: null, ...(result.kind === 'care' ? {careAnswer: result.answer} : {}), retryUntil: result.kind === 'rate_limit' ? action.now + Math.min(86400, result.retryAfter) * 1000 : 0};
+ }
+-- 
+2.51.1
+

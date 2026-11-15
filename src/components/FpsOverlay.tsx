@@ -1,0 +1,3 @@
+import {useSyncExternalStore} from 'react';
+import {getFxMetrics,subscribeFxMetrics} from '../lib/fxMetrics';
+export function FpsOverlay(){const metrics=useSyncExternalStore(subscribeFxMetrics,getFxMetrics,getFxMetrics);const hash=useSyncExternalStore(fn=>{addEventListener('hashchange',fn);return()=>removeEventListener('hashchange',fn);},()=>location.hash,()=> '');if(new URLSearchParams(hash.split('?')[1]??location.search).get('fps')!=='1')return null;return <output className="fps-overlay" aria-label="Đo hiệu năng">{metrics.fps} FPS · {metrics.level}<br/>{metrics.particles}/40 hạt · hạ cấp {metrics.downgrades}<br/>JS {metrics.jsMs}ms/frame</output>;}

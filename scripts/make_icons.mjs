@@ -1,0 +1,11 @@
+import sharp from 'sharp';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
+const out=new URL('../public/icons/',import.meta.url);await mkdir(out,{recursive:true});
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="#1a1033"/><g fill="none" stroke="#c9a45c" stroke-width="8"><rect x="126" y="92" width="260" height="328" rx="24"/><rect x="142" y="108" width="228" height="296" rx="15" opacity=".5"/><circle cx="256" cy="256" r="80" opacity=".4"/></g><path d="M256 150Q270 242 348 256Q270 270 256 362Q242 270 164 256Q242 242 256 150Z" fill="#e4c582"/><circle cx="256" cy="256" r="20" fill="#1a1033"/></svg>`;
+await writeFile(new URL('source.svg',out),svg);await writeFile(new URL('../favicon.svg',out),svg);
+for(const [name,size] of [['icon-192',192],['icon-512',512],['maskable-512',512],['apple-touch-icon',180],['favicon-32',32]])await sharp(Buffer.from(svg)).resize(size,size).png().toFile(new URL(`${name}.png`,out).pathname);
+// Embed bundled Vietnamese font in SVG: no network font dependency.
+const font=await readFile(new URL('../node_modules/@fontsource/be-vietnam-pro/files/be-vietnam-pro-vietnamese-400-normal.woff',import.meta.url));
+const og=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"><defs><style>@font-face{font-family:Viet;src:url(data:font/woff;base64,${font.toString('base64')})}text{font-family:Viet,sans-serif}</style><radialGradient id="bg"><stop stop-color="#32204b"/><stop offset="1" stop-color="#07050f"/></radialGradient></defs><rect width="1200" height="630" fill="url(#bg)"/><rect x="32" y="32" width="1136" height="566" rx="24" fill="none" stroke="#c9a45c"/><image x="90" y="140" width="330" height="330" href="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}"/><text x="470" y="275" fill="#e4c582" font-size="68">Tarot Việt</text><text x="470" y="350" fill="#ece6f7" font-size="30">Một góc nhìn dành cho bạn</text><text x="470" y="405" fill="#c4b4d8" font-size="23">Rút bài · Lắng nghe · Chiêm nghiệm</text></svg>`;
+await sharp(Buffer.from(og)).png().toFile(new URL('../public/og.png',import.meta.url).pathname);
+console.log('Generated icons and 1200x630 OG locally');

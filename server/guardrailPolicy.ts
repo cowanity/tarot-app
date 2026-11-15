@@ -1,0 +1,3 @@
+export const SOFT_RULES=new Set(['title_long','answer_long','verdict_long','cliche','notice_copy','notice_rhythm','question_opening','question_length','question_anchor','abstract_repeat','soft_length','card_name_variant','answer_verdict','answer_direction','answer_repeats_verdict','answer_abstract','answer_hedged','answer_time','answer_boundary_unexpected','answer_sentences','tension_vague','unsaid_opening','opening_sentences','closing_opening','example_parrot']);
+export const isHardRule=(rule:string)=>!SOFT_RULES.has(rule);
+export type Diagnostic={path:string;rule:string;fragment:string;severity:'hard'|'soft'};

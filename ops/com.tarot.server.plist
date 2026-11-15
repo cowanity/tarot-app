@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>Label</key><string>com.tarot.server</string>
+<key>WorkingDirectory</key><string>/Users/YOUR_USER/tarot-app</string>
+<key>ProgramArguments</key><array><string>/opt/homebrew/bin/node</string><string>--import</string><string>tsx</string><string>server/index.ts</string></array>
+<key>EnvironmentVariables</key><dict><key>NODE_ENV</key><string>production</string></dict>
+<key>RunAtLoad</key><true/><key>KeepAlive</key><true/>
+<key>ThrottleInterval</key><integer>10</integer><key>ExitTimeOut</key><integer>130</integer>
+<key>StandardOutPath</key><string>/Users/YOUR_USER/Library/Logs/tarot/server.log</string>
+<key>StandardErrorPath</key><string>/Users/YOUR_USER/Library/Logs/tarot/server-error.log</string>
+</dict></plist>

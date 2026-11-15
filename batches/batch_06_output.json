@@ -1,0 +1,370 @@
+[
+  {
+    "id": "swords-knight",
+    "summary_up": "Lá bài gợi tư duy nhanh, ham khám phá và sẵn sàng hành động. Bạn có thể chú ý sự tập trung để ý tưởng mới không chỉ dừng ở hứng thú ban đầu.",
+    "depth_up": "Sự tò mò có thể đưa bạn đến nhiều trải nghiệm và lĩnh vực kiến thức. Tuy nhiên, việc đổi hướng liên tục dễ làm hiểu biết thiếu chiều sâu hoặc khiến ý tưởng chưa được thực hiện. Lòng can đảm hữu ích khi gặp thử thách, nhưng chưa thay thế được sự bền bỉ với vấn đề kéo dài.",
+    "quote_up": "Chàng không nhận thấy bất kỳ giới hạn nào.",
+    "summary_rev": "Nghĩa ngược có thể gợi hành động quá vội hoặc thiếu thận trọng. Cách phản ứng mạnh dễ không phù hợp với một tình huống cần bình tĩnh.",
+    "depth_rev": "Sự hăng hái có thể vượt quá mức cần thiết và trở thành hành động bất cẩn. Bạn có thể đang dùng một cuộc tấn công dồn dập cho vấn đề cần được tiếp cận chậm hơn. Lá bài gợi ý nhận ra khi sức mạnh đang bị sử dụng quá đà, thay vì giúp giải quyết hoàn cảnh.",
+    "quote_rev": "Chàng ngông cuồng, bất cẩn, quá đáng.",
+    "rev_missing": false,
+    "keywords": [
+      "Tư duy nhanh",
+      "Khám phá tri thức",
+      "Hành động vội",
+      "Can đảm"
+    ]
+  },
+  {
+    "id": "swords-nine",
+    "summary_up": "Lá bài gợi những lo âu khiến tâm trí khó yên, đôi khi lớn hơn tình huống thật. Bạn có thể tìm sự hỗ trợ để không phải giữ mọi nỗi lo một mình.",
+    "depth_up": "Việc phân tích liên tục có thể khiến những điều chưa xảy ra trở thành nguồn căng thẳng. Nỗi buồn cũng có thể gắn với người bạn thương yêu, thay vì chỉ với trải nghiệm của chính mình. Lá bài gợi ý phân biệt điều đang diễn ra với điều do lo lắng phóng lớn, đồng thời nhận ra nhu cầu được giúp đỡ.",
+    "quote_up": "Đây không phải một lá bài dễ chịu, ở đây, ta sẽ thấy đầu óc mình phân tích thái quá và mang cho ta những nỗi sợ, mối lo, những\n\nquan ngại và những vấn đề tương ứng với chúng.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự thu mình trước áp lực có thật, cùng nghi ngại và cảm giác hổ thẹn. Những cảm xúc bị giữ bên trong có thể tiếp tục làm bạn nặng lòng.",
+    "depth_rev": "Nguồn gây áp lực có thể đến từ xã hội, gia đình hoặc một người muốn kiểm soát bạn. Khi chưa thể đối diện trực tiếp, sự giận dữ dễ bị giữ lại rồi chuyển thành chán nản và thiếu tự tin. Nhận biết mình không đáng bị đối xử như vậy có thể chưa đủ nếu hoàn cảnh và cách bộc lộ cảm xúc vẫn không thay đổi.",
+    "quote_rev": "Cơn giận dữ tự ẩn vào trong sẽ trở thành chán nản, rồi từ đó trở thành ngờ vực.",
+    "rev_missing": false,
+    "keywords": [
+      "Lo âu",
+      "Suy nghĩ quá mức",
+      "Nỗi buồn",
+      "Tìm hỗ trợ"
+    ]
+  },
+  {
+    "id": "swords-page",
+    "summary_up": "Lá bài gợi khả năng sắp xếp ý tưởng thành kế hoạch cụ thể. Sự quan sát và tập trung có thể giúp bạn bắt đầu một công việc trí tuệ mới.",
+    "depth_up": "Bạn có thể làm rõ những suy nghĩ còn rời rạc và đưa chúng vào một cấu trúc hữu ích. Cách nhìn có khoảng cách đôi khi giúp bạn tiếp cận vấn đề nhẹ nhàng hơn. Tuy nhiên, chỉ quan sát từ bên ngoài có thể chưa đủ khi hoàn cảnh đòi hỏi sự tham gia và hành động mạnh mẽ.",
+    "quote_up": "Đây cũng là năng lực tổ chức của đầu óc và là khả năng xác lập trật tự cho những tư tưởng chưa định hình.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự thận trọng chuyển thành nghi ngại. Việc đứng ngoài vấn đề dễ đi cùng cảm giác không đủ sức giải quyết nó.",
+    "depth_rev": "Khoảng cách từng giúp bạn tránh bị cuốn vào xung đột có thể trở thành sự xa lánh. Những người xung quanh dễ bị nhìn như mối đe dọa, còn vấn đề chiếm nhiều chú ý hơn trước. Lá bài gợi ý xem thái độ quan sát đang hỗ trợ bạn hay khiến bạn mắc kẹt trong cảm giác bất lực.",
+    "quote_rev": "Thận trọng trở thành đa nghi; mọi người đều thành kẻ thủ.",
+    "rev_missing": false,
+    "keywords": [
+      "Tổ chức ý tưởng",
+      "Lập kế hoạch",
+      "Quan sát",
+      "Tập trung"
+    ]
+  },
+  {
+    "id": "swords-queen",
+    "summary_up": "Lá bài gợi khả năng nói rõ suy nghĩ và đối thoại thành thật. Trải nghiệm khó khăn có thể đem lại sự hiểu biết sâu hơn nếu được nhìn nhận với lòng can đảm.",
+    "depth_up": "Bạn có thể dùng lời nói để làm sáng tỏ ý tưởng và khơi gợi suy nghĩ ở người khác. Học hỏi rộng cùng việc đối diện trải nghiệm đau buồn có thể nuôi dưỡng sự sáng suốt. Tuy nhiên, sự thật được nói thiếu cân nhắc vẫn có thể gây tổn thương, nên cách diễn đạt cũng đáng được chú ý.",
+    "quote_up": "Họ hiếm khi khoan nhượng và đôi khi thiếu đi sự đồng cảm và hơi ấm, vì tâm trí họ chỉ mải cập trung vào truyền đạt sự thật.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự tập trung quá nhiều vào nỗi buồn hoặc mong muốn áp đặt. Sức mạnh tinh thần có thể trở nên khắc nghiệt khi phản ứng với đau đớn.",
+    "depth_rev": "Những điều khó chịu có thể lấn át khả năng nhìn thấy mặt tốt của đời sống. Một người cũng có thể đòi hoàn cảnh và người xung quanh phải theo ý mình. Khi gặp sự phản đối, quan điểm dễ trở thành công cụ kiểm soát và làm mất sự gắn bó với sự thật.",
+    "quote_rev": "Lá Queen ngược này có thể biểu thị một sự nhấn mạnh quá mức những nỗi buồn phiền, một ai đó khiến cuộc sống càng thêm tồi tệ vì đã bỏ qua những điều tốt đẹp quanh mình.",
+    "rev_missing": false,
+    "keywords": [
+      "Giao tiếp rõ ràng",
+      "Tự do tư duy",
+      "Thành thật",
+      "Minh triết từ trải nghiệm"
+    ]
+  },
+  {
+    "id": "swords-seven",
+    "summary_up": "Lá bài gợi việc che giấu ý định, chiếm lấy công sức hoặc hành động thiếu trung thực. Bạn có thể xem một cách làm táo bạo có thực sự giải quyết vấn đề hay chỉ né tránh nó.",
+    "depth_up": "Nội dung lá bài liên quan đến những điều bị lấy đi, từ tài sản đến ý tưởng và sự ghi nhận. Một hành động nhanh hoặc bí mật có thể làm giảm đối kháng trước mắt nhưng chưa xử lý được gốc rễ. Việc tự làm mọi thứ và không muốn nhận giúp đỡ cũng có thể khiến bạn xa cách với người khác.",
+    "quote_up": "Đôi khi lá Bảy Kiếm có thể biểu thị về chính trị và các âm mưu trong đó.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự cởi mở với lời khuyên và hỗ trợ. Trong hoàn cảnh cần tự chủ, nó cũng có thể cho thấy bạn dựa quá nhiều vào chỉ dẫn bên ngoài.",
+    "depth_rev": "Sự tách biệt có thể nhường chỗ cho việc trao đổi về vấn đề đang gặp. Giá trị không chỉ nằm ở lời hướng dẫn mà còn ở khả năng lắng nghe và sẵn lòng nhận giúp đỡ. Tuy vậy, bạn có thể đối chiếu với tình huống để biết mình cần lời khuyên hay cần tin hơn vào quyết định riêng.",
+    "quote_rev": "Sự xa cách đảo ngược lại sẽ thành giao tiếp, đặc biệt là tìm kiếm lời khuyên cho những gì phải làm với vấn đề gặp phải.",
+    "rev_missing": false,
+    "keywords": [
+      "Ý định che giấu",
+      "Thiếu trung thực",
+      "Hành động đơn độc",
+      "Kế hoạch"
+    ]
+  },
+  {
+    "id": "swords-six",
+    "summary_up": "Lá bài gợi một hành trình tìm hiểu hoặc chuyển tiếp diễn ra lặng lẽ. Bạn có thể tiếp tục đi dù những khó khăn chưa hoàn toàn được giải quyết.",
+    "depth_up": "Mỗi câu trả lời có thể mở thêm một câu hỏi và đưa hiểu biết tiến xa hơn. Trong đời sống thực tế, lá bài cũng gợi việc đi qua giai đoạn khó khăn bằng cách thích nghi với điều còn mang theo. Sự bình tĩnh giúp bạn giữ sức và khả năng khám phá mà không nhất thiết phải đối đầu trực tiếp với mọi vấn đề.",
+    "quote_up": "Nó cũng có thể đại diện cho những thể loại hành trình khác, gồm cả những giai đoạn chuyển tiếp và những nghi lễ vượt qua.",
+    "summary_rev": "Nghĩa ngược có thể gợi một chặng chuyển tiếp nhiều xáo trộn. Trao đổi hoặc tác động vào vấn đề lâu ngày có thể khuấy lên cảm xúc từng được giữ yên.",
+    "depth_rev": "Khi sự cân bằng bị phá vỡ, hành trình thực tế hay tinh thần có thể trở nên khó đi hơn. Việc xử lý một tình trạng đã được chấp nhận từ lâu cũng có thể khiến quan hệ xáo động. Tuy vậy, giao tiếp dù gây đau lúc đầu vẫn có thể mở ra bước đầu hàn gắn điều trước đây bị che bởi im lặng.",
+    "quote_rev": "Thế nên lá bài ngược có thể gợi lên một hành trình bão táp về thực tế hoặc tinh thần.",
+    "rev_missing": false,
+    "keywords": [
+      "Chuyển tiếp",
+      "Tìm hiểu",
+      "Hành trình yên lặng",
+      "Thích nghi"
+    ]
+  },
+  {
+    "id": "swords-ten",
+    "summary_up": "Lá bài gợi cảm giác đổ vỡ khi một kế hoạch hoặc mối quan hệ đi đến đoạn kết khó khăn. Việc nhìn lại từng phần của trải nghiệm có thể giúp bạn tìm hướng phù hợp hơn.",
+    "depth_up": "Một kết thúc nặng nề có thể khiến bạn không còn rõ mình muốn gì hay đang đi đâu. Tuy nhiên, hình ảnh cực đoan của lá bài cũng nói về phản ứng đau đớn trước vấn đề, không chỉ bản thân tình huống. Khi điều quen thuộc bị tháo rời, bạn có thể xem lại các thành phần của đời sống để nhận ra một lối đi khác.",
+    "quote_up": "Nhưng một khi ta đã rơi xuống thấp thế này thì từ đấy chỉ có thể hướng lên.",
+    "summary_rev": "Nghĩa ngược có thể gợi một khoảng nhẹ nhõm khi tình huống thay đổi. Khoảng nghỉ ấy có thể cần được dùng cho thay đổi thực chất để vấn đề không trở lại.",
+    "depth_rev": "Khó khăn có thể tạm lùi đi và tạo ra lợi thế trước mắt. Sự dễ chịu này chưa nhất thiết bền lâu nếu những điều kiện cũ vẫn còn nguyên. Lá bài gợi ý chú ý điều cần thay đổi trong thực tế hoặc cách nhìn của mình khi đang có cơ hội thả lỏng.",
+    "quote_rev": "Quan điểm này cho thấy khi một tình huống thay đổi, vấn đề có thể biến mất chốc lát.",
+    "rev_missing": false,
+    "keywords": [
+      "Đoạn kết khó khăn",
+      "Cảm giác đổ vỡ",
+      "Tự xem xét",
+      "Hướng đi khác"
+    ]
+  },
+  {
+    "id": "swords-three",
+    "summary_up": "Lá bài gợi nỗi đau trong tình cảm, từ lời nói của người khác hoặc việc nghĩ quá nhiều. Sự chấp nhận có thể tạo chỗ cho cảm xúc được chuyển hóa theo thời gian.",
+    "depth_up": "Một trải nghiệm tổn thương có thể cần được nhìn nhận thay vì vội đẩy ra xa. Việc mổ xẻ phản ứng cảm xúc quá mức cũng có thể làm nỗi đau sâu thêm. Lòng can đảm, tình thương và sự chấp nhận có thể giúp ký ức đau buồn mang một ý nghĩa khác mà không phủ nhận điều đã xảy ra.",
+    "quote_up": "Hội Bình Minh Vàng đặt tên cho lá bài này là “Sầu muộn”.",
+    "summary_rev": "Nghĩa ngược có thể gợi việc né tránh một trải nghiệm quá đau lòng. Sự từ chối nhìn nhận có thể giữ nỗi buồn ở lại và làm ảnh hưởng của nó kéo dài.",
+    "depth_rev": "Bạn có thể cố không nghĩ đến sự việc hoặc tránh những điều gợi nhớ. Khoảng cách ấy không nhất thiết làm cảm xúc được giải quyết và đôi khi còn khiến tâm trí rối hơn. Lá bài gợi ý nhận ra điều chưa được chấp nhận đang tác động thế nào đến khả năng tiếp tục và phát triển.",
+    "quote_rev": "Một thái độ như vậy sẽ giữ nỗi đau còn mãi, thật ra còn làm tăng thêm ảnh hưởng.",
+    "rev_missing": false,
+    "keywords": [
+      "Tổn thương cảm xúc",
+      "Nỗi buồn",
+      "Chấp nhận",
+      "Lòng can đảm"
+    ]
+  },
+  {
+    "id": "swords-two",
+    "summary_up": "Lá bài gợi một lựa chọn khó khi bạn chưa biết đủ về các hướng đi. Sự do dự hoặc tự khép mình có thể giữ cân bằng tạm thời nhưng chưa giải quyết được vấn đề.",
+    "depth_up": "Bạn có thể đang đứng giữa những khả năng mà mỗi bên chỉ hiện rõ một phần. Việc ngăn cảm xúc và người khác đến gần có thể tạo cảm giác được bảo vệ. Tuy nhiên, sự căng thẳng giữa muốn chống lại và muốn tránh đi có thể khiến bạn khó nhìn hoàn cảnh như nó đang có.",
+    "quote_up": "Lá Hai Kiếm mang đến cho ta những lựa chọn, tùy chọn và một giao lộ mà ta phải đưa ra quyết định.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự cân bằng phòng thủ bị phá vỡ hoặc được chủ động buông xuống. Việc nhìn rõ và giao tiếp trở lại có thể đem đến cảm xúc mạnh.",
+    "depth_rev": "Bạn có thể không còn giữ được khoảng cách với người hoặc vấn đề đã cố ngăn lại. Trong cách hiểu khác, bạn tự mở mắt để nhận ra sự thật và kết nối với người khác. Quá trình này có thể gây choáng ngợp, nhất là khi thiếu sự hỗ trợ từ bên ngoài.",
+    "quote_rev": "Cân bằng đã mất hoặc bị từ bỏ.",
+    "rev_missing": false,
+    "keywords": [
+      "Lựa chọn khó",
+      "Do dự",
+      "Tự bảo vệ",
+      "Cân bằng tạm thời"
+    ]
+  },
+  {
+    "id": "wands-ace",
+    "summary_up": "Lá bài gợi nguồn hứng khởi và sức sống cho một khởi đầu sáng tạo. Năng lượng có thể đã xuất hiện trước khi bạn xác định rõ mục tiêu.",
+    "depth_up": "Một ý tưởng mới có thể đánh thức đam mê và thôi thúc bạn bắt tay vào làm. Sức mạnh này còn thô, cần được nhận ra trước khi đi vào một hướng cụ thể. Lá bài cũng gợi lòng khiêm nhường khi tận hưởng nguồn sinh lực ấy, thay vì xem nó là lý do để lấn át người khác.",
+    "quote_up": "Một món quà của sức mạnh, quyền lực, năng lượng tính dục tuyệt vời và tình yêu cuộc sống.",
+    "summary_rev": "Nghĩa ngược có thể gợi năng lượng chưa được dùng hiệu quả, khiến khởi đầu rối hoặc đứt đoạn. Nó cũng có thể nói đến niềm vui vẫn có nhưng chưa được nhận thấy.",
+    "depth_rev": "Quá nhiều việc mới cùng lúc có thể làm sức lực phân tán khi chưa có nền tảng củng cố. Sự cả tin hoặc thái độ quá áp đảo cũng có thể làm tình huống mất trật tự. Trong một cách hiểu khác, hạnh phúc vẫn hiện diện dù bạn chưa nhìn rõ hoặc chưa muốn thừa nhận nó.",
+    "quote_rev": "Theo một cách nào đó, lá Ace ngược ngụ ý rằng một trải nghiệm ban sơ đã thất bại.",
+    "rev_missing": false,
+    "keywords": [
+      "Khởi đầu",
+      "Hứng khởi",
+      "Năng lượng sáng tạo",
+      "Đam mê"
+    ]
+  },
+  {
+    "id": "wands-eight",
+    "summary_up": "Lá bài gợi nhịp tiến triển nhanh và nhiều năng lượng hướng vào dự án. Bạn có thể chú ý điểm dừng để tham vọng không làm mình quá sức.",
+    "depth_up": "Sự thôi thúc tiến lên có thể đưa công việc đi nhanh khi đã có mục đích rõ ràng. Lá bài cũng gợi những hành động trực tiếp trong tình cảm, như bày tỏ mong muốn hoặc lời đề nghị. Tuy nhiên, đầu tư vào quá nhiều việc và không nhận ra giới hạn có thể khiến bạn cần giảm bớt để giữ sức.",
+    "quote_up": "Bộ Thoth gọi lá này là “Nhanh nhẹn”, gợi ý sự tiến bộ nhanh chóng thông qua một dự án, sự tiến hóa và việc không thể ở yên một chỗ hoặc làm một công việc trong thời gian quá lâu.",
+    "summary_rev": "Nghĩa ngược có thể gợi tình huống kéo dài mà chưa đi đến kết thúc. Trong tình cảm, sự không rõ ràng cũng có thể nuôi ganh tị và tranh cãi.",
+    "depth_rev": "Một việc có thể tiếp diễn khi bạn đang cần một kết luận. Đôi khi trạng thái ấy khó tránh, nhưng đôi khi niềm tin rằng không thể giải quyết cũng góp phần giữ nó lại. Lá bài gợi ý phân biệt điều đang xảy ra với sự bất định trong cảm nhận của mình và người kia.",
+    "quote_rev": "Một tình huống hoặc thái độ cứ thế tiếp tục, không thấy được kết luận nào cả.",
+    "rev_missing": false,
+    "keywords": [
+      "Tiến triển nhanh",
+      "Tham vọng",
+      "Hành động trực tiếp",
+      "Giới hạn sức lực"
+    ]
+  },
+  {
+    "id": "wands-five",
+    "summary_up": "Lá bài gợi sự cạnh tranh hoặc mâu thuẫn có thể giúp rèn kỹ năng. Bạn có thể tiếp cận cuộc thử sức với tinh thần tích cực và tôn trọng luật chơi.",
+    "depth_up": "Sự va chạm ở đây có thể là một dịp luyện tập hơn là ý định gây tổn thương. Nó cũng có thể diễn ra bên trong bạn, thúc đẩy thay đổi và hiểu biết. Khi các bên giữ tinh thần công bằng, cuộc cạnh tranh có thể đem lại niềm vui hoạt động và sự phát triển.",
+    "quote_up": "Họ không đánh nhau để phá hủy mà chỉ để cạnh tranh vì niềm vui hoạt động không kiềm hãm.",
+    "summary_rev": "Nghĩa ngược có thể gợi cuộc thử sức mất đi sự công bằng và trở thành xung đột thật. Sự cay đắng có thể thay thế niềm hào hứng ban đầu.",
+    "depth_rev": "Những thỏa thuận vốn giúp cuộc cạnh tranh có giới hạn có thể bị bỏ qua. Khi hành động gây đau hoặc phá hoại xuất hiện, tinh thần chơi vui không còn giữ được. Lá bài gợi sự vỡ mộng khi đời sống đáp lại bằng mặt khắc nghiệt mà thái độ lạc quan chưa hiểu hết.",
+    "quote_rev": "Xoay ngược lại, lá bài biểu thị rằng luật lệ đã bị vứt bỏ, cuộc chiến thực sự đã diễn ra ở một mức nghiêm túc, thô lỗ hơn.",
+    "rev_missing": false,
+    "keywords": [
+      "Cạnh tranh",
+      "Rèn kỹ năng",
+      "Thử sức",
+      "Chơi công bằng"
+    ]
+  },
+  {
+    "id": "wands-four",
+    "summary_up": "Lá bài gợi niềm vui mừng thành quả và lòng biết ơn những người đã góp sức. Bạn có thể tận hưởng phần thưởng trong sự cởi mở và kết nối với cộng đồng.",
+    "depth_up": "Một việc hoàn tất có thể tạo dịp gặp gỡ và cùng nhìn lại công sức đã bỏ ra. Sự biết ơn giúp bạn nhận ra đóng góp của bản thân lẫn những người đồng hành. Niềm lạc quan cũng có thể đưa bạn ra khỏi thế tự bảo vệ để tham gia đời sống rộng mở hơn.",
+    "quote_up": "Lá bài này đại diện cho một môi trường bên trong đầy tính lạc quan, phấn khởi và tán tụng của Lửa.",
+    "summary_rev": "Nghĩa ngược vẫn có thể gợi niềm vui mạnh mẽ, dù bạn chưa nhận ra đầy đủ. Hạnh phúc cũng có thể mang một hình thức khác với điều người khác mong đợi.",
+    "depth_rev": "Chiều ngược không nhất thiết xóa đi sự phấn khởi của lá bài. Bạn có thể đang sống giữa những điều tốt mà chưa đánh giá đúng giá trị của chúng. Trong cách hiểu khác, niềm vui rất rõ với người trải nghiệm nhưng lại có vẻ lạ đối với chuẩn mực bên ngoài.",
+    "quote_rev": "Niềm vui quá mạnh mẽ đến mức không thể chặn lại được.",
+    "rev_missing": false,
+    "keywords": [
+      "Mừng thành quả",
+      "Biết ơn",
+      "Cộng đồng",
+      "Cởi mở"
+    ]
+  },
+  {
+    "id": "wands-king",
+    "summary_up": "Lá bài gợi ý chí mạnh, sức hút và sự tự tin đưa đam mê vào hành động. Bạn có thể chú ý cách năng lượng ấy phục vụ công việc lâu dài và trách nhiệm với người khác.",
+    "depth_up": "Sự chủ động và khả năng làm chủ kỹ năng có thể giúp bạn theo đuổi một mục tiêu với nhiệt huyết. Nguồn lực sáng tạo được định hướng có thể trở thành thành quả hữu ích và bền hơn. Tuy nhiên, quá tin vào cách làm của mình dễ khiến bạn khó hiểu giới hạn hoặc sự yếu đuối của người khác.",
+    "quote_up": "Ngài tích cực và lạc quan cũng vì lý do tương tự; năng lượng Gậy bùng cháy mạnh mẽ trong ngài đến mức ngài không hiểu tại sao người ta phải biểu lộ những thái độ tiêu cực.",
+    "summary_rev": "Nghĩa ngược có thể gợi sức mạnh đã trải qua trở ngại và trở nên bớt khắc nghiệt. Sự thất bại không nhất thiết làm mất ý chí mà có thể mở thêm lòng cảm thông.",
+    "depth_rev": "Ngọn lửa tự tin có thể gặp những điều không thuận như mong muốn. Với hình tượng này, sức mạnh vẫn còn nhưng cách đối xử với người khác có thể mềm hơn sau trải nghiệm khó khăn. Lá bài gợi một thái độ vẫn nghiêm nhưng biết khoan dung, thay vì mặc định nghĩa ngược là sự áp đặt mạnh thêm.",
+    "quote_rev": "Công thức của Waite ở đây rất đúng: “Tốt nhưng khắt khe, khắc khổ song lại khoan hòa”.",
+    "rev_missing": false,
+    "keywords": [
+      "Ý chí mạnh",
+      "Sức hút",
+      "Tự tin",
+      "Trách nhiệm"
+    ]
+  },
+  {
+    "id": "wands-knight",
+    "summary_up": "Lá bài gợi niềm háo hức thử điều mới và khám phá bản thân qua trải nghiệm. Năng lượng mạnh có thể cần hướng đi và kế hoạch để không nhanh chóng phân tán.",
+    "depth_up": "Bạn có thể muốn bước vào một chuyến phiêu lưu hoặc thử khả năng của mình. Sự tự tin và nhiệt tình đem lại động lực nhưng chưa bảo đảm tính ổn định. Khi được đặt trên nền tảng và có định hướng, sức sống ấy có thể hỗ trợ một công việc lớn thay vì chỉ chạy theo cảm giác mạnh.",
+    "quote_up": "Các lá Knight chuyển phẩm chất của mỗi nhóm thành những vận động.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự bối rối khi nhiệt tình gặp chống đối. Một kế hoạch dễ bị gián đoạn nếu lòng can đảm chưa được tôi luyện qua khó khăn.",
+    "depth_rev": "Nhu cầu chứng tỏ bản thân có thể đưa bạn vào hành động trước khi đủ vững. Khi gặp sự phản đối, niềm tin ban đầu dễ lung lay và làm những dự định mất nhịp. Lá bài gợi rối loạn hoặc bất hòa khi bạn khó dung hòa sự hăng hái của mình với phản ứng từ hoàn cảnh.",
+    "quote_rev": "Chàng bối rối khi bị chống đối, thậm chí điều này còn khiến những dự tính lớn lao sụp đổ quanh chàng.",
+    "rev_missing": false,
+    "keywords": [
+      "Phiêu lưu",
+      "Trải nghiệm mới",
+      "Nhiệt tình",
+      "Hành động"
+    ]
+  },
+  {
+    "id": "wands-nine",
+    "summary_up": "Lá bài gợi khoảng nghỉ ngắn để gom sức giữa những thử thách. Sự bền bỉ có thể giúp bạn tiếp tục, nhưng thế phòng thủ kéo dài cũng có thể làm mình căng cứng.",
+    "depth_up": "Bạn có thể đã vượt qua một khó khăn mà chưa kịp hồi sức trước điều tiếp theo. Kinh nghiệm tranh đấu đem lại sự tỉnh táo và sức mạnh, đồng thời có thể để lại thương tổn. Lá bài gợi ý xem mình đang đáp lại mối đe dọa thật hay đã quen nhìn đời như một cuộc chiến không ngừng.",
+    "quote_up": "Bộ Thoth gọi lá này là “Sức mạnh”, nó đại diện cho sức mạnh của năng lượng và cái tôi thiết yếu để bền chí và tái nhập trước những tình huống khó khăn.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự phòng thủ không còn đủ sức, hoặc nhu cầu thử cách tiếp cận khác. Việc buông bớt đề phòng cần được cân nhắc theo tình huống.",
+    "depth_rev": "Trở ngại có thể đã vượt quá khả năng giữ vững hiện tại của bạn. Trong cách hiểu khác, lá bài mở câu hỏi về năng lượng tiêu tốn để luôn chuẩn bị chống lại mọi thứ. Nó không mặc định khuyên từ bỏ, vì hoàn cảnh có thể vẫn cần sức mạnh hoặc chứa rủi ro khi hạ phòng thủ.",
+    "quote_rev": "Tuy nhiên, nghĩa còn lại là tìm lấy một cách tiếp cận khác.",
+    "rev_missing": false,
+    "keywords": [
+      "Bền bỉ",
+      "Gom sức",
+      "Phòng thủ",
+      "Dấu vết thử thách"
+    ]
+  },
+  {
+    "id": "wands-page",
+    "summary_up": "Lá bài gợi tia cảm hứng mới cùng sự hào hứng bắt đầu. Bạn có thể học cách dẫn năng lượng ấy vào một hướng cụ thể để ý tưởng có cơ hội thành hình.",
+    "depth_up": "Một dự án có thể xuất hiện như hình ảnh hoặc ý tưởng còn sơ khai. Sự tò mò về bản thân và những đam mê riêng cũng có thể được đánh thức. Tuy nhiên, nhiệt tình tự nó chưa đủ hoàn tất công việc, nên lá bài gợi ý nhận ra điều mình muốn bắt đầu và cách sử dụng nguồn lực ban đầu.",
+    "quote_up": "Ở mức độ đơn giản hơn, lá Page có thể đại diện cho một người đưa tin, một tin nhắn hoặc thông tin.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự do dự khi một khởi đầu gặp điều phức tạp. Nhiệt tình bị ngắt quãng có thể làm bạn khó thể hiện mình.",
+    "depth_rev": "Những đối lập và rắc rối có thể khiến sự tự tin ban đầu giảm đi. Việc kéo dài tình trạng lưỡng lự dễ làm quyết tâm yếu hơn. Lá bài gợi hai khả năng theo hoàn cảnh: rời những điều quá rối hoặc phát triển thêm sự trưởng thành để xử lý chúng.",
+    "quote_rev": "Do dự mãi chỉ khiến quyết tâm và tự tin suy giảm hơn thôi.",
+    "rev_missing": false,
+    "keywords": [
+      "Cảm hứng mới",
+      "Khởi đầu dự án",
+      "Khám phá bản thân",
+      "Định hướng năng lượng"
+    ]
+  },
+  {
+    "id": "wands-queen",
+    "summary_up": "Lá bài gợi sự ấm áp, tự tin và khả năng chia sẻ niềm vui trong giao tiếp. Sức hút có thể đến từ phẩm chất và cách bạn hiện diện, không chỉ vẻ ngoài.",
+    "depth_up": "Bạn có thể nuôi dưỡng đam mê bằng nghệ thuật, chuyển động hoặc những cuộc gặp gỡ. Sự cởi mở giúp năng lượng ấy được bộc lộ và khuyến khích người khác bước ra khỏi sự rụt rè. Lá bài cũng gợi một tình yêu đời chân thành, không cần dựa vào kiểm soát hay lấn át người xung quanh.",
+    "quote_up": "Vốn tươi tắn và tự tin, họ là một niềm hân hoan để nhìn ngắm, và sự có mặt của họ sẽ khiến cuộc sống tươi rạng hơn đôi chút.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự nâng đỡ tự nhiên khi người khác gặp khủng hoảng. Tuy nhiên, quá nhiều chống đối cũng có thể khiến lòng nhiệt thành chuyển thành chua cay.",
+    "depth_rev": "Năng lượng và bản tính tích cực có thể thúc đẩy một người nhanh chóng giúp đỡ người đang khó khăn. Sự quan tâm ấy đến từ thôi thúc tự nhiên, không chỉ từ bổn phận. Nhưng khi đời sống liên tục trái với mong đợi, người ấy cũng có thể trở nên ganh tị, thiếu thành thật hoặc mất sự thủy chung.",
+    "quote_rev": "Bà có thể trở nên dối trá, ganh tị, bất trung hay có một nét chua cay.",
+    "rev_missing": false,
+    "keywords": [
+      "Ấm áp",
+      "Sức hút",
+      "Cởi mở xã hội",
+      "Nuôi dưỡng đam mê"
+    ]
+  },
+  {
+    "id": "wands-seven",
+    "summary_up": "Lá bài gợi sự can đảm đứng lên cho điều mình tin khi chịu áp lực. Bạn có thể hành động kiên cường dù kết quả chưa có gì bảo đảm.",
+    "depth_up": "Hoàn cảnh có thể khiến bạn thấy yếu thế hoặc khó duy trì sức lực. Sự chủ động đối mặt có thể đem lại cơ hội thay vì chỉ chấp nhận sức ép từ người khác. Tuy nhiên, tranh đấu liên tục cũng có thể thành một thói quen làm hao mòn chính nguồn nhiệt huyết đang nâng đỡ bạn.",
+    "quote_up": "Chúng ta thưởng thức khi trận đấu diễn ra.",
+    "summary_rev": "Nghĩa ngược có thể gợi âu lo, lúng túng và khó quyết định trước mâu thuẫn. Những hành động rõ ràng có thể giúp bạn tìm lại sự tự tin.",
+    "depth_rev": "Bạn có thể không còn tránh được những điều đối lập đang hiện diện. Sự do dự dễ làm cảm giác bất định mạnh hơn và khiến bạn khó chủ động. Lá bài gợi khả năng nối lại sức mạnh bằng các bước hành động cụ thể để đối diện cả lo lắng bên trong lẫn vấn đề bên ngoài.",
+    "quote_rev": "Lá bài ngược biểu thị người này bị chìm trong âu lo, do dự, lúng túng.",
+    "rev_missing": false,
+    "keywords": [
+      "Can đảm",
+      "Chịu áp lực",
+      "Kiên cường",
+      "Bảo vệ điều tin tưởng"
+    ]
+  },
+  {
+    "id": "wands-six",
+    "summary_up": "Lá bài gợi niềm vui đạt mục tiêu và sự ghi nhận từ người khác. Lòng tin chân thật vào bản thân có thể đem lại động lực cho bạn và người đồng hành.",
+    "depth_up": "Một thành quả có thể đi cùng lời chúc mừng, phản hồi tốt hoặc sự tiến lên trong công việc. Cảm giác vượt qua thử thách giúp bạn nhận ra năng lực của mình. Lá bài cũng gợi sức truyền cảm hứng của sự lạc quan, nhưng niềm tin cần xuất phát từ bên trong thay vì chỉ từ vẻ ngoài chiến thắng.",
+    "quote_up": "Ở cấp độ nội tâm, lá này cho ta thấy cảm giác khi ở trên đỉnh cao thế giới, hoàn toàn vô địch sau một thành tựu tuyệt vời.",
+    "summary_rev": "Nghĩa ngược có thể gợi sự khoác lên vẻ tự tin để che nghi ngại. Khi niềm tin ấy không đứng vững, bạn dễ sợ thất bại hoặc cảm thấy bị phản bội.",
+    "depth_rev": "Sự lạc quan được thể hiện bằng lời khoe hoặc ảo tưởng có thể chưa phản ánh cảm nhận thật. Khi hoàn cảnh không đáp lại mong đợi, lớp vỏ ấy dễ chuyển thành bất an và cảm giác bị áp đảo. Lá bài gợi ý chú ý việc nghi ngờ có thể tự làm quan hệ và tình huống khó khăn thêm.",
+    "quote_rev": "Niềm tin giả tạo che phủ những nghi ngờ bằng khoác lác hay ảo ảnh sẽ dẫn đến sợ hãi và yếu đuối.",
+    "rev_missing": false,
+    "keywords": [
+      "Thành tựu",
+      "Ghi nhận",
+      "Tự tin",
+      "Truyền cảm hứng"
+    ]
+  },
+  {
+    "id": "wands-ten",
+    "summary_up": "Lá bài gợi sức ép từ quá nhiều công việc, trách nhiệm hoặc dự án đã nhận. Bạn có thể xem những gì đang gánh có thật sự cần mình ôm trọn hay còn cách tiếp cận khác.",
+    "depth_up": "Sự nhiệt tình ban đầu có thể đưa bạn vào nhiều cam kết hơn khả năng duy trì. Trong một mối quan hệ, bạn cũng có thể đang tự nhận phần lớn việc giải quyết bất hòa. Lá bài gợi ý nhìn lại cách gánh nặng được hình thành và liệu việc ôm mọi thứ có đang thay cho một thay đổi thiết thực.",
+    "quote_up": "Trong cả tình huống tình cảm lẫn thực tế, người này đã nhận mọi gánh nặng.",
+    "summary_rev": "Nghĩa ngược có thể gợi gánh nặng vượt sức hoặc việc chủ động đặt chúng xuống. Sự buông bỏ có thể mở hướng mới, nhưng cũng có thể chỉ là phản ứng tạm thời.",
+    "depth_rev": "Áp lực có thể tăng đến mức bạn khó tiếp tục cả về sức lực lẫn cảm xúc. Nếu đặt những trách nhiệm xuống, bạn có thể đang chọn dùng năng lượng cho một mục tiêu khác. Tuy nhiên, khi chỉ chống đối mà chưa thay đổi cách đi, những gánh nặng cũ có thể được nhặt lại và vòng lặp tiếp diễn.",
+    "quote_rev": "Từ đây tình huống lại phân nhánh.",
+    "rev_missing": false,
+    "keywords": [
+      "Gánh nặng",
+      "Quá nhiều cam kết",
+      "Áp lực",
+      "Trách nhiệm"
+    ]
+  },
+  {
+    "id": "wands-three",
+    "summary_up": "Lá bài gợi việc đưa cảm hứng và kế hoạch vào hành động có mục tiêu. Một nền tảng đã có có thể giúp bạn mở rộng khám phá mà vẫn giữ sự vững vàng.",
+    "depth_up": "Năng lượng của bản thân và người khác có thể cùng góp vào một dự án cụ thể. Bạn có thể tiến đến lĩnh vực mới mà không bỏ những gì đã xây dựng được. Trong một số hoàn cảnh, lá bài cũng gợi ký ức đã dịu hơn, để việc nhìn về quá khứ không còn ngăn sự khám phá.",
+    "quote_up": "Số ba là con số của hành động, là kết quả trực tiếp của số một và số hai.",
+    "summary_rev": "Nghĩa ngược có thể gợi dự án gặp khó khăn mạnh hơn dự tính hoặc ký ức còn quấy rầy. Nó cũng có thể nói đến việc hòa nhập lại sau thời gian suy ngẫm riêng.",
+    "depth_rev": "Một hướng khám phá thực tế hay cảm xúc có thể không thành khi trở ngại vượt mong đợi. Trong cách hiểu khác, khoảng cách với môi trường được thu hẹp sau một giai đoạn tách biệt. Lá bài cũng có thể gợi sự bất an từ quá khứ, nên cần đối chiếu với hoàn cảnh để phân biệt các hướng nghĩa này.",
+    "quote_rev": "Cuối cùng, lá bài ngược có thể ngụ ý người này bị ký ức quấy rầy.",
+    "rev_missing": false,
+    "keywords": [
+      "Hành động có mục tiêu",
+      "Hợp tác",
+      "Mở rộng khám phá",
+      "Nền tảng vững"
+    ]
+  },
+  {
+    "id": "wands-two",
+    "summary_up": "Lá bài gợi việc xác định mục tiêu và xây kế hoạch cho một ý tưởng mới. Bạn có thể nhìn cả những khả năng phía trước lẫn mức độ hài lòng với thành tựu đang có.",
+    "depth_up": "Sự sáng tạo cần một hình thức cụ thể và cách tổ chức năng lượng để tiến tới mục tiêu. Việc cân nhắc các hướng đi có thể hỗ trợ công việc hoặc dự án mới. Tuy nhiên, thành công vật chất chưa chắc đem lại sự mãn nguyện nếu bạn thấy mình bị vây trong chính những gì đã đạt được.",
+    "quote_up": "Tuy nhiên lá bài không có sự mãn nguyện giống như trong lá Three.",
+    "summary_rev": "Nghĩa ngược có thể gợi bước vào trải nghiệm mới sau khi rời vùng an toàn quen thuộc. Hứng thú và kinh ngạc có thể đi cùng rắc rối hoặc nỗi sợ.",
+    "depth_rev": "Bạn có thể đang đặt sự chắc chắn của quá khứ lại phía sau để thử điều chưa biết. Sự chuyển hướng ấy giải phóng cảm xúc mạnh, vừa cuốn hút vừa khiến bạn lo lắng. Lá bài đặc biệt gợi một quyết định thay đổi sau thời gian dài không thoải mái hoặc chưa hài lòng với đời sống.",
+    "quote_rev": "Tất cả những cụm từ này đều mô tả một người trực tiếp nhảy vào một trải nghiệm mới.",
+    "rev_missing": false,
+    "keywords": [
+      "Lập kế hoạch",
+      "Mục tiêu sáng tạo",
+      "Cân nhắc khả năng",
+      "Thành công chưa mãn nguyện"
+    ]
+  }
+]

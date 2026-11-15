@@ -1,0 +1,17 @@
+import {expect,test,vi} from 'vitest';
+import {Limits} from './limits';
+import {clientIp} from './clientIp';
+import {createRequestDrain,createShutdown} from './shutdown';
+import {createApp} from './app';
+import {FakeProvider} from './provider';
+import {readFileSync} from 'node:fs';
+import {staticCacheHeader} from '../src/lib/pwaConfig';
+test('hour window crosses UTC midnight, daily budget resets separately',()=>{let now=86399000;const l=new Limits(1,()=>now,2);expect(l.request('a')).toBe(0);expect(l.request('a')).toBe(0);expect(l.aiCall()).toBe(0);expect(l.aiCall()).toBe(1);now+=1001;expect(l.aiCall()).toBe(0);expect(l.request('a')).toBeGreaterThan(3500);expect(l.request('b')).toBe(0);now+=3600000;expect(l.request('a')).toBe(0);});
+test('ignore spoofed CF header except loopback ingress',()=>{expect(clientIp('1.2.3.4','203.0.113.10')).toBe('203.0.113.10');expect(clientIp('1.2.3.4',undefined)).toBe('unknown');for(const ip of ['127.0.0.1','::1','::ffff:127.0.0.1'])expect(clientIp('1.2.3.4',ip)).toBe('1.2.3.4');expect(clientIp('garbage','::1')).toBe('::1');});
+test('invalid bodies never spend budget, API no-store',async()=>{const p=new FakeProvider([]);const app=createApp({provider:p,model:'fake',origin:'http://localhost:5173',hourlyLimit:1});const req=()=>app.request('/api/interpret',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});expect((await req()).status).toBe(400);const r=await req();expect(r.status).toBe(400);expect(await r.json()).toEqual({error:'invalid_body'});expect(r.headers.get('Retry-After')).toBeNull();expect(r.headers.get('Cache-Control')).toBe('no-store');expect(p.calls).toHaveLength(0);expect(staticCacheHeader('/sw.js')).toBe('no-cache');});
+test('shutdown stops new work, waits active request and is idempotent',async()=>{let finish!:()=>void;const d=createRequestDrain(()=>new Promise<Response>(resolve=>{finish=()=>resolve(new Response('done'));}));const request=d.fetch(new Request('http://localhost/'));let closed!:()=>void;const close=vi.fn((cb:()=>void)=>{closed=cb;});const stop=createShutdown({close},d);const pending=stop();expect(stop()).toBe(pending);expect((await d.fetch(new Request('http://localhost/'))).status).toBe(503);let completed=false;void pending.then(()=>completed=true);await Promise.resolve();expect(completed).toBe(false);finish();await request;closed();expect(await pending).toBe(true);expect(close).toHaveBeenCalledTimes(1);});
+test('shutdown deadline force-closes stalled connections',async()=>{vi.useFakeTimers();try{const d=createRequestDrain(()=>new Response());const force=vi.fn();const stop=createShutdown({close:()=>{},closeAllConnections:force},d,1000);const pending=stop();await vi.advanceTimersByTimeAsync(1000);expect(await pending).toBe(false);expect(force).toHaveBeenCalledOnce();}finally{vi.useRealTimers();}});
+test('launch agent templates no credentials and grace allowance',()=>{const server=readFileSync('ops/com.tarot.server.plist','utf8');expect(server).toContain('ExitTimeOut');expect(server).toContain('<integer>130</integer>');for(const p of ['server','tunnel'])expect(readFileSync(`ops/com.tarot.${p}.plist`,'utf8')).not.toContain('GEMINI_API_KEY');});
+test('atomic acquisition never charges a denied request or a different IP on daily denial',()=>{
+ let now=0;const l=new Limits(2,()=>now,1);expect(l.acquire('a')).toBeNull();expect(l.acquire('a')?.reason).toBe('rate_limited');expect(l.acquire('b')).toBeNull();expect(l.acquire('c')?.reason).toBe('daily_budget');now=86400000;expect(l.acquire('c')).toBeNull();
+});

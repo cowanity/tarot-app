@@ -1,0 +1,969 @@
+[
+  {
+    "id": 24,
+    "input": {
+      "question": "Mình có nên nhận lời cầu hôn không?",
+      "context": "",
+      "feelings": {
+        "ids": [],
+        "want": "decision"
+      },
+      "topic": "Tình yêu",
+      "spreadId": "past-present-future",
+      "picks": [
+        {
+          "position": 1,
+          "cardId": "major-06-lovers",
+          "reversed": false
+        },
+        {
+          "position": 2,
+          "cardId": "pentacles-four",
+          "reversed": true
+        },
+        {
+          "position": 3,
+          "cardId": "major-11-justice",
+          "reversed": false
+        }
+      ]
+    },
+    "status": 200,
+    "seconds": 16.139,
+    "audit": {
+      "method": "POST",
+      "path": "/api/interpret",
+      "errorCode": null,
+      "time": "2026-10-18T10:04:55.512Z",
+      "status": 200,
+      "latencyMs": 16133,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 12776
+        },
+        {
+          "kind": "fallback",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash",
+          "latencyMs": 1614
+        }
+      ],
+      "spreadId": "past-present-future",
+      "mode": "full",
+      "model": "gemini-3.5-flash",
+      "tokens": 5088,
+      "providerError": null,
+      "usedFallback": true,
+      "schemaIssues": [],
+      "responseChars": 2204,
+      "badSpacingCount": 0
+    },
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Nên đồng ý nếu bạn sẵn sàng chịu trách nhiệm",
+        "answer": "Lá Tình Nhân ở quá khứ nhắc lại tình cảm chân thành từng chọn. Bốn Tiền ngược hiện tại báo hiệu bạn đang buông bỏ bớt sự e ngại hay kiểm soát quá mức. Công Lý ở tương lai yêu cầu sự minh bạch, công bằng và cam kết rõ ràng giữa hai bên.",
+        "headline": "Cân nhắc lời cầu hôn",
+        "opening": "Bạn đang đứng trước lời cầu hôn và cần nhìn nhận lại mối quan hệ cũng như sự sẵn sàng của bản thân.",
+        "tension": "Bạn đứng giữa một mối liên kết từng rất gần gũi và sự cần thiết phải giữ cho nền tảng hiện tại không bị lung lay.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Sự gắn kết ban đầu",
+            "notice": "Tình Nhân ở quá khứ nhắc lại sự hòa hợp và những lựa chọn lớn từng gắn hai người lại với nhau.",
+            "scene": "Một đôi nam nữ khỏa thân đứng dưới thiên thần có cánh lớn giữa mặt trời; sau người nữ là cây có con rắn, sau người nam là cây lửa."
+          },
+          {
+            "position": 2,
+            "title": "Sự lung lay hiện tại",
+            "notice": "Bốn Tiền ngược phản ánh việc bạn đang nới lỏng sự kiểm soát hoặc cảm thấy cấu trúc chung chưa đủ vững chắc.",
+            "scene": "Người ngồi ôm chặt một đồng xu trước ngực, đội một đồng xu lên đầu, hai đồng nữa dưới chân, thành phố phía sau. (lá ngược)"
+          },
+          {
+            "position": 3,
+            "title": "Sự đánh giá công tâm",
+            "notice": "Công Lý ở tương lai hướng dẫn bạn nhìn rõ hệ quả của quyết định và sự thật trong cách đối xử giữa hai người.",
+            "scene": "Người ngồi ngai giữa hai cột, tay phải cầm thanh kiếm dựng thẳng, tay trái cầm cán cân, sau lưng là tấm màn tím."
+          }
+        ],
+        "weave": "Quá khứ gắn bó qua lá Tình Nhân nay gặp sự dịch chuyển của Bốn Tiền ngược, đòi hỏi một cái nhìn thẳng thắn từ Công Lý để thấy rõ liệu nền tảng hiện tại đã đủ vững chưa.",
+        "unsaid": "",
+        "outlook": "Nếu bạn và đối phương cùng làm rõ những điểm chưa vững, quyết định sẽ dựa trên sự thấu hiểu; nếu vội vàng, cảm giác bất an có thể vẫn còn.",
+        "paths": [
+          {
+            "label": "Nhận lời ngay",
+            "body": "Bạn bước vào cam kết mới nhưng có thể phải đối mặt với những cấu trúc chưa thực sự ổn định từ trước."
+          },
+          {
+            "label": "Trì hoãn để bàn thêm",
+            "body": "Bạn có thêm thời gian để cùng đối phương đánh giá lại mọi thứ, đổi lại cần sự kiên nhẫn từ cả hai."
+          }
+        ],
+        "closing": "Một cam kết bền vững cần sự thành thật với chính mình trước khi gật đầu.",
+        "question": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+        "experiment": "Liệt kê ba điều quan trọng nhất bạn mong đợi từ cuộc sống hôn nhân trong năm tới."
+      },
+      "notes": [
+        "question_anchor",
+        "answer_long",
+        "verdict_long",
+        "question_opening",
+        "soft_length",
+        "verdict_repair_triggered",
+        "answer_verdict",
+        "verdict_repaired"
+      ],
+      "model": "gemini-3.5-flash"
+    },
+    "validations": [
+      {
+        "afterCompletion": 1,
+        "errors": [],
+        "notes": [
+          "question_anchor",
+          "answer_long",
+          "verdict_long",
+          "answer_verdict",
+          "answer_direction",
+          "question_opening"
+        ],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Cân nhắc kỹ trước khi đưa ra quyết định.",
+          "answer": "Tình Nhân ở quá khứ cho thấy mối quan hệ từng mang lại sự gắn kết sâu sắc và những lựa chọn quan trọng. Bốn Tiền ngược ở hiện tại phản ánh sự nới lỏng hoặc cảm giác khó giữ cấu trúc vững vàng, trong khi Công Lý ở tương lai hướng tới sự đánh giá thành thật về hệ quả lâu dài.",
+          "headline": "Cân nhắc lời cầu hôn",
+          "opening": "Bạn đang đứng trước lời cầu hôn và cần nhìn nhận lại mối quan hệ cũng như sự sẵn sàng của bản thân.",
+          "tension": "Bạn đứng giữa một mối liên kết từng rất gần gũi và sự cần thiết phải giữ cho nền tảng hiện tại không bị lung lay.",
+          "per_card.0.title": "Sự gắn kết ban đầu",
+          "per_card.0.notice": "Tình Nhân ở quá khứ nhắc lại sự hòa hợp và những lựa chọn lớn từng gắn hai người lại với nhau.",
+          "per_card.1.title": "Sự lung lay hiện tại",
+          "per_card.1.notice": "Bốn Tiền ngược phản ánh việc bạn đang nới lỏng sự kiểm soát hoặc cảm thấy cấu trúc chung chưa đủ vững chắc.",
+          "per_card.2.title": "Sự đánh giá công tâm",
+          "per_card.2.notice": "Công Lý ở tương lai hướng dẫn bạn nhìn rõ hệ quả của quyết định và sự thật trong cách đối xử giữa hai người.",
+          "weave": "Quá khứ gắn bó qua lá Tình Nhân nay gặp sự dịch chuyển của Bốn Tiền ngược, đòi hỏi một cái nhìn thẳng thắn từ Công Lý để thấy rõ liệu nền tảng hiện tại đã đủ vững chưa.",
+          "unsaid": "",
+          "outlook": "Nếu bạn và đối phương cùng làm rõ những điểm chưa vững, quyết định sẽ dựa trên sự thấu hiểu; nếu vội vàng, cảm giác bất an có thể vẫn còn.",
+          "paths.0.label": "Nhận lời ngay",
+          "paths.0.body": "Bạn bước vào cam kết mới nhưng có thể phải đối mặt với những cấu trúc chưa thực sự ổn định từ trước.",
+          "paths.1.label": "Trì hoãn để bàn thêm",
+          "paths.1.body": "Bạn có thêm thời gian để cùng đối phương đánh giá lại mọi thứ, đổi lại cần sự kiên nhẫn từ cả hai.",
+          "closing": "Một cam kết bền vững cần sự thành thật với chính mình trước khi gật đầu.",
+          "question": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+          "experiment": "Liệt kê ba điều quan trọng nhất bạn mong đợi từ cuộc sống hôn nhân trong năm tới."
+        },
+        "diagnostics": [
+          {
+            "path": "question",
+            "rule": "question_anchor",
+            "fragment": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+            "severity": "soft"
+          },
+          {
+            "path": "answer",
+            "rule": "answer_long",
+            "fragment": "Tình Nhân ở quá khứ cho thấy mối quan hệ từng mang lại sự gắn kết sâu sắc và những lựa chọn quan trọng. Bốn Tiền ngược ở hiện tại phản ánh sự nới lỏng hoặc cảm giác khó giữ cấu trúc vững vàng, trong khi Công Lý ở tương lai hướng tới sự đánh giá thành thật về hệ quả lâu dài.",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "verdict_long",
+            "fragment": "Cân nhắc kỹ trước khi đưa ra quyết định.",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "answer_verdict",
+            "fragment": "Cân nhắc kỹ trước khi đưa ra quyết định.",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "answer_direction",
+            "fragment": "Cân nhắc kỹ trước khi đưa ra quyết định.",
+            "severity": "soft"
+          },
+          {
+            "path": "answer",
+            "rule": "answer_direction",
+            "fragment": "Tình Nhân ở quá khứ cho thấy mối quan hệ từng mang lại sự gắn kết sâu sắc và những lựa chọn quan trọng. Bốn Tiền ngược ở hiện tại phản ánh sự nới lỏng hoặc cảm giác khó giữ cấu trúc vững vàng, trong khi Công Lý ở tương lai hướng tới sự đánh giá thành thật về hệ quả lâu dài.",
+            "severity": "soft"
+          },
+          {
+            "path": "question",
+            "rule": "question_opening",
+            "fragment": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+            "severity": "soft"
+          }
+        ]
+      },
+      {
+        "afterCompletion": 2,
+        "errors": [],
+        "notes": [
+          "question_anchor",
+          "verdict_long",
+          "answer_verdict",
+          "question_opening"
+        ],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "nên đồng ý nếu bạn sẵn sàng chịu trách nhiệm",
+          "answer": "Lá Tình Nhân ở quá khứ nhắc lại tình cảm chân thành từng chọn. Bốn Tiền ngược hiện tại báo hiệu bạn đang buông bỏ bớt sự e ngại hay kiểm soát quá mức. Công Lý ở tương lai yêu cầu sự minh bạch, công bằng và cam kết rõ ràng giữa hai bên.",
+          "headline": "Cân nhắc lời cầu hôn",
+          "opening": "Bạn đang đứng trước lời cầu hôn và cần nhìn nhận lại mối quan hệ cũng như sự sẵn sàng của bản thân.",
+          "tension": "Bạn đứng giữa một mối liên kết từng rất gần gũi và sự cần thiết phải giữ cho nền tảng hiện tại không bị lung lay.",
+          "per_card.0.title": "Sự gắn kết ban đầu",
+          "per_card.0.notice": "Tình Nhân ở quá khứ nhắc lại sự hòa hợp và những lựa chọn lớn từng gắn hai người lại với nhau.",
+          "per_card.0.scene": "Một đôi nam nữ khỏa thân đứng dưới thiên thần có cánh lớn giữa mặt trời; sau người nữ là cây có con rắn, sau người nam là cây lửa.",
+          "per_card.1.title": "Sự lung lay hiện tại",
+          "per_card.1.notice": "Bốn Tiền ngược phản ánh việc bạn đang nới lỏng sự kiểm soát hoặc cảm thấy cấu trúc chung chưa đủ vững chắc.",
+          "per_card.1.scene": "Người ngồi ôm chặt một đồng xu trước ngực, đội một đồng xu lên đầu, hai đồng nữa dưới chân, thành phố phía sau. (lá ngược)",
+          "per_card.2.title": "Sự đánh giá công tâm",
+          "per_card.2.notice": "Công Lý ở tương lai hướng dẫn bạn nhìn rõ hệ quả của quyết định và sự thật trong cách đối xử giữa hai người.",
+          "per_card.2.scene": "Người ngồi ngai giữa hai cột, tay phải cầm thanh kiếm dựng thẳng, tay trái cầm cán cân, sau lưng là tấm màn tím.",
+          "weave": "Quá khứ gắn bó qua lá Tình Nhân nay gặp sự dịch chuyển của Bốn Tiền ngược, đòi hỏi một cái nhìn thẳng thắn từ Công Lý để thấy rõ liệu nền tảng hiện tại đã đủ vững chưa.",
+          "unsaid": "",
+          "outlook": "Nếu bạn và đối phương cùng làm rõ những điểm chưa vững, quyết định sẽ dựa trên sự thấu hiểu; nếu vội vàng, cảm giác bất an có thể vẫn còn.",
+          "paths.0.label": "Nhận lời ngay",
+          "paths.0.body": "Bạn bước vào cam kết mới nhưng có thể phải đối mặt với những cấu trúc chưa thực sự ổn định từ trước.",
+          "paths.1.label": "Trì hoãn để bàn thêm",
+          "paths.1.body": "Bạn có thêm thời gian để cùng đối phương đánh giá lại mọi thứ, đổi lại cần sự kiên nhẫn từ cả hai.",
+          "closing": "Một cam kết bền vững cần sự thành thật với chính mình trước khi gật đầu.",
+          "question": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+          "experiment": "Liệt kê ba điều quan trọng nhất bạn mong đợi từ cuộc sống hôn nhân trong năm tới."
+        },
+        "diagnostics": [
+          {
+            "path": "question",
+            "rule": "question_anchor",
+            "fragment": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "verdict_long",
+            "fragment": "nên đồng ý nếu bạn sẵn sàng chịu trách nhiệm",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "answer_verdict",
+            "fragment": "nên đồng ý nếu bạn sẵn sàng chịu trách nhiệm",
+            "severity": "soft"
+          },
+          {
+            "path": "question",
+            "rule": "question_opening",
+            "fragment": "Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?",
+            "severity": "soft"
+          }
+        ]
+      }
+    ],
+    "completions": [
+      {
+        "call": 1,
+        "repairFields": null,
+        "model": "gemini-3.5-flash-lite",
+        "text": "{\n  \"verdict\": \"Cân nhắc kỹ trước khi đưa ra quyết định.\",\n  \"answer\": \"Tình Nhân ở quá khứ cho thấy mối quan hệ từng mang lại sự gắn kết sâu sắc và những lựa chọn quan trọng. Bốn Tiền ngược ở hiện tại phản ánh sự nới lỏng hoặc cảm giác khó giữ cấu trúc vững vàng, trong khi Công Lý ở tương lai hướng tới sự đánh giá thành thật về hệ quả lâu dài.\",\n  \"headline\": \"Cân nhắc lời cầu hôn\",\n  \"opening\": \"Bạn đang đứng trước lời cầu hôn và cần nhìn nhận lại mối quan hệ cũng như sự sẵn sàng của bản thân.\",\n  \"tension\": \"Bạn đứng giữa một mối liên kết từng rất gần gũi và sự cần thiết phải giữ cho nền tảng hiện tại không bị lung lay.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Sự gắn kết ban đầu\",\n      \"notice\": \"Tình Nhân ở quá khứ nhắc lại sự hòa hợp và những lựa chọn lớn từng gắn hai người lại với nhau.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Sự lung lay hiện tại\",\n      \"notice\": \"Bốn Tiền ngược phản ánh việc bạn đang nới lỏng sự kiểm soát hoặc cảm thấy cấu trúc chung chưa đủ vững chắc.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Sự đánh giá công tâm\",\n      \"notice\": \"Công Lý ở tương lai hướng dẫn bạn nhìn rõ hệ quả của quyết định và sự thật trong cách đối xử giữa hai người.\"\n    }\n  ],\n  \"weave\": \"Quá khứ gắn bó qua lá Tình Nhân nay gặp sự dịch chuyển của Bốn Tiền ngược, đòi hỏi một cái nhìn thẳng thắn từ Công Lý để thấy rõ liệu nền tảng hiện tại đã đủ vững chưa.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu bạn và đối phương cùng làm rõ những điểm chưa vững, quyết định sẽ dựa trên sự thấu hiểu; nếu vội vàng, cảm giác bất an có thể vẫn còn.\",\n  \"paths\": [\n    {\n      \"label\": \"Nhận lời ngay\",\n      \"body\": \"Bạn bước vào cam kết mới nhưng có thể phải đối mặt với những cấu trúc chưa thực sự ổn định từ trước.\"\n    },\n    {\n      \"label\": \"Trì hoãn để bàn thêm\",\n      \"body\": \"Bạn có thêm thời gian để cùng đối phương đánh giá lại mọi thứ, đổi lại cần sự kiên nhẫn từ cả hai.\"\n    }\n  ],\n  \"closing\": \"Một cam kết bền vững cần sự thành thật với chính mình trước khi gật đầu.\",\n  \"question\": \"Điều gì ở hiện tại khiến bạn cảm thấy chưa hoàn toàn an tâm?\",\n  \"experiment\": \"Liệt kê ba điều quan trọng nhất bạn mong đợi từ cuộc sống hôn nhân trong năm tới.\"\n}",
+        "usage": {
+          "input": 3912,
+          "output": 651
+        }
+      },
+      {
+        "call": 2,
+        "repairFields": [
+          "verdict",
+          "answer"
+        ],
+        "model": "gemini-3.5-flash",
+        "text": "{\n  \"verdict\": \"nên đồng ý nếu bạn sẵn sàng chịu trách nhiệm\",\n  \"answer\": \"Lá Tình Nhân ở quá khứ nhắc lại tình cảm chân thành từng chọn. Bốn Tiền ngược hiện tại báo hiệu bạn đang buông bỏ bớt sự e ngại hay kiểm soát quá mức. Công Lý ở tương lai yêu cầu sự minh bạch, công bằng và cam kết rõ ràng giữa hai bên.\"\n}",
+        "usage": {
+          "input": 433,
+          "output": 92
+        }
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "input": {
+      "question": "Bạn thân dạo này xa cách mình, mình nên làm gì?",
+      "context": "",
+      "feelings": {
+        "ids": [],
+        "want": "clarity"
+      },
+      "topic": "Bản thân",
+      "spreadId": "past-present-future",
+      "picks": [
+        {
+          "position": 1,
+          "cardId": "cups-six",
+          "reversed": false
+        },
+        {
+          "position": 2,
+          "cardId": "swords-two",
+          "reversed": false
+        },
+        {
+          "position": 3,
+          "cardId": "cups-page",
+          "reversed": false
+        }
+      ]
+    },
+    "status": 200,
+    "seconds": 10.904,
+    "audit": {
+      "method": "POST",
+      "path": "/api/interpret",
+      "errorCode": null,
+      "time": "2026-10-18T10:05:14.425Z",
+      "status": 200,
+      "latencyMs": 10903,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 10774
+        }
+      ],
+      "spreadId": "past-present-future",
+      "mode": "full",
+      "model": "gemini-3.5-flash-lite",
+      "tokens": 4413,
+      "providerError": null,
+      "usedFallback": false,
+      "schemaIssues": [],
+      "responseChars": 2070,
+      "badSpacingCount": 0
+    },
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Chủ động nói chuyện thẳng thắn với bạn.",
+        "answer": "Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.",
+        "headline": "Khoảng cách bất ngờ",
+        "opening": "Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.",
+        "tension": "Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Hoài niệm và ký ức",
+            "notice": "Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.",
+            "scene": "Hai đứa trẻ trong sân làng, một em đưa cho em kia chén đầy hoa trắng, thêm bốn chén hoa xung quanh."
+          },
+          {
+            "position": 2,
+            "title": "Cân bằng tạm thời",
+            "notice": "Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.",
+            "scene": "Người phụ nữ bịt mắt ngồi giữ hai thanh kiếm bắt chéo trước ngực, lưng quay ra mặt biển tĩnh dưới trăng lưỡi liềm."
+          },
+          {
+            "position": 3,
+            "title": "Cảm hứng kết nối",
+            "notice": "Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.",
+            "scene": "Chàng trai trẻ mặc áo hoa đứng bên bờ biển, trong chén có con cá nhỏ ló đầu lên nhìn anh."
+          }
+        ],
+        "weave": "Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.",
+        "unsaid": "Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.",
+        "outlook": "Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.",
+        "paths": [
+          {
+            "label": "Chủ động hỏi han",
+            "body": "Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ."
+          },
+          {
+            "label": "Tiếp tục giữ khoảng cách",
+            "body": "Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm."
+          }
+        ],
+        "closing": "Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.",
+        "question": "Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?",
+        "experiment": "Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này."
+      },
+      "notes": [
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "validations": [
+      {
+        "afterCompletion": 1,
+        "errors": [],
+        "notes": [],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Chủ động nói chuyện thẳng thắn với bạn.",
+          "answer": "Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.",
+          "headline": "Khoảng cách bất ngờ",
+          "opening": "Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.",
+          "tension": "Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.",
+          "per_card.0.title": "Hoài niệm và ký ức",
+          "per_card.0.notice": "Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.",
+          "per_card.1.title": "Cân bằng tạm thời",
+          "per_card.1.notice": "Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.",
+          "per_card.2.title": "Cảm hứng kết nối",
+          "per_card.2.notice": "Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.",
+          "weave": "Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.",
+          "unsaid": "Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.",
+          "outlook": "Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.",
+          "paths.0.label": "Chủ động hỏi han",
+          "paths.0.body": "Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ.",
+          "paths.1.label": "Tiếp tục giữ khoảng cách",
+          "paths.1.body": "Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm.",
+          "closing": "Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.",
+          "question": "Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?",
+          "experiment": "Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này."
+        },
+        "diagnostics": []
+      }
+    ],
+    "completions": [
+      {
+        "call": 1,
+        "repairFields": null,
+        "model": "gemini-3.5-flash-lite",
+        "text": "{\n  \"verdict\": \"Chủ động nói chuyện thẳng thắn với bạn.\",\n  \"answer\": \"Sáu Cốc và Hai Kiếm cho thấy bạn đang giữ khoảng cách và nhớ về lúc trước thay vì làm rõ vướng mắc hiện tại. Tiểu đồng Cốc mở ra khả năng hàn gắn nếu bạn chịu chia sẻ cảm xúc thật.\",\n  \"headline\": \"Khoảng cách bất ngờ\",\n  \"opening\": \"Bạn thấy bạn thân dạo này xa cách và không biết mình nên làm gì để cải thiện tình hình.\",\n  \"tension\": \"Một bên là ký ức thân thiết thuở trước, một bên là sự im lặng và do dự trong hiện tại.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Hoài niệm và ký ức\",\n      \"notice\": \"Sáu Cốc gợi nhắc những kỷ niệm ấm áp ngày xưa, khiến bạn dễ tiếc nuối khi nhìn hiện tại.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Cân bằng tạm thời\",\n      \"notice\": \"Hai Kiếm ở hiện tại cho thấy sự do dự và việc tự thủ thế, chưa muốn đối mặt trực tiếp với vấn đề.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Cảm hứng kết nối\",\n      \"notice\": \"Tiểu đồng Cốc mở ra khả năng mở lòng và đón nhận sự nhạy cảm, gợi ý một cách tiếp cận nhẹ nhàng hơn.\"\n    }\n  ],\n  \"weave\": \"Các lá bài đi từ hoài niệm quá khứ đến sự bế tắc hiện tại và gợi ý một cách mở lòng nhẹ nhàng, giống như việc thắp lại ngọn lửa nhỏ sau một ngày lạnh giá.\",\n  \"unsaid\": \"Có thể người bạn ấy cũng đang gặp riêng chuyện khó nói mà chưa biết bày tỏ cùng ai.\",\n  \"outlook\": \"Nếu bạn chủ động bắt chuyện, tín hiệu tích cực có thể xuất hiện khi cả hai chịu lắng nghe nhau.\",\n  \"paths\": [\n    {\n      \"label\": \"Chủ động hỏi han\",\n      \"body\": \"Bạn có cơ hội giải tỏa lòng mình và làm rõ mối quan hệ, nhưng cũng phải chuẩn bị tinh thần cho câu trả lời bất ngờ.\"\n    },\n    {\n      \"label\": \"Tiếp tục giữ khoảng cách\",\n      \"body\": \"Bạn tránh được những phút giây khó xử trước mắt, nhưng khoảng cách giữa hai người sẽ ngày một lớn thêm.\"\n    }\n  ],\n  \"closing\": \"Sự chân thành luôn là chiếc chìa khóa ngắn nhất để bước lại gần nhau.\",\n  \"question\": \"Bạn có sẵn sàng lắng nghe lý do từ phía người ấy không?\",\n  \"experiment\": \"Nhắn một tin hỏi thăm đơn giản không kèm phán xét vào cuối tuần này.\"\n}",
+        "usage": {
+          "input": 3791,
+          "output": 622
+        }
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "input": {
+      "question": "Mình có nên chuyển sang làm ngành khác không?",
+      "context": "",
+      "feelings": {
+        "ids": [],
+        "want": "decision"
+      },
+      "topic": "Sự nghiệp",
+      "spreadId": "past-present-future",
+      "picks": [
+        {
+          "position": 1,
+          "cardId": "wands-two",
+          "reversed": false
+        },
+        {
+          "position": 2,
+          "cardId": "pentacles-seven",
+          "reversed": false
+        },
+        {
+          "position": 3,
+          "cardId": "major-01-magician",
+          "reversed": false
+        }
+      ]
+    },
+    "status": 200,
+    "seconds": 14.505,
+    "audit": {
+      "method": "POST",
+      "path": "/api/interpret",
+      "errorCode": null,
+      "time": "2026-10-18T10:05:36.935Z",
+      "status": 200,
+      "latencyMs": 14504,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "guardrail:bad_spacing",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 11363,
+          "guardrailErrors": [
+            "bad_spacing"
+          ]
+        },
+        {
+          "kind": "retry",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 3041
+        }
+      ],
+      "spreadId": "past-present-future",
+      "mode": "full",
+      "model": "gemini-3.5-flash-lite",
+      "tokens": 9230,
+      "providerError": null,
+      "usedFallback": false,
+      "schemaIssues": [],
+      "responseChars": 2536,
+      "badSpacingCount": 0
+    },
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Nên cân nhắc kỹ trước khi chuyển ngành.",
+        "answer": "Hai Gậy và Bảy Tiền cho thấy bạn đã có giai đoạn tính toán và kiên trì vun trồng công việc hiện tại, nên việc chuyển ngành cần thêm thời gian quan sát. Pháp Sư ở tương lai chỉ ra rằng bạn hoàn toàn có đủ năng lực để làm mới mình, nhưng nên chuẩn bị kỹ thay vì đổi hướng quá nhanh.",
+        "headline": "Cân nhắc bước ngoặt sự nghiệp",
+        "opening": "Bạn đang đứng trước câu hỏi về việc có nên rẽ sang một ngành khác hay không.",
+        "tension": "Bạn muốn tìm hướng đi mới mẻ và phù hợp hơn, nhưng cũng do dự vì những gì đã đầu tư ở công việc hiện tại.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Lập kế hoạch từ trước",
+            "notice": "Hai Gậy ở quá khứ gợi lại những lúc bạn đứng nhìn các hướng đi khác nhau và cân nhắc khả năng. Quá trình định hướng này đã bắt đầu từ lâu trong suy nghĩ của bạn.",
+            "scene": "Người đứng trên tường lâu đài, một tay cầm quả cầu nhỏ, một tay chống gậy, nhìn ra biển, một cây gậy khác cắm bên cạnh."
+          },
+          {
+            "position": 2,
+            "title": "Kiên nhẫn vun trồng",
+            "notice": "Bảy Tiền ở hiện tại giống như người nông dân đứng nhìn thành quả đang lớn. Bạn đang ở giai đoạn đánh giá lại những nỗ lực và công sức mình đã bỏ ra.",
+            "scene": "Người nông dân chống cuốc, nhìn bụi cây có bảy đồng xu mọc ra như quả, dáng nghỉ ngơi và cân nhắc."
+          },
+          {
+            "position": 3,
+            "title": "Tập trung năng lực mới",
+            "notice": "Pháp Sư ở tương lai nói về việc gom góp kỹ năng và ý chí để bắt tay vào một điều mới. Khi đã sẵn sàng, bạn hoàn toàn có thể làm chủ các công cụ và nguồn lực mới.",
+            "scene": "Một người đứng giơ cây đũa lên trời, tay kia chỉ xuống đất, trên bàn trước mặt có đủ bốn vật: chén, kiếm, gậy, đồng xu; hoa hồng đỏ và huệ trắng nở quanh."
+          }
+        ],
+        "weave": "Ba lá bài cho thấy một hành trình từ việc cân nhắc ý tưởng, kiên nhẫn chăm chút cho hiện tại, cho tới khả năng gom đủ năng lượng để làm lại từ đầu. Giống như người đứng trên tường thành nhìn ra biển, bạn không cần vội nhảy xuống nước khi chưa chuẩn bị xong phương án bơi.",
+        "unsaid": "",
+        "outlook": "Nếu bạn từ trau dồi kỹ năng mới song với việc cũ, quyết định chuyển ngành sau này sẽ vững vàng hơn. Nếu vội vàng bỏ ngang, bạn có thể thấy mình thiếu các công cụ cần thiết để thích nghi.",
+        "paths": [
+          {
+            "label": "Chuyển ngành ngay",
+            "body": "Bạn có sự thay đổi mới mẻ nhưng phải đối mặt với nhiều bỡ ngỡ và áp lực từ con số không."
+          },
+          {
+            "label": "Chuẩn bị kỹ rồi chuyển",
+            "body": "Bạn giữ ổn định hiện tại trong lúc học hỏi kỹ năng mới, giúp bước dịch chuyển sau này êm ái hơn."
+          }
+        ],
+        "closing": "Bạn chưa cần vứt bỏ tất cả, chỉ cần chọn đúng công cụ trước khi bước sang bàn làm việc mới.",
+        "question": "Ngành nghề mới cần mang lại điều gì mà công việc hiện tại chưa có?",
+        "experiment": "Liệt kê ba kỹ năng từ công việc hiện tại có thể áp dụng sang lĩnh vực bạn đang hướng tới."
+      },
+      "notes": [
+        "answer_long",
+        "cliche",
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "validations": [
+      {
+        "afterCompletion": 1,
+        "errors": [
+          "bad_spacing"
+        ],
+        "notes": [
+          "answer_long",
+          "question_opening",
+          "question_length"
+        ],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Nên cân nhắc kỹ trước khi chuyển ngành.",
+          "answer": "Hai Gậy cho thấy bạn đã từng chuẩn bị hoặc vạch hướng đi cho việc này, nhưng Bảy Tiền ở hiện tại khuyên bạn hãy nhìn lại những gì đang vun trồng. Pháp Sư ở tương lai nhắc rằng khả năng chủ động là có, song việc chuyển ngành cần được chuẩn bị bằng kỹ năng thực tế thay vì chỉ là cảm giác muốn đổi hướng.",
+          "headline": "Cân nhắc bước ngoặt sự nghiệp",
+          "opening": "Bạn đang đứng trước câu hỏi có nên chuyển sang làm ngành khác hay không và muốn nhìn rõ hơn bước đi tiếp theo.",
+          "tension": "Một bên là mong muốn rẽ sang hướng mới mẻ hơn, một bên là thực tế những gì bạn đã đầu tư thời gian vun trồng ở hiện tại.",
+          "per_card.0.title": "Nhìn ra xa",
+          "per_card.0.notice": "Hai Gậy ở quá khquá khứ nhắc về lúc bạn đứng giữa các lựa chọn và vạch ra những dự định mới cho công việc.",
+          "per_card.1.title": "Chờ đợi thành quả",
+          "per_card.1.notice": "Bảy Tiền ở hiện tại là lúc dừng lại quan sát tiến trình, đánh giá xem những nỗ lực bạn bỏ ra đã đủ chín muồi chưa hay vẫn cần chăm chút thêm.",
+          "per_card.2.title": "Tập hợp nguồn lực",
+          "per_card.2.notice": "Pháp Sư ở tương lai gợi ý rằng nếu bạn thực sự muốn làm điều mới, bạn sẽ cần gom đủ kỹ năng, ý chí và công cụ để bắt tay vào thực hiện thay vì chỉ nghĩ về nó.",
+          "weave": "Ba lá bài nối từ việc lên kế hoạch sang giai đoạn đánh giá hiện tại, rồi mở ra khả năng làm chủ nếu bạn thực sự hành động. Giống như người đứng trên tường thành nhìn ra biển trước khi quyết định gieo trồng hạt giống mới.",
+          "unsaid": "",
+          "outlook": "Nếu bạn chủ động trang bị thêm kỹ năng cần thiết cho ngành mới từ bây giờ, quyết định chuyển đổi sẽ vững vàng hơn. Nếu vội vàng rời đi khi chưa rõ hướng, bạn có thể thấy mình lại phải bắt đầu từ vạch xuất phát trong loay hoay.",
+          "paths.0.label": "Chuyển ngành ngay",
+          "paths.0.body": "Bạn sớm có trải nghiệm mới mẻ, nhưng phải đối mặt với áp lực làm quen lại từ đầu và thiếu hụt kinh nghiệm nền tảng.",
+          "paths.1.label": "Chuẩn bị kỹ rồi chuyển",
+          "paths.1.body": "Bạn giữ ổn định hiện tại trong lúc học hỏi thêm kỹ năng mới, đổi lại sự chuyển dịch sau này sẽ chắc chắn và ít rủi ro hơn.",
+          "closing": "Sự thay đổi thực sự bắt đầu từ tay nghề bạn cầm trên tay, không chỉ từ ý định trong đầu.",
+          "question": "Điều gì ở ngành hiện tại khiến bạn muốn rời đi, và điều gì ở ngành mới thu hút bạn nhất?",
+          "experiment": "Liệt kê ba kỹ năng từ công việc hiện tại có thể đem sang ứng dụng ở lĩnh vực bạn đang hướng tới."
+        },
+        "diagnostics": [
+          {
+            "path": "answer",
+            "rule": "answer_long",
+            "fragment": "Hai Gậy cho thấy bạn đã từng chuẩn bị hoặc vạch hướng đi cho việc này, nhưng Bảy Tiền ở hiện tại khuyên bạn hãy nhìn lại những gì đang vun trồng. Pháp Sư ở tương lai nhắc rằng khả năng chủ động là có, song việc chuyển ngành cần được chuẩn bị bằng kỹ năng thực tế thay vì chỉ là cảm giác muốn đổi hướng.",
+            "severity": "soft"
+          },
+          {
+            "path": "question",
+            "rule": "question_opening",
+            "fragment": "Điều gì ở ngành hiện tại khiến bạn muốn rời đi, và điều gì ở ngành mới thu hút bạn nhất?",
+            "severity": "soft"
+          },
+          {
+            "path": "question",
+            "rule": "question_length",
+            "fragment": "Điều gì ở ngành hiện tại khiến bạn muốn rời đi, và điều gì ở ngành mới thu hút bạn nhất?",
+            "severity": "soft"
+          },
+          {
+            "path": "answer",
+            "rule": "bad_spacing",
+            "fragment": "Hai Gậy cho thấy bạn đã từng chuẩn bị hoặc vạch hướng đi cho việc này, nhưng Bảy Tiền ở hiện tại khuyên bạn hãy nhìn lại những gì đang vun trồng. Pháp Sư ở tương lai nhắc rằng khả năng chủ động là có, song việc chuyển ngành cần được chuẩn bị bằng kỹ năng thực tế thay vì chỉ là cảm giác muốn đổi hướng.",
+            "severity": "hard"
+          },
+          {
+            "path": "per_card.0.notice",
+            "rule": "bad_spacing",
+            "fragment": "Hai Gậy ở quá khquá khứ nhắc về lúc bạn đứng giữa các lựa chọn và vạch ra những dự định mới cho công việc.",
+            "severity": "hard"
+          },
+          {
+            "path": "question",
+            "rule": "bad_spacing",
+            "fragment": "Điều gì ở ngành hiện tại khiến bạn muốn rời đi, và điều gì ở ngành mới thu hút bạn nhất?",
+            "severity": "hard"
+          }
+        ]
+      },
+      {
+        "afterCompletion": 2,
+        "errors": [],
+        "notes": [
+          "answer_long",
+          "cliche"
+        ],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Nên cân nhắc kỹ trước khi chuyển ngành.",
+          "answer": "Hai Gậy và Bảy Tiền cho thấy bạn đã có giai đoạn tính toán và kiên trì vun trồng công việc hiện tại, nên việc chuyển ngành cần thêm thời gian quan sát. Pháp Sư ở tương lai chỉ ra rằng bạn hoàn toàn có đủ năng lực để làm mới mình, nhưng nên chuẩn bị kỹ thay vì đổi hướng quá nhanh.",
+          "headline": "Cân nhắc bước ngoặt sự nghiệp",
+          "opening": "Bạn đang đứng trước câu hỏi về việc có nên rẽ sang một ngành khác hay không.",
+          "tension": "Bạn muốn tìm hướng đi mới mẻ và phù hợp hơn, nhưng cũng do dự vì những gì đã đầu tư ở công việc hiện tại.",
+          "per_card.0.title": "Lập kế hoạch từ trước",
+          "per_card.0.notice": "Hai Gậy ở quá khứ gợi lại những lúc bạn đứng nhìn các hướng đi khác nhau và cân nhắc khả năng. Quá trình định hướng này đã bắt đầu từ lâu trong suy nghĩ của bạn.",
+          "per_card.1.title": "Kiên nhẫn vun trồng",
+          "per_card.1.notice": "Bảy Tiền ở hiện tại giống như người nông dân đứng nhìn thành quả đang lớn. Bạn đang ở giai đoạn đánh giá lại những nỗ lực và công sức mình đã bỏ ra.",
+          "per_card.2.title": "Tập trung năng lực mới",
+          "per_card.2.notice": "Pháp Sư ở tương lai nói về việc gom góp kỹ năng và ý chí để bắt tay vào một điều mới. Khi đã sẵn sàng, bạn hoàn toàn có thể làm chủ các công cụ và nguồn lực mới.",
+          "weave": "Ba lá bài cho thấy một hành trình từ việc cân nhắc ý tưởng, kiên nhẫn chăm chút cho hiện tại, cho tới khả năng gom đủ năng lượng để làm lại từ đầu. Giống như người đứng trên tường thành nhìn ra biển, bạn không cần vội nhảy xuống nước khi chưa chuẩn bị xong phương án bơi.",
+          "unsaid": "",
+          "outlook": "Nếu bạn từ từ trau dồi kỹ năng mới song song với việc cũ, quyết định chuyển ngành sau này sẽ vững vàng hơn. Nếu vội vàng bỏ ngang, bạn có thể thấy mình thiếu các công cụ cần thiết để thích nghi.",
+          "paths.0.label": "Chuyển ngành ngay",
+          "paths.0.body": "Bạn có sự thay đổi mới mẻ nhưng phải đối mặt với nhiều bỡ ngỡ và áp lực từ con số không.",
+          "paths.1.label": "Chuẩn bị kỹ rồi chuyển",
+          "paths.1.body": "Bạn giữ ổn định hiện tại trong lúc học hỏi kỹ năng mới, giúp bước dịch chuyển sau này êm ái hơn.",
+          "closing": "Bạn chưa cần vứt bỏ tất cả, chỉ cần chọn đúng công cụ trước khi bước sang bàn làm việc mới.",
+          "question": "Ngành nghề mới cần mang lại điều gì mà công việc hiện tại chưa có?",
+          "experiment": "Liệt kê ba kỹ năng từ công việc hiện tại có thể áp dụng sang lĩnh vực bạn đang hướng tới."
+        },
+        "diagnostics": [
+          {
+            "path": "answer",
+            "rule": "answer_long",
+            "fragment": "Hai Gậy và Bảy Tiền cho thấy bạn đã có giai đoạn tính toán và kiên trì vun trồng công việc hiện tại, nên việc chuyển ngành cần thêm thời gian quan sát. Pháp Sư ở tương lai chỉ ra rằng bạn hoàn toàn có đủ năng lực để làm mới mình, nhưng nên chuẩn bị kỹ thay vì đổi hướng quá nhanh.",
+            "severity": "soft"
+          },
+          {
+            "path": "answer",
+            "rule": "cliche",
+            "fragment": "Hai Gậy và Bảy Tiền cho thấy bạn đã có giai đoạn tính toán và kiên trì vun trồng công việc hiện tại, nên việc chuyển ngành cần thêm thời gian quan sát. Pháp Sư ở tương lai chỉ ra rằng bạn hoàn toàn có đủ năng lực để làm mới mình, nhưng nên chuẩn bị kỹ thay vì đổi hướng quá nhanh.",
+            "severity": "soft"
+          }
+        ]
+      }
+    ],
+    "completions": [
+      {
+        "call": 1,
+        "repairFields": null,
+        "model": "gemini-3.5-flash-lite",
+        "text": "{\n  \"verdict\": \"Nên cân nhắc kỹ trước khi chuyển ngành.\",\n  \"answer\": \"Hai Gậy cho thấy bạn đã từng chuẩn bị hoặc vạch hướng đi cho việc này, nhưng Bảy Tiền ở hiện tại khuyên bạn hãy nhìn lại những gì đang vun trồng. Pháp Sư ở tương lai nhắc rằng khả năng chủ động là có, song việc chuyển ngành cần được chuẩn bị bằng kỹ năng thực tế thay vì chỉ là cảm giác muốn đổi hướng.\",\n  \"headline\": \"Cân nhắc bước ngoặt sự nghiệp\",\n  \"opening\": \"Bạn đang đứng trước câu hỏi có nên chuyển sang làm ngành khác hay không và muốn nhìn rõ hơn bước đi tiếp theo.\",\n  \"tension\": \"Một bên là mong muốn rẽ sang hướng mới mẻ hơn, một bên là thực tế những gì bạn đã đầu tư thời gian vun trồng ở hiện tại.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Nhìn ra xa\",\n      \"notice\": \"Hai Gậy ở quá khquá khứ nhắc về lúc bạn đứng giữa các lựa chọn và vạch ra những dự định mới cho công việc.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Chờ đợi thành quả\",\n      \"notice\": \"Bảy Tiền ở hiện tại là lúc dừng lại quan sát tiến trình, đánh giá xem những nỗ lực bạn bỏ ra đã đủ chín muồi chưa hay vẫn cần chăm chút thêm.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Tập hợp nguồn lực\",\n      \"notice\": \"Pháp Sư ở tương lai gợi ý rằng nếu bạn thực sự muốn làm điều mới, bạn sẽ cần gom đủ kỹ năng, ý chí và công cụ để bắt tay vào thực hiện thay vì chỉ nghĩ về nó.\"\n    }\n  ],\n  \"weave\": \"Ba lá bài nối từ việc lên kế hoạch sang giai đoạn đánh giá hiện tại, rồi mở ra khả năng làm chủ nếu bạn thực sự hành động. Giống như người đứng trên tường thành nhìn ra biển trước khi quyết định gieo trồng hạt giống mới.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu bạn chủ động trang bị thêm kỹ năng cần thiết cho ngành mới từ bây giờ, quyết định chuyển đổi sẽ vững vàng hơn. Nếu vội vàng rời đi khi chưa rõ hướng, bạn có thể thấy mình lại phải bắt đầu từ vạch xuất phát trong loay hoay.\",\n  \"paths\": [\n    {\n      \"label\": \"Chuyển ngành ngay\",\n      \"body\": \"Bạn sớm có trải nghiệm mới mẻ, nhưng phải đối mặt với áp lực làm quen lại từ đầu và thiếu hụt kinh nghiệm nền tảng.\"\n    },\n    {\n      \"label\": \"Chuẩn bị kỹ rồi chuyển\",\n      \"body\": \"Bạn giữ ổn định hiện tại trong lúc học hỏi thêm kỹ năng mới, đổi lại sự chuyển dịch sau này sẽ chắc chắn và ít rủi ro hơn.\"\n    }\n  ],\n  \"closing\": \"Sự thay đổi thực sự bắt đầu từ tay nghề bạn cầm trên tay, không chỉ từ ý định trong đầu.\",\n  \"question\": \"Điều gì ở ngành hiện tại khiến bạn muốn rời đi, và điều gì ở ngành mới thu hút bạn nhất?\",\n  \"experiment\": \"Liệt kê ba kỹ năng từ công việc hiện tại có thể đem sang ứng dụng ở lĩnh vực bạn đang hướng tới.\"\n}",
+        "usage": {
+          "input": 3852,
+          "output": 752
+        }
+      },
+      {
+        "call": 2,
+        "repairFields": null,
+        "model": "gemini-3.5-flash-lite",
+        "text": "{\n  \"verdict\": \"Nên cân nhắc kỹ trước khi chuyển ngành.\",\n  \"answer\": \"Hai Gậy và Bảy Tiền cho thấy bạn đã có giai đoạn tính toán và kiên trì vun trồng công việc hiện tại, nên việc chuyển ngành cần thêm thời gian quan sát. Pháp Sư ở tương lai chỉ ra rằng bạn hoàn toàn có đủ năng lực để làm mới mình, nhưng nên chuẩn bị kỹ thay vì đổi hướng quá nhanh.\",\n  \"headline\": \"Cân nhắc bước ngoặt sự nghiệp\",\n  \"opening\": \"Bạn đang đứng trước câu hỏi về việc có nên rẽ sang một ngành khác hay không.\",\n  \"tension\": \"Bạn muốn tìm hướng đi mới mẻ và phù hợp hơn, nhưng cũng do dự vì những gì đã đầu tư ở công việc hiện tại.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Lập kế hoạch từ trước\",\n      \"notice\": \"Hai Gậy ở quá khứ gợi lại những lúc bạn đứng nhìn các hướng đi khác nhau và cân nhắc khả năng. Quá trình định hướng này đã bắt đầu từ lâu trong suy nghĩ của bạn.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Kiên nhẫn vun trồng\",\n      \"notice\": \"Bảy Tiền ở hiện tại giống như người nông dân đứng nhìn thành quả đang lớn. Bạn đang ở giai đoạn đánh giá lại những nỗ lực và công sức mình đã bỏ ra.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Tập trung năng lực mới\",\n      \"notice\": \"Pháp Sư ở tương lai nói về việc gom góp kỹ năng và ý chí để bắt tay vào một điều mới. Khi đã sẵn sàng, bạn hoàn toàn có thể làm chủ các công cụ và nguồn lực mới.\"\n    }\n  ],\n  \"weave\": \"Ba lá bài cho thấy một hành trình từ việc cân nhắc ý tưởng, kiên nhẫn chăm chút cho hiện tại, cho tới khả năng gom đủ năng lượng để làm lại từ đầu. Giống như người đứng trên tường thành nhìn ra biển, bạn không cần vội nhảy xuống nước khi chưa chuẩn bị xong phương án bơi.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu bạn từ từ trau dồi kỹ năng mới song song với việc cũ, quyết định chuyển ngành sau này sẽ vững vàng hơn. Nếu vội vàng bỏ ngang, bạn có thể thấy mình thiếu các công cụ cần thiết để thích nghi.\",\n  \"paths\": [\n    {\n      \"label\": \"Chuyển ngành ngay\",\n      \"body\": \"Bạn có sự thay đổi mới mẻ nhưng phải đối mặt với nhiều bỡ ngỡ và áp lực từ con số không.\"\n    },\n    {\n      \"label\": \"Chuẩn bị kỹ rồi chuyển\",\n      \"body\": \"Bạn giữ ổn định hiện tại trong lúc học hỏi kỹ năng mới, giúp bước dịch chuyển sau này êm ái hơn.\"\n    }\n  ],\n  \"closing\": \"Bạn chưa cần vứt bỏ tất cả, chỉ cần chọn đúng công cụ trước khi bước sang bàn làm việc mới.\",\n  \"question\": \"Ngành nghề mới cần mang lại điều gì mà công việc hiện tại chưa có?\",\n  \"experiment\": \"Liệt kê ba kỹ năng từ công việc hiện tại có thể áp dụng sang lĩnh vực bạn đang hướng tới.\"\n}",
+        "usage": {
+          "input": 3887,
+          "output": 739
+        }
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "input": {
+      "question": "Anh ấy có thích mình không?",
+      "context": "",
+      "feelings": {
+        "ids": [],
+        "want": "clarity"
+      },
+      "topic": "Tình yêu",
+      "spreadId": "past-present-future",
+      "picks": [
+        {
+          "position": 1,
+          "cardId": "cups-knight",
+          "reversed": false
+        },
+        {
+          "position": 2,
+          "cardId": "major-18-moon",
+          "reversed": false
+        },
+        {
+          "position": 3,
+          "cardId": "cups-three",
+          "reversed": false
+        }
+      ]
+    },
+    "status": 200,
+    "seconds": 11.118,
+    "audit": {
+      "method": "POST",
+      "path": "/api/interpret",
+      "errorCode": null,
+      "time": "2026-10-18T10:05:56.054Z",
+      "status": 200,
+      "latencyMs": 11117,
+      "attempts": [
+        {
+          "kind": "primary",
+          "outcome": "guardrail:answer_vague,verdict_long,answer_verdict",
+          "model": "gemini-3.5-flash-lite",
+          "latencyMs": 10158,
+          "guardrailErrors": [
+            "answer_vague",
+            "verdict_long",
+            "answer_verdict"
+          ]
+        },
+        {
+          "kind": "fallback",
+          "outcome": "ok",
+          "model": "gemini-3.5-flash",
+          "latencyMs": 868
+        }
+      ],
+      "spreadId": "past-present-future",
+      "mode": "full",
+      "model": "gemini-3.5-flash",
+      "tokens": 5142,
+      "providerError": null,
+      "usedFallback": true,
+      "schemaIssues": [],
+      "responseChars": 2455,
+      "badSpacingCount": 0
+    },
+    "payload": {
+      "mode": "full",
+      "reading": {
+        "verdict": "Anh ấy có cảm tình tốt với bạn",
+        "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+        "headline": "Giữa những cảm xúc chưa thành hình",
+        "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+        "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+        "per_card": [
+          {
+            "position": 1,
+            "title": "Theo đuổi lãng mạn",
+            "notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+            "scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông."
+          },
+          {
+            "position": 2,
+            "title": "Sự mơ hồ",
+            "notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+            "scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa."
+          },
+          {
+            "position": 3,
+            "title": "Chia sẻ và kết nối",
+            "notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+            "scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt."
+          }
+        ],
+        "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+        "unsaid": "",
+        "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+        "paths": [
+          {
+            "label": "Chủ động tìm hiểu",
+            "body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi."
+          },
+          {
+            "label": "Để mọi thứ tự nhiên",
+            "body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn."
+          }
+        ],
+        "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+        "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+        "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+      },
+      "notes": [
+        "third_party_limit",
+        "soft_length"
+      ],
+      "model": "gemini-3.5-flash-lite"
+    },
+    "validations": [
+      {
+        "afterCompletion": 1,
+        "errors": [
+          "answer_vague"
+        ],
+        "notes": [
+          "verdict_long",
+          "answer_verdict"
+        ],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Chưa rõ tình cảm thực sự của anh ấy.",
+          "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+          "headline": "Giữa những cảm xúc chưa thành hình",
+          "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+          "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+          "per_card.0.title": "Theo đuổi lãng mạn",
+          "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+          "per_card.1.title": "Sự mơ hồ",
+          "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+          "per_card.2.title": "Chia sẻ và kết nối",
+          "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+          "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+          "unsaid": "",
+          "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+          "paths.0.label": "Chủ động tìm hiểu",
+          "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+          "paths.1.label": "Để mọi thứ tự nhiên",
+          "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+          "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+          "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+          "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+        },
+        "diagnostics": [
+          {
+            "path": "verdict",
+            "rule": "answer_vague",
+            "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+            "severity": "hard"
+          },
+          {
+            "path": "verdict",
+            "rule": "verdict_long",
+            "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+            "severity": "soft"
+          },
+          {
+            "path": "verdict",
+            "rule": "answer_verdict",
+            "fragment": "Chưa rõ tình cảm thực sự của anh ấy.",
+            "severity": "soft"
+          }
+        ]
+      },
+      {
+        "afterCompletion": 2,
+        "errors": [],
+        "notes": [],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Anh ấy có cảm tình tốt với bạn",
+          "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+          "headline": "Giữa những cảm xúc chưa thành hình",
+          "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+          "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+          "per_card.0.title": "Theo đuổi lãng mạn",
+          "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+          "per_card.0.scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông.",
+          "per_card.1.title": "Sự mơ hồ",
+          "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+          "per_card.1.scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa.",
+          "per_card.2.title": "Chia sẻ và kết nối",
+          "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+          "per_card.2.scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt.",
+          "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+          "unsaid": "",
+          "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+          "paths.0.label": "Chủ động tìm hiểu",
+          "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+          "paths.1.label": "Để mọi thứ tự nhiên",
+          "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+          "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+          "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+          "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+        },
+        "diagnostics": []
+      },
+      {
+        "afterCompletion": 2,
+        "errors": [],
+        "notes": [],
+        "schemaIssues": [],
+        "fields": {
+          "verdict": "Anh ấy có cảm tình tốt với bạn",
+          "answer": "Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.",
+          "headline": "Giữa những cảm xúc chưa thành hình",
+          "opening": "Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.",
+          "tension": "Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.",
+          "per_card.0.title": "Theo đuổi lãng mạn",
+          "per_card.0.notice": "Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.",
+          "per_card.0.scene": "Hiệp sĩ cưỡi ngựa trắng đi chậm, tay nâng chén như dâng lên, mũ và giày có cánh, phía trước là dòng sông.",
+          "per_card.1.title": "Sự mơ hồ",
+          "per_card.1.notice": "Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.",
+          "per_card.1.scene": "Mặt trăng lớn với gương mặt hiền, con chó và con sói tru ở hai bên, con tôm hùm bò lên từ nước, con đường dẫn giữa hai tháp xa.",
+          "per_card.2.title": "Chia sẻ và kết nối",
+          "per_card.2.notice": "Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.",
+          "per_card.2.scene": "Ba cô gái nhảy múa, vòng hoa trên đầu, ba chén giơ cao, quanh chân là trái cây và mùa gặt.",
+          "weave": "Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.",
+          "unsaid": "",
+          "outlook": "Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.",
+          "paths.0.label": "Chủ động tìm hiểu",
+          "paths.0.body": "Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.",
+          "paths.1.label": "Để mọi thứ tự nhiên",
+          "paths.1.body": "Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.",
+          "closing": "Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.",
+          "question": "Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?",
+          "experiment": "Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý."
+        },
+        "diagnostics": []
+      }
+    ],
+    "completions": [
+      {
+        "call": 1,
+        "repairFields": null,
+        "model": "gemini-3.5-flash-lite",
+        "text": "{\n  \"verdict\": \"Chưa rõ tình cảm thực sự của anh ấy.\",\n  \"answer\": \"Hiệp sĩ Cốc và Mặt Trăng cho thấy những bước tiến giàu cảm xúc nhưng đang bị che khuất bởi sự mơ hồ. Ba Cốc ở tương lai hướng về những cuộc vui chung, nhưng điều đó chưa khẳng định tình cảm riêng tư dành cho bạn.\",\n  \"headline\": \"Giữa những cảm xúc chưa thành hình\",\n  \"opening\": \"Bạn hỏi anh ấy có thích mình không, khi mọi thứ giữa hai người vẫn còn nhiều điều chưa nói.\",\n  \"tension\": \"Một bên là mong muốn được cảm nhận sự quan tâm rõ ràng, bên kia là không gian mập mờ của những suy diễn.\",\n  \"per_card\": [\n    {\n      \"position\": 1,\n      \"title\": \"Theo đuổi lãng mạn\",\n      \"notice\": \"Hiệp sĩ Cốc ở quá khứ gợi lại những bước tiến giàu cảm xúc và sự theo đuổi lý tưởng, nhưng đôi khi thiếu đi sự cam kết chắc chắn ngoài đời thực.\"\n    },\n    {\n      \"position\": 2,\n      \"title\": \"Sự mơ hồ\",\n      \"notice\": \"Mặt Trăng ở hiện tại phản ánh một giai đoạn cảm nhận chưa rõ ràng, khi bạn dễ nhìn thấy những hình ảnh phản chiếu qua trí tưởng tượng thay vì sự thật trọn vẹn.\"\n    },\n    {\n      \"position\": 3,\n      \"title\": \"Chia sẻ và kết nối\",\n      \"notice\": \"Ba Cốc ở tương lai hướng tới niềm vui chung và sự hòa hợp trong các buổi gặp gỡ, nơi mọi người cùng nâng chén chia sẻ.\"\n    }\n  ],\n  \"weave\": \"Từ những bước đi đầy mộng mơ thuở đầu, câu chuyện trôi vào màn sương của sự phỏng đoán trước khi mở ra những không gian sinh hoạt chung vui vẻ, giống như việc bước qua bóng tối để tìm về ánh sáng của sự sẻ chia.\",\n  \"unsaid\": \"\",\n  \"outlook\": \"Nếu có thêm những buổi gặp gỡ tự nhiên, bạn sẽ thấy rõ hơn cách anh ấy đối xử với mình thay vì chỉ đoán qua tin nhắn.\",\n  \"paths\": [\n    {\n      \"label\": \"Chủ động tìm hiểu\",\n      \"body\": \"Bạn chọn cách giao tiếp trực tiếp để làm rõ cảm xúc của hai người. Cái giá là có thể nhận về câu trả lời không như mong đợi.\"\n    },\n    {\n      \"label\": \"Để mọi thứ tự nhiên\",\n      \"body\": \"Bạn tiếp tục giữ nhịp độ quan sát hiện tại và tận hưởng các buổi gặp gỡ vui vẻ chung. Cái giá là tiếp tục sống trong sự chưa chắc chắn.\"\n    }\n  ],\n  \"closing\": \"Hãy để thời gian trả lời những gì còn ẩn giấu sau vẻ bề ngoài.\",\n  \"question\": \"Bạn đang mong đợi một dấu hiệu cụ thể nào từ anh ấy?\",\n  \"experiment\": \"Quan sát cách anh ấy tương tác với bạn trong một buổi gặp gỡ nhóm tới mà không chủ ý tìm kiếm ẩn ý.\"\n}",
+        "usage": {
+          "input": 3889,
+          "output": 681
+        }
+      },
+      {
+        "call": 2,
+        "repairFields": [
+          "verdict"
+        ],
+        "model": "gemini-3.5-flash",
+        "text": "{\n  \"verdict\": \"Anh ấy có cảm tình tốt với bạn\"\n}",
+        "usage": {
+          "input": 553,
+          "output": 19
+        }
+      }
+    ]
+  }
+]

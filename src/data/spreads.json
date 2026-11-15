@@ -1,0 +1,175 @@
+[
+  {
+    "id": "one-card",
+    "name_vi": "1 lá",
+    "source": "app",
+    "source_ref": null,
+    "card_count": 1,
+    "positions": [
+      {
+        "number": 1,
+        "name_vi": "Lá bài",
+        "x": 0,
+        "y": 0,
+        "source": "app",
+        "source_ref": null,
+        "needs_review": false,
+        "meaning_short": "Một góc nhìn để suy ngẫm về câu hỏi hiện tại."
+      }
+    ]
+  },
+  {
+    "id": "past-present-future",
+    "name_vi": "3 lá Quá khứ/Hiện tại/Tương lai",
+    "source": "app",
+    "source_ref": null,
+    "card_count": 3,
+    "positions": [
+      {
+        "number": 1,
+        "name_vi": "Quá khứ",
+        "x": 0,
+        "y": 0,
+        "source": "app",
+        "source_ref": null,
+        "needs_review": false,
+        "meaning_short": "Nhìn lại trải nghiệm đã qua có thể liên quan đến câu hỏi."
+      },
+      {
+        "number": 2,
+        "name_vi": "Hiện tại",
+        "x": 1,
+        "y": 0,
+        "source": "app",
+        "source_ref": null,
+        "needs_review": false,
+        "meaning_short": "Quan sát hoàn cảnh và điều đang cần bạn chú ý."
+      },
+      {
+        "number": 3,
+        "name_vi": "Tương lai",
+        "x": 2,
+        "y": 0,
+        "source": "app",
+        "source_ref": null,
+        "needs_review": false,
+        "meaning_short": "Suy ngẫm về một khả năng phát triển phía trước, không phải kết luận chắc chắn."
+      }
+    ]
+  },
+  {
+    "id": "celtic-cross",
+    "name_vi": "Celtic Cross",
+    "source": "P",
+    "source_ref": "P-tr.220",
+    "card_count": 10,
+    "positions": [
+      {
+        "number": 1,
+        "name_vi": "Trung tâm",
+        "source_ref": "P-tr.221",
+        "needs_review": false,
+        "x": 1,
+        "y": 2,
+        "geometry_source": "app",
+        "force_upright": false,
+        "rotation": 0,
+        "split_from_section": "CHỮ THẬP NHỎ",
+        "meaning_short": "Gợi bối cảnh hoặc ảnh hưởng chủ đạo đang tác động đến bạn. Đây là điểm xuất phát để hiểu các lá còn lại."
+      },
+      {
+        "number": 2,
+        "name_vi": "Chéo qua",
+        "source_ref": "P-tr.221",
+        "needs_review": false,
+        "x": 1,
+        "y": 2,
+        "geometry_source": "app",
+        "force_upright": true,
+        "rotation": 90,
+        "split_from_section": "CHỮ THẬP NHỎ",
+        "meaning_short": "Gợi cách bạn hành động và ảnh hưởng tương tác với lá trung tâm, có thể cản trở hoặc hỗ trợ. Vị trí này luôn được đọc xuôi."
+      },
+      {
+        "number": 3,
+        "name_vi": "Nền tảng",
+        "source_ref": "P-tr.223",
+        "needs_review": false,
+        "x": 1,
+        "y": 4,
+        "geometry_source": "app",
+        "meaning_short": "Gợi điều đã góp phần hình thành hoàn cảnh hiện tại, thường từ trải nghiệm trước đó. Ảnh hưởng này có thể giúp hiểu mối liên hệ giữa các lá."
+      },
+      {
+        "number": 4,
+        "name_vi": "Quá khứ gần",
+        "source_ref": "P-tr.224",
+        "needs_review": false,
+        "x": 0,
+        "y": 2,
+        "geometry_source": "app",
+        "meaning_short": "Gợi trải nghiệm từng tác động đến bạn nhưng nay đã lùi lại hoặc bớt quan trọng. Sự khác biệt với nền tảng nằm ở tác động còn lại, không chỉ ở thời gian."
+      },
+      {
+        "number": 5,
+        "name_vi": "Kết quả triển vọng",
+        "source_ref": "P-tr.225",
+        "needs_review": false,
+        "x": 1,
+        "y": 0,
+        "geometry_source": "app",
+        "meaning_short": "Gợi hướng phát triển có thể hình thành từ những ảnh hưởng hiện có. Khả năng này chưa chắc thành hiện thực và cần được đối chiếu với lá kết quả."
+      },
+      {
+        "number": 6,
+        "name_vi": "Tương lai gần",
+        "source_ref": "P-tr.226",
+        "needs_review": false,
+        "x": 2,
+        "y": 2,
+        "geometry_source": "app",
+        "meaning_short": "Gợi tình huống hoặc người bạn có thể sớm gặp. Ảnh hưởng mới này có thể đổi hướng câu chuyện, nhưng chưa nhất thiết kéo dài."
+      },
+      {
+        "number": 7,
+        "name_vi": "Bản ngã",
+        "source_ref": "P-tr.227",
+        "needs_review": false,
+        "x": 4,
+        "y": 4,
+        "geometry_source": "app",
+        "meaning_short": "Gợi cách thái độ và hành động của bạn góp vào hoàn cảnh đang xét. Vị trí này không nhằm mô tả toàn bộ con người bạn."
+      },
+      {
+        "number": 8,
+        "name_vi": "Môi trường",
+        "source_ref": "P-tr.227",
+        "needs_review": false,
+        "x": 4,
+        "y": 3,
+        "geometry_source": "app",
+        "meaning_short": "Gợi tác động từ người xung quanh hoặc bối cảnh chung, có thể nâng đỡ hay cản trở. Đôi khi lá bài phản ánh cách bạn đáp lại môi trường ấy."
+      },
+      {
+        "number": 9,
+        "name_vi": "Hy vọng và nỗi sợ",
+        "source_ref": "P-tr.228",
+        "needs_review": false,
+        "x": 4,
+        "y": 2,
+        "geometry_source": "app",
+        "meaning_short": "Gợi mong muốn và lo ngại về điều phía trước, đôi khi cùng tồn tại. Thái độ này có thể thúc đẩy hoặc hạn chế hướng phát triển của tình huống."
+      },
+      {
+        "number": 10,
+        "name_vi": "Kết quả",
+        "source_ref": "P-tr.229",
+        "needs_review": false,
+        "x": 4,
+        "y": 1,
+        "geometry_source": "app",
+        "meaning_short": "Gợi hướng tổng hợp khi các ảnh hưởng trong trải bài tương tác với nhau. Bạn có thể xem lại điều đang dẫn đến hướng ấy và khả năng điều chỉnh."
+      }
+    ]
+  }
+]

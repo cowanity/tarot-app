@@ -1,0 +1,7 @@
+.answer-hero{box-sizing:border-box;width:100%;min-width:0;min-height:230px;text-align:left;border-left:3px solid #c9a45c;background:rgba(0,0,0,.23);padding:clamp(20px,4vw,36px);margin:0 0 28px;overflow-wrap:anywhere}
+.answer-hero-label,.answer-disclaimer{color:var(--reading-muted);font-size:var(--reading-label);line-height:1.6;margin:0 0 12px}
+.answer-verdict{font-family:'Cormorant Garamond',serif;font-size:var(--reading-title);color:#c9a45c;line-height:1.15;text-shadow:0 0 18px #c9a45c26;margin:0 0 16px}
+.answer-body{font-size:var(--reading-body);line-height:var(--reading-leading);color:var(--reading-text);margin:0 0 16px}
+.answer-disclaimer{margin-bottom:0}.answer-hero-skeleton{min-height:150px}.answer-hero-skeleton span{display:block;background:#a99cc420;border-radius:4px;height:22px;margin:16px 0;width:100%}.answer-hero-skeleton span:first-child{height:44px;width:55%}.answer-hero-skeleton span:last-child{width:75%}
+@media(prefers-reduced-motion:reduce){.answer-hero{animation:none!important;transition:none!important}}
+.answer-body{min-width:0;white-space:normal;overflow:visible;overflow-wrap:anywhere;max-height:none;}
