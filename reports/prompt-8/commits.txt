@@ -1,7 +1,0 @@
-1eafd2c Prompt 8: verify regression gates, bounded offline images and dynamic FX build
-54564c4 8E: trusted ingress rate limits, graceful stop and macOS operation guides
-34b1049 8D: local daily card, onboarding, private share image and history names
-009b2d6 8C: shared adaptive FX engine, pooled particles and device FPS meter
-eb26960 8B: installable private PWA, offline shell, icons and metadata
-228acda 8A: finite responsive spread geometry and accessible card sheet
-ebb65eb Baseline before Prompt 8

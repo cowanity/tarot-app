@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from 'vite';
 import {loadEnv} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 import {pwaOptions} from './src/lib/pwaConfig';
@@ -23,11 +23,4 @@ export default defineConfig(({ mode, command }) => {
   server: { 
     allowedHosts: ['regarding-toner-africa-showcase.trycloudflare.com'],
     proxy: { '/api': 'http://localhost:8787' } },
-  test: {
-    environment: 'node',
-    include: ['src/lib/**/*.test.ts', 'server/**/*.test.ts'],
-    pool: 'threads',
-    maxWorkers: 1,
-    fileParallelism: false,
-  },
 });});

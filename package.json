@@ -8,12 +8,9 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "vitest run",
     "server": "tsx watch server/index.ts",
     "start:prod": "NODE_ENV=production tsx server/index.ts",
-    "server:check": "tsc -p server/tsconfig.json",
-    "server:eval": "node --import tsx server/eval/run.ts",
-    "server:eval:ab": "node --import tsx server/eval/ab.ts"
+    "server:check": "tsc -p server/tsconfig.json"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

@@ -1,6 +1,0 @@
-reports/prompt-8/patches/0001-8A-finite-responsive-spread-geometry-and-accessible-.patch
-reports/prompt-8/patches/0002-8B-installable-private-PWA-offline-shell-icons-and-m.patch
-reports/prompt-8/patches/0003-8C-shared-adaptive-FX-engine-pooled-particles-and-de.patch
-reports/prompt-8/patches/0004-8D-local-daily-card-onboarding-private-share-image-a.patch
-reports/prompt-8/patches/0005-8E-trusted-ingress-rate-limits-graceful-stop-and-mac.patch
-reports/prompt-8/patches/0006-Prompt-8-verify-regression-gates-bounded-offline-ima.patch

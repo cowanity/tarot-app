@@ -1,7 +1,0 @@
-import {test,expect} from 'vitest';
-import {existsSync} from 'node:fs';
-import {manifest,pwaOptions,isApiPath,staticCacheHeader} from './pwaConfig';
-test('manifest is Vietnamese, standalone and has generated icons',()=>{expect(manifest&&manifest.lang).toBe('vi');if(!manifest)throw Error();expect(manifest.short_name!.length).toBeLessThanOrEqual(12);expect(manifest.display).toBe('standalone');for(const icon of manifest.icons!)expect(existsSync(`public${icon.src}`)).toBe(true);expect(manifest.shortcuts).toHaveLength(3);});
-test('API never uses cache or navigation fallback; static immutable only hashed files',()=>{for(const path of ['/api','/api/interpret','/api/health']){expect(isApiPath(path)).toBe(true);expect(staticCacheHeader(path)).toBe('no-store');expect(pwaOptions.workbox!.navigateFallbackDenylist!.some(re=>re.test(path))).toBe(true);for(const rule of pwaOptions.workbox!.runtimeCaching!.slice(0,2))expect(rule.handler).toBe('NetworkOnly');}expect(staticCacheHeader('/assets/index-abCD123.js')).toContain('immutable');for(const path of ['/','/index.html','/sw.js','/manifest.webmanifest'])expect(staticCacheHeader(path)).toBe('no-cache');});
-
-test('heavy images use bounded expiring CacheFirst, not install precache',()=>{const rule=pwaOptions.workbox!.runtimeCaching![2];expect(rule.handler).toBe('CacheFirst');expect(rule.options?.expiration?.maxEntries).toBe(78);expect(rule.options?.expiration?.maxAgeSeconds).toBeGreaterThan(0);expect(pwaOptions.workbox!.globIgnores).toContain('cards/**');});

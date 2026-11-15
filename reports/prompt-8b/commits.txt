@@ -1,6 +1,0 @@
-373775a F1: separate today route and sequence native welcome dialog
-ff2361f F2: size spread from observed width and flip covered cards directly
-1db29d9 F3: restore pre-8 background and limit canvas to transient card effects
-c0d1a9f F4: expose FPS diagnostics only through explicit URL flag
-854adf0 F5: charge only actual readings and distinguish failure reasons
-085c77e F6: verify regressions, protected hashes and document remaining device checks

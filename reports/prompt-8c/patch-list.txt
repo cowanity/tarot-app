@@ -1,7 +1,0 @@
-reports/prompt-8c/patches/0001-F1-verify-isolated-today-page-and-one-time-native-we.patch
-reports/prompt-8c/patches/0002-F2-restore-pre-8-fan-and-board-isolate-mobile-Celtic.patch
-reports/prompt-8c/patches/0003-F3-verify-restored-background-and-transient-canvas-e.patch
-reports/prompt-8c/patches/0004-F4-verify-FPS-remains-URL-only.patch
-reports/prompt-8c/patches/0005-F5-preserve-Node-adapter-bindings-and-log-internal-e.patch
-reports/prompt-8c/patches/0006-F7-restore-floating-bottom-dock-and-five-column-navi.patch
-reports/prompt-8c/patches/0007-F8-record-production-smoke-results-and-final-regress.patch

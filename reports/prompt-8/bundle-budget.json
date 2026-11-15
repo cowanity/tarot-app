@@ -1,8 +1,0 @@
-{
-  "baseline_entry_gzip_kB": 35.89,
-  "new_entry_gzip_kB": 43.62,
-  "fx_chunk_gzip_kB": 2.76,
-  "conservative_entry_plus_fx_and_registration_growth_kB": 8.83,
-  "limit_kB": 15,
-  "method": "Vite gzip estimates from build logs; includes async FX and SW registration helper, excludes SW worker itself and unchanged shared chunks. Not FPS measurement."
-}
